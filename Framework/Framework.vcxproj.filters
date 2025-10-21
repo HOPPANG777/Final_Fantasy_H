@@ -66,6 +66,12 @@
     <ClInclude Include="Component.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Components\TransformComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="RectTransform.h">
+      <Filter>Components\TransformComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -100,6 +106,12 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Components\TransformComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="RectTransform.cpp">
+      <Filter>Components\TransformComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
@@ -128,6 +140,9 @@
     </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{cf2ac416-8e4b-4bb6-bf51-332c7353cc74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\TransformComponents">
+      <UniqueIdentifier>{16c663c9-04bd-41d8-a9e3-c3d5d0427a36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

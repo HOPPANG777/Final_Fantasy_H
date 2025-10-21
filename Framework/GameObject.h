@@ -2,16 +2,6 @@
 
 class GameObject
 {
-protected:
-	std::string name;
-	std::map<std::string, std::shared_ptr<Component>> components;
-
-	DirectX::SimpleMath::Vector2 position, scale;
-	float rotation = 0.0f;
-
-	DirectX::SimpleMath::Matrix world, S, R, T;
-	std::unique_ptr<WorldBuffer> worldBuffer;
-
 public:
 	GameObject(const std::string& name, const DirectX::SimpleMath::Vector2& position, const DirectX::SimpleMath::Vector2& scale, const float rotation)
 		: name(name), position(position), scale(scale), rotation(DirectX::XMConvertToRadians(rotation))
@@ -34,6 +24,10 @@ public:
 	virtual ~GameObject() = default;
 
 public:
+	virtual void Update();
+	virtual void Render();
+
+public:
 	void AddComponent(const std::shared_ptr<Component>& component);
 	void RemoveComponent(const std::string& compName);
 
@@ -50,8 +44,15 @@ public:
 	void Rotate(const float rotation) { this->rotation += DirectX::XMConvertToRadians(rotation) * TimeManager::Get()->GetDeltaTime(); }
 	void Scale(const DirectX::SimpleMath::Vector2& scale) { this->scale += scale * TimeManager::Get()->GetDeltaTime(); }
 
-public:
-	virtual void Update();
-	virtual void Render();
+protected:
+	std::string name;
+	std::map<std::string, std::shared_ptr<Component>> components;
+
+	DirectX::SimpleMath::Vector2 position, scale;
+	float rotation = 0.0f;
+
+	DirectX::SimpleMath::Matrix world, S, R, T;
+	std::unique_ptr<WorldBuffer> worldBuffer;
+
 };
 
