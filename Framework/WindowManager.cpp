@@ -1,10 +1,9 @@
 #include "Framework.h"
-#include "Window.h"
-#include "Program.h"
+#include "WindowManager.h"
 
-std::unique_ptr<Program> Window::program = nullptr;
+std::unique_ptr<Program> WindowManager::program = nullptr;
 
-Window::Window(const WinDesc& initDesc)
+WindowManager::WindowManager(const WinDesc& initDesc)
 	: desc(initDesc)
 {
 	WORD wHr = MyRegisterClass(desc);
@@ -50,13 +49,13 @@ Window::Window(const WinDesc& initDesc)
 	ShowCursor(true);
 }
 
-Window::~Window()
+WindowManager::~WindowManager()
 {
 	DestroyWindow(desc.handle);
 	UnregisterClassW(desc.appName.c_str(), desc.instance);
 }
 
-ATOM Window::MyRegisterClass(const WinDesc& desc)
+ATOM WindowManager::MyRegisterClass(const WinDesc& desc)
 {
 	WNDCLASSEXW wcex;
 
@@ -77,7 +76,7 @@ ATOM Window::MyRegisterClass(const WinDesc& desc)
 	return RegisterClassExW(&wcex);
 }
 
-WPARAM Window::Run()
+WPARAM WindowManager::Run()
 {
 	program = std::make_unique<Program>();
 	program->Start();
@@ -110,21 +109,21 @@ WPARAM Window::Run()
 	return msg.wParam;
 }
 
-void Window::MainRender()
+void WindowManager::MainRender()
 {
 	//Input::Get()->Update();
-	//Time::Get()->Update();
+	TimeManager::Get()->Update();
 
 	program->Update();
 
-	//Graphics::Get()->Begin();
+	GraphicsManager::Get()->Begin();
 	{
 		program->Render();
 	}
-	//Graphics::Get()->End();
+	GraphicsManager::Get()->End();
 }
 
-LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT WindowManager::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{

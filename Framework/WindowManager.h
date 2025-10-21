@@ -10,11 +10,11 @@ struct WinDesc
 	HICON icon = nullptr;
 };
 
-class Window
+class WindowManager
 {
 public:
-	Window(const WinDesc& initDesc);
-	~Window();
+	WindowManager(const WinDesc& initDesc);
+	~WindowManager();
 
 	ATOM MyRegisterClass(const WinDesc& desc);
 
@@ -25,7 +25,7 @@ public:
 private:
 	static LRESULT CALLBACK WndProc
 	(
-		// Window handle 
+		// WindowManager handle 
 		HWND handle,
 		//Message Queue에서 받은 메시지
 		UINT message,

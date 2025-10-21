@@ -11,10 +11,10 @@
 
 #include "resource.h"
 #include "targetver.h"
-#define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
+#define WIN32_LEAN_AND_MEAN // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
 // Windows 헤더 파일
 #include <windows.h>
-#include <windowsx.h> // lParam으로 부터 x, y를 분리 하기 위한 함수가 담긴 헤더 파일만 추가해줌 (위 define으로 사용 불가됨
+#include <windowsx.h> // lParam으로 부터 x, y를 분리 하기 위한 함수가 담긴 헤더 파일만 추가해줌 (위 define으로 사용 불가됨)
 // C 런타임 헤더 파일입니다.
 #include <cassert>
 
@@ -94,6 +94,37 @@ extern float gWinWidth;
 extern float gWinHeight;
 extern HWND gHandle;
 
+//Path
+const std::wstring ShaderPath = L"_Shaders/";
+const std::wstring TexturePath = L"_Textures/";
+const std::wstring SoundPath = L"_Sounds/";
+const std::wstring FontPath = L"_Fonts/";
+
+//Program
+#include "Program.h"
 
 //Utilities
 #include "DirectHelper.h"
+
+//Renders
+#include "IndexBuffer.h"
+#include "InputLayout.h"
+#include "VertexBuffer.h"
+#include "ConstantBuffer.h"
+#include "GlobalBuffers.h"
+#include "VertexType.h"
+#include "IShader.h"
+#include "PixelShader.h"
+#include "VertexShader.h"
+
+//Systems
+#include "WindowManager.h"
+#include "GraphicsManager.h"
+#include "TimeManager.h"
+#include "CameraManager.h"
+
+//GameObject
+#include "GameObject.h"
+
+//Components
+#include "Component.h"

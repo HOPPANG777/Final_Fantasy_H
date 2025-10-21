@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "Program.h"
 
-#include "Window.h"
+#include "WindowManager.h"
 
 float gWinWidth = WIN_DEFAULT_WIDTH;
 float gWinHeight = WIN_DEFAULT_HEIGHT;
@@ -40,15 +40,15 @@ int APIENTRY wWinMain
 )
 {
 	WinDesc desc;
-	desc.appName = L"Final Fantasy H"; // 창 이름
-	desc.instance = hInstance;
-	desc.handle = nullptr;
-	desc.width = gWinWidth;
-	desc.height = gWinHeight;
-	desc.icon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_FINALFANTASY));
+	desc._appName = L"Final Fantasy H"; // 창 이름
+	desc._instance = hInstance;
+	desc._handle = nullptr;
+	desc._width = gWinWidth;
+	desc._height = gWinHeight;
+	desc._icon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_FINALFANTASY));
 
-	auto window = std::make_unique<Window>(desc);
-	WPARAM wParam = window->Run();
+	auto WindowManager = std::make_unique<WindowManager>(desc);
+	WPARAM wParam = WindowManager->Run();
 
 	return int(wParam);
 }
