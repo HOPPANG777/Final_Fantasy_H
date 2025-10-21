@@ -5,32 +5,32 @@ class Texture2DManager;
 class Texture2D
 {
 public:
-    Texture2D(const std::wstring& filePath)
+    Texture2D(const wstring& filePath)
         : filePath(filePath)
     {
         TEXTURE2D->Load(this);
     }
 
 public:
-    void ReadPixel(std::vector<Color>* pixels)
+    void ReadPixel(vector<Color>* pixels)
     {
-    static void ReadPixel(ComPtr<ID3D11Texture2D> texture, std::vector<Color>* pixels)
-        const std::unique_ptr<UINT[]>& colors = std::make_unique<UINT[]>(pixelCount);
-            const std::unique_ptr<UINT[]>& alpha = std::make_unique<UINT[]>(pixelCount);
-            const std::unique_ptr<UINT[]>& red = std::make_unique<UINT[]>(pixelCount);
-            const std::unique_ptr<UINT[]>& green = std::make_unique<UINT[]>(pixelCount);
-            const std::unique_ptr<UINT[]>& blue = std::make_unique<UINT[]>(pixelCount);
+        // srv¿¡¼­ ½ÇÁ¦ Texture2D COM Æ÷ÀÎÅÍ °¡Á®¿À±â
+        ComPtr<ID3D11Resource> resource;
+        srv->GetResource(&resource);
 
-    std::wstring GetFilePath() const { return filePath; }
-    std::wstring filePath = L"";
+        ComPtr<ID3D11Texture2D> texture2D;
+        resource.As(&texture2D);
+
+        ReadPixel(texture2D, pixels);
+    }
 
     static void ReadPixel(ComPtr<ID3D11Texture2D> texture, vector<Color>* pixels)
     {
-        // ì›ë³¸ í…ìŠ¤ì²˜ ì •ë³´
+        // ¿øº» ÅØ½ºÃ³ Á¤º¸
         D3D11_TEXTURE2D_DESC srvDesc;
         texture->GetDesc(&srvDesc);
 
-        // ë³µì‚¬ë³¸ desc ì„¤ì •
+        // º¹»çº» desc ¼³Á¤
         D3D11_TEXTURE2D_DESC destDesc = {};
         destDesc.Usage = D3D11_USAGE_STAGING;
         destDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
@@ -46,28 +46,28 @@ public:
         HRESULT hr = DEVICE->CreateTexture2D(&destDesc, nullptr, &destTex);
         CHECK(hr);
 
-        // ì›ë³¸ textureë¥¼ ë³µì‚¬ë³¸ destTexì— ë¡œë“œ
+        // ¿øº» texture¸¦ º¹»çº» destTex¿¡ ·Îµå
         hr = D3DX11LoadTextureFromTexture(DC, texture.Get(), nullptr, destTex.Get());
         CHECK(hr);
 
-        // í”½ì…€ ë°ì´í„° ë‹´ì„ ë©”ëª¨ë¦¬(Width * Height)
+        // ÇÈ¼¿ µ¥ÀÌÅÍ ´ãÀ» ¸Ş¸ğ¸®(Width * Height)
         const size_t pixelCount = static_cast<size_t>(destDesc.Width) * static_cast<size_t>(destDesc.Height);
 
-        // unique_ptrë¡œ ë°°ì—´ ê´€ë¦¬
+        // unique_ptr·Î ¹è¿­ °ü¸®
         const unique_ptr<UINT[]>& colors = make_unique<UINT[]>(pixelCount);
 
-        // Mapì„ í†µí•´ CPUë¡œ ì½ì–´ì˜¨ë‹¤
+        // MapÀ» ÅëÇØ CPU·Î ÀĞ¾î¿Â´Ù
         D3D11_MAPPED_SUBRESOURCE subRe;
         DC->Map(destTex.Get(), 0, D3D11_MAP_READ, 0, &subRe);
         {
-            // ë³µì‚¬
+            // º¹»ç
             memcpy(colors.get(), subRe.pData, sizeof(UINT) * pixelCount);
         }
         DC->Unmap(destTex.Get(), 0);
 
-        // OpenGL í˜¸í™˜ìš©(BGR â†’ RGB ìˆœì„œ êµì²´)
+        // OpenGL È£È¯¿ë(BGR ¡æ RGB ¼ø¼­ ±³Ã¼)
         {
-            // ì„ì‹œ ë²„í¼ë“¤
+            // ÀÓ½Ã ¹öÆÛµé
             const unique_ptr<UINT[]>& alpha = make_unique<UINT[]>(pixelCount);
             const unique_ptr<UINT[]>& red = make_unique<UINT[]>(pixelCount);
             const unique_ptr<UINT[]>& green = make_unique<UINT[]>(pixelCount);
@@ -80,14 +80,14 @@ public:
                 green[i] = (colors[i] & 0x0000FF00);
                 blue[i] = (colors[i] & 0x000000FF);
 
-                // Rê³¼ B ìœ„ì¹˜ êµì²´
-                red[i] = colors[i] >> 16;    // 16ë¹„íŠ¸ ì‰¬í”„íŠ¸ â†’ R ì¶”ì¶œ
-                blue[i] = colors[i] << 16;    // <<16 â†’ Bë¥¼ ìƒìœ„ ë¹„íŠ¸ë¡œ
+                // R°ú B À§Ä¡ ±³Ã¼
+                red[i] = colors[i] >> 16;    // 16ºñÆ® ½¬ÇÁÆ® ¡æ R ÃßÃâ
+                blue[i] = colors[i] << 16;    // <<16 ¡æ B¸¦ »óÀ§ ºñÆ®·Î
 
                 colors[i] = alpha[i] | red[i] | green[i] | blue[i];
             }
 
-            // ìµœì¢… í”½ì…€ì„ ê²°ê³¼ ë²¡í„°ì— ì €ì¥
+            // ÃÖÁ¾ ÇÈ¼¿À» °á°ú º¤ÅÍ¿¡ ÀúÀå
             pixels->assign(colors.get(), colors.get() + pixelCount);
         }
     }

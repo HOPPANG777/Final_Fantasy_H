@@ -13,26 +13,26 @@ enum class AnimState
     ANIMATION_RIGHT_DOWN
 };
 
-    std::vector<VertexTexture> vertices;
-    std::vector<UINT> indices;
-    std::unique_ptr<ColorBuffer> colorBuffer;
-    std::shared_ptr<Animator> GetAnimator() { return GetComponent<Animator>("Animator"); }
+// DrawableÀ» »ó¼ÓÇØ ½ÇÁ¦ ±×¸®´Â Rect
+class AnimationRect : public Drawable, public IColorable
+{
+private:
     AnimState animState = AnimState::ANIMATION_LEFT;
 
     vector<VertexTexture> vertices;
     vector<UINT> indices;
 
-    // RS, Blend, Sampler ë“± D3D ë¦¬ì†ŒìŠ¤
+    // RS, Blend, Sampler µî D3D ¸®¼Ò½º
     ComPtr<ID3D11RasterizerState> rs = nullptr;
     ComPtr<ID3D11BlendState> blend[2];
     ComPtr<ID3D11SamplerState> sampler[2];
 
-    // ìµœì¢…ì ìœ¼ë¡œ í”½ì…€ ì…°ì´ë”ì— ì „ë‹¬í•  SRV
+    // ÃÖÁ¾ÀûÀ¸·Î ÇÈ¼¿ ¼ÎÀÌ´õ¿¡ Àü´ŞÇÒ SRV
     ComPtr<ID3D11ShaderResourceView> srv = nullptr;
 
     D3D11_MAPPED_SUBRESOURCE subRe;
 
-    // ì»¬ëŸ¬ ë³€í™˜ì„ ìœ„í•œ ìƒìˆ˜ ë²„í¼ (ColorBuffer)
+    // ÄÃ·¯ º¯È¯À» À§ÇÑ »ó¼ö ¹öÆÛ (ColorBuffer)
     unique_ptr<ColorBuffer> colorBuffer;
 
 public:
@@ -44,10 +44,10 @@ public:
     void Render() override;
 
 public:
-    // í•„ìš” ì‹œ ì§ì ‘ SRVë¥¼ ì„¤ì •
+    // ÇÊ¿ä ½Ã Á÷Á¢ SRV¸¦ ¼³Á¤
     void SetSRV(ID3D11ShaderResourceView* srv) { this->srv = srv; }
 
-    // ì™¸ë¶€ì—ì„œ ì´ë¯¸ì§€ êµì²´
+    // ¿ÜºÎ¿¡¼­ ÀÌ¹ÌÁö ±³Ã¼
     void SetImage(const std::wstring& imagePath)
     {
         HRESULT hr = D3DX11CreateShaderResourceViewFromFile
@@ -68,12 +68,12 @@ public:
     virtual void SetColor(const Color& color) override
     {
         colorBuffer->SetColor(color);
-        // ë³„ë„ë¡œ ì •ì  ë²„í¼ì˜ ë°ì´í„°ë¥¼ ë³€ê²½í•  í•„ìš”ëŠ” ì—†ìŠµë‹ˆë‹¤.
-        // í”½ì…€ ì…°ì´ë”ì—ì„œëŠ” ìƒìˆ˜ ë²„í¼ì˜ ìƒ‰ìƒ ê°’ì„ ì‚¬ìš©í•˜ì—¬ í…ìŠ¤ì²˜ ìƒ‰ìƒì„ ë³€ê²½í•©ë‹ˆë‹¤.
+        // º°µµ·Î Á¤Á¡ ¹öÆÛÀÇ µ¥ÀÌÅÍ¸¦ º¯°æÇÒ ÇÊ¿ä´Â ¾ø½À´Ï´Ù.
+        // ÇÈ¼¿ ¼ÎÀÌ´õ¿¡¼­´Â »ó¼ö ¹öÆÛÀÇ »ö»ó °ªÀ» »ç¿ëÇÏ¿© ÅØ½ºÃ³ »ö»óÀ» º¯°æÇÕ´Ï´Ù.
     }
 
 public:
-    // í•„ìš” ì‹œ Animatorë¥¼ ì§ì ‘ ì–»ì–´ì˜¬ ìˆ˜ ìˆëŠ” í—¬í¼í•¨ìˆ˜
+    // ÇÊ¿ä ½Ã Animator¸¦ Á÷Á¢ ¾ò¾î¿Ã ¼ö ÀÖ´Â ÇïÆÛÇÔ¼ö
     shared_ptr<Animator> GetAnimator() { return GetComponent<Animator>("Animator"); }
     
 };

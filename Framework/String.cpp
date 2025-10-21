@@ -1,50 +1,50 @@
 #include "Framework.h"
 #include "String.h"
 
-void String::SplitString(std::vector<std::string>* result, std::string origin, std::string tok)
-	while ((cutAt = (int)origin.find_first_of(tok)) != std::string::npos)
+#include <iomanip>	// ÀÔÃâ·Â ½ºÆ®¸²ÀÇ Á¶ÀÛÀÚ¸¦ Á¤ÀÇÇÏ´Â Çì´õ, ½ºÆ®¸²ÀÇ Ãâ·Â Çü½ÄÀ» Á¦¾îÇÏ´Â µ¥ »ç¿ë
+#include <sstream>	// ¹®ÀÚ¿­ ½ºÆ®¸²À» Á¤ÀÇ, ¸Ş¸ğ¸® ¹öÆÛ¿¡ µ¥ÀÌÅÍ¸¦ ÀĞ°í ¾²´Âµ¥ »ç¿ë
 
-void String::SplitString(std::vector<std::wstring>* result, std::wstring origin, std::wstring tok)
-	while ((cutAt = (int)origin.find_first_of(tok)) != std::wstring::npos)
-bool String::StartWith(std::string str, std::string comp)
+// ¹®ÀÚ¿­À» ÁöÁ¤µÈ ±¸ºĞÀÚ·Î ºĞÇÒÇÏ´Â ±â´É
+#pragma region SplitString
+void String::SplitString(vector<string>* result, string origin, string tok)
 {
-	std::string::size_type index = str.find(comp);
-	if (index != std::string::npos && (int)index == 0) return true;
-bool String::StartWith(std::wstring str, std::wstring comp)
-	std::wstring::size_type index = str.find(comp);
-	if (index != std::wstring::npos && (int)index == 0) return true;
-bool String::Contain(std::string str, std::string comp)
+	result->clear();
+	int cutAt = 0; //ÀÚ¸¦ À§Ä¡
+	while ((cutAt = (int)origin.find_first_of(tok)) != origin.npos)
+	{
+		//ÀÚ¸£´Â À§Ä¡°¡ 0º¸´Ù Å©´Ù¸é
+		if (cutAt > 0) result->push_back(origin.substr(0, cutAt));
 
-	return found != std::string::npos;
-bool String::Contain(std::wstring str, std::wstring comp)
+		origin = origin.substr(cutAt + 1);
+	}
 
-	return found != std::wstring::npos;
-void String::Replace(std::string* str, std::string comp, std::string rep)
-	std::string temp = *str;
+	//ÀÚ¸£°íµµ ³²Àº°ÍÀÌ ÀÖ´Ù¸é
+	if (origin.length() > 0) result->push_back(origin.substr(0, cutAt));
+}
 
-	while ((startPos = temp.find(comp, startPos)) != std::string::npos)
-void String::Replace(std::wstring* str, std::wstring comp, std::wstring rep)
-	std::wstring temp = *str;
+void String::SplitString(vector<wstring>* result, wstring origin, wstring tok)
+{
+	result->clear();
 
-	while ((startPos = temp.find(comp, startPos)) != std::wstring::npos)
-// std::setprecision : Îµ Ò¼  Ğµ Ï´ 
-std::string String::ToString(Vector3 vec3, int precision)
-	std::string temp;
-	std::stringstream stream1, stream2, stream3;
-	stream1 << std::fixed << std::setprecision(precision) << vec3.x;
-	stream2 << std::fixed << std::setprecision(precision) << vec3.y;
-	stream3 << std::fixed << std::setprecision(precision) << vec3.z;
+	int cutAt = 0; //ÀÚ¸¦ À§Ä¡
+	while ((cutAt = (int)origin.find_first_of(tok)) != origin.npos)
+	{
+		//ÀÚ¸£´Â À§Ä¡°¡ 0º¸´Ù Å©´Ù¸é
+		if (cutAt > 0)	result->push_back(origin.substr(0, cutAt));
 
-std::wstring String::ToWstring(Vector3 vec3, int precision)
-	std::wstring temp;
-	std::wstringstream stream1, stream2, stream3;
-	stream1 << std::fixed << std::setprecision(precision) << vec3.x;
-	stream2 << std::fixed << std::setprecision(precision) << vec3.y;
-	stream3 << std::fixed << std::setprecision(precision) << vec3.z;
-std::wstring String::ToWstring(std::string str)
-	std::wstring temp = L"";
-std::string String::ToString(std::wstring str)
-	std::string temp = "";
+		origin = origin.substr(cutAt + 1);
+	}
+
+	//ÀÚ¸£°íµµ ³²Àº°ÍÀÌ ÀÕ´Ù¸é
+	if (origin.length() > 0) result->push_back(origin.substr(0, cutAt));
+}
+#pragma endregion
+
+// Æ¯Á¤ÇÑ ¹®ÀÚ·Î ½ÃÀÛÇÏ´ÂÁö Ã¼Å©
+#pragma region StartWith
+bool String::StartWith(string str, string comp)
+{
+	//npos no position Áï ¾ø´Ù´Â ¼Ò¸®
 	wstring::size_type index = str.find(comp);
 	if (index != wstring::npos && (int)index == 0) return true;
 
@@ -59,7 +59,7 @@ bool String::StartWith(wstring str, wstring comp)
 }
 #pragma endregion
 
-// íŠ¹ì •í•œ ë¬¸ìë¥¼ í¬í•¨í•˜ëŠ”ì§€ ì²´í¬
+// Æ¯Á¤ÇÑ ¹®ÀÚ¸¦ Æ÷ÇÔÇÏ´ÂÁö Ã¼Å©
 #pragma region Contain
 bool String::Contain(string str, string comp)
 {
@@ -76,7 +76,7 @@ bool String::Contain(wstring str, wstring comp)
 }
 #pragma endregion
 
-// íŠ¹ì •í•œ ë¬¸ìë“¤ì„ ë‹¤ë¥¸ ë¬¸ìë“¤ë¡œ ëŒ€ì²´
+// Æ¯Á¤ÇÑ ¹®ÀÚµéÀ» ´Ù¸¥ ¹®ÀÚµé·Î ´ëÃ¼
 #pragma region Replace
 void String::Replace(string* str, string comp, string rep)
 {
@@ -107,9 +107,9 @@ void String::Replace(wstring* str, wstring comp, wstring rep)
 }
 #pragma endregion
 
-// ë²¡í„°ë¥¼ ë¬¸ìì—´ë¡œ ë°”ê¿”ì„œ ì¶œë ¥
+// º¤ÅÍ¸¦ ¹®ÀÚ¿­·Î ¹Ù²ã¼­ Ãâ·Â
 #pragma region ToString
-// setprecision : ë¶€ë™ ì†Œìˆ˜ì  ìˆ«ìì˜ ì •ë°€ë„ë¥¼ ì„¤ì •í•˜ëŠ” ì¡°ì‘ì
+// setprecision : ºÎµ¿ ¼Ò¼öÁ¡ ¼ıÀÚÀÇ Á¤¹Ğµµ¸¦ ¼³Á¤ÇÏ´Â Á¶ÀÛÀÚ
 
 string String::ToString(Vector3 vec3, int precision)
 {
