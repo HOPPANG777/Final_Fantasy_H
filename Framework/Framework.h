@@ -43,7 +43,6 @@
 #include <sstream>
 #include <exception>
 
-
 //DirectX D3D11
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -110,6 +109,7 @@ static CLASS_NAME* Get()									\
 extern float gWinWidth;
 extern float gWinHeight;
 extern HWND gHandle;
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Path
 const std::wstring ShaderPath = L"_Shaders/";
@@ -117,8 +117,17 @@ const std::wstring TexturePath = L"_Textures/";
 const std::wstring SoundPath = L"_Sounds/";
 const std::wstring FontPath = L"_Fonts/";
 
+//Interfaces
+#include "IScene.h"
+#include "IColorable.h"
+
 //Utilities
 #include "DirectHelper.h"
+#include "Gizmo.h"
+#include "Random.h"
+#include "Gui.h"
+#include "AnimationClip.h"
+#include "Path.h"
 
 //Systems
 #include "KeyboardManager.h"
@@ -133,6 +142,7 @@ const std::wstring FontPath = L"_Fonts/";
 
 #include "ConstantBuffer.h"
 #include "GlobalBuffers.h"
+#include "Texture2D.h"
 #include "VertexType.h"
 
 #include "IShader.h"
@@ -142,9 +152,15 @@ const std::wstring FontPath = L"_Fonts/";
 #include "RenderStates.h"
 
 //Components
-#include "Component.h"
 #include "Transform.h"
 #include "RectTransform.h"
+#include "Animator.h"
+#include "BoxCollider.h"
+#include "Collider.h"
+#include "TypingText.h"
+#include "ShakingText.h"
+#include "Texts.h"
+#include "Component.h"
 
 //Object
 #include "GameObject.h"

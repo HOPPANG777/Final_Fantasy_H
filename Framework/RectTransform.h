@@ -17,6 +17,8 @@ public:
     DirectX::SimpleMath::Vector2 GetAnchoredPosition() const;
     DirectX::SimpleMath::Vector3 GetScale() const;
     float GetRotation() const;
+
+public:
     DirectX::SimpleMath::Vector2 GetAnchor() const;
     DirectX::SimpleMath::Vector2 GetPivot() const;
     DirectX::SimpleMath::Vector2 GetSize() const;
@@ -26,6 +28,8 @@ public:
     void SetAnchoredPosition(const DirectX::SimpleMath::Vector2& pos);
     void SetScale(const DirectX::SimpleMath::Vector3& scale);
     void SetRotation(float degrees);
+
+public:
     void SetAnchor(const DirectX::SimpleMath::Vector2& anchor);
     void SetPivot(const DirectX::SimpleMath::Vector2& pivot);
     void SetSize(const DirectX::SimpleMath::Vector2& size);

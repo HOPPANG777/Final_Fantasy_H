@@ -75,6 +75,63 @@
     <ClInclude Include="Drawable.h">
       <Filter>Components\Drawable</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="IColorable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Components\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakingText.h">
+      <Filter>Components\Texts</Filter>
+    </ClInclude>
+    <ClInclude Include="Texts.h">
+      <Filter>Components\Texts</Filter>
+    </ClInclude>
+    <ClInclude Include="TypingText.h">
+      <Filter>Components\Texts</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Renders\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationClip.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Managers\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2DManager.h">
+      <Filter>Managers\Texture2DManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Managers\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="FileStream.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -118,6 +175,51 @@
     <ClCompile Include="Drawable.cpp">
       <Filter>Components\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Components\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Components\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakingText.cpp">
+      <Filter>Components\Texts</Filter>
+    </ClCompile>
+    <ClCompile Include="Texts.cpp">
+      <Filter>Components\Texts</Filter>
+    </ClCompile>
+    <ClCompile Include="TypingText.cpp">
+      <Filter>Components\Texts</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationClip.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Managers\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2DManager.cpp">
+      <Filter>Managers\Texture2DManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Managers\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Path.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FileStream.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
@@ -149,6 +251,33 @@
     </Filter>
     <Filter Include="Components\Transforms">
       <UniqueIdentifier>{16c663c9-04bd-41d8-a9e3-c3d5d0427a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\TestObject">
+      <UniqueIdentifier>{730f40bc-cfdd-44e3-9c20-159a0d1af149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{d2811ff1-66f0-4ab9-a4aa-96a2d77c14a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Animator">
+      <UniqueIdentifier>{f3eb9ecb-2c6b-4f93-9bf4-3c29c6bb88de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Collider">
+      <UniqueIdentifier>{81d64553-ae9e-4f6e-8d0d-3ec376d1109b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{ef7f1a4d-1d19-44ac-ae07-da8cd2f5fc0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Texts">
+      <UniqueIdentifier>{87ab804a-c26b-4c84-8b4a-0568d4f97861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\CollisionManager">
+      <UniqueIdentifier>{7f3e28a7-ec33-4176-a702-310e563cfdf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\SceneManager">
+      <UniqueIdentifier>{031ccc66-b9aa-458d-8e89-5d85e80f9441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Texture2DManager">
+      <UniqueIdentifier>{188175a7-d3bc-43cd-8ae0-36c2a7651cda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
