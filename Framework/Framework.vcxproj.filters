@@ -132,9 +132,6 @@
     <Filter Include="Renders\Shaders">
       <UniqueIdentifier>{b32a061d-4817-46c0-b178-bfb45066e00b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{e979190e-fd69-4464-822e-2a1df3632182}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Objects">
       <UniqueIdentifier>{adf763e9-26e6-4886-83e0-1393fb690282}</UniqueIdentifier>
     </Filter>

@@ -118,6 +118,7 @@ const std::wstring FontPath = L"_Fonts/";
 #include "IShader.h"
 #include "PixelShader.h"
 #include "VertexShader.h"
+#include "RenderStates.h"
 
 //Systems
 #include "WindowManager.h"

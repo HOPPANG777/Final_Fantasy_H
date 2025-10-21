@@ -9,6 +9,9 @@ HWND gHandle;
 
 void Program::Awake()
 {
+	RenderStates::Init();
+
+	CameraManager::Get()->Init();
 }
 
 void Program::Start()
@@ -17,10 +20,12 @@ void Program::Start()
 
 void Program::Update()
 {
+	CameraManager::Get()->Update();
 }
 
 void Program::Render()
 {
+	CameraManager::Get()->Render();
 }
 
 void Program::PostRender()
@@ -40,15 +45,15 @@ int APIENTRY wWinMain
 )
 {
 	WinDesc desc;
-	desc._appName = L"Final Fantasy H"; // 창 이름
-	desc._instance = hInstance;
-	desc._handle = nullptr;
-	desc._width = gWinWidth;
-	desc._height = gWinHeight;
-	desc._icon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_FINALFANTASY));
+	desc.appName = L"Final Fantasy H"; // 창 이름
+	desc.instance = hInstance;
+	desc.handle = nullptr;
+	desc.width = gWinWidth;
+	desc.height = gWinHeight;
+	desc.icon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_FINALFANTASY));
 
-	auto WindowManager = std::make_unique<WindowManager>(desc);
-	WPARAM wParam = WindowManager->Run();
+	auto window = std::make_unique<WindowManager>(desc);
+	WPARAM wParam = window->Run();
 
 	return int(wParam);
 }

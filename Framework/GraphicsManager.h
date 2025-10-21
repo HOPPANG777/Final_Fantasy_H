@@ -104,5 +104,5 @@ private:
     int _selectedAdapterIndex = 0;
 
     bool _bVsync = true;
-    WindowManagerMode _WindowManagerMode = WindowManagerMode::WindowManagered;
+    WindowManagerMode _WindowManagerMode = WindowManagerMode::WINDOW_WINDOW;
 };
