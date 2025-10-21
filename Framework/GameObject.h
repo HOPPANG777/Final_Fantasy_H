@@ -3,22 +3,31 @@
 class GameObject
 {
 public:
-	GameObject(const std::string& name, const DirectX::SimpleMath::Vector2& position, const DirectX::SimpleMath::Vector2& scale, const float rotation)
-		: name(name), position(position), scale(scale), rotation(DirectX::XMConvertToRadians(rotation))
-	{
-		worldBuffer = std::make_unique<WorldBuffer>();
-	}
+	// 기본 생성자 (Object 이름만 지정)
+	GameObject(
+		const std::string& name,
+		bool RectTransformType = false			// false = Transform, true = RectTransform
+	);
 
-	GameObject(const GameObject& other)
-		: GameObject(other.name, other.position, other.scale, other.rotation)
-	{
+	// 위치/스케일/회전을 초기에 지정하는 생성자
+	GameObject(
+		const std::string& name, 
+		const DirectX::SimpleMath::Vector3& initPos, 
+		const DirectX::SimpleMath::Vector3& initScale, 
+		float initRotation,
+		bool RectTransformType = false
+	);
 
-	}
-
-	GameObject operator=(const GameObject& other)
+	// 복사 생성/대입 연산자
+	GameObject(const GameObject& other);
+	GameObject& operator=(const GameObject& other)
 	{
-		GameObject obj(other);
-		return obj;
+		if (this != &other)
+		{
+			name = other.name;
+			// 필요한 경우 components를 복제
+		}
+		return *this;
 	}
 
 	virtual ~GameObject() = default;
@@ -36,23 +45,23 @@ public:
 	{
 		if (!components.count(compName)) return nullptr;
 
-		return dynamic_pointer_cast<T>(components.at(compName));
+		return std::dynamic_pointer_cast<T>(components.at(compName));
 	}
 
 public:
-	void Move(const DirectX::SimpleMath::Vector2& speed) { position += speed * TimeManager::Get()->GetDeltaTime(); }
-	void Rotate(const float rotation) { this->rotation += DirectX::XMConvertToRadians(rotation) * TimeManager::Get()->GetDeltaTime(); }
-	void Scale(const DirectX::SimpleMath::Vector2& scale) { this->scale += scale * TimeManager::Get()->GetDeltaTime(); }
+	std::string GetName() const { return name; }
+	void SetName(const std::string& newName) { name = newName; }
+
+public:
+	std::shared_ptr<Transform> GetTransform() const;
+	std::shared_ptr<RectTransform> GetRectTransform() const;
 
 protected:
 	std::string name;
 	std::map<std::string, std::shared_ptr<Component>> components;
 
-	DirectX::SimpleMath::Vector2 position, scale;
-	float rotation = 0.0f;
-
-	DirectX::SimpleMath::Matrix world, S, R, T;
 	std::unique_ptr<WorldBuffer> worldBuffer;
 
+	bool RectTransformType = false;
 };
 

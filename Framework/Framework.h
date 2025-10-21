@@ -89,6 +89,8 @@ static CLASS_NAME* Get()									\
 	return &instance;										\
 }
 
+#define CLAMP(value, low, high) ((value) < (low) ? (low) : ((value) > (high) ? (high) : (value)))
+
 //ExternGlobals
 extern float gWinWidth;
 extern float gWinHeight;
@@ -130,3 +132,7 @@ const std::wstring FontPath = L"_Fonts/";
 
 //Components
 #include "Component.h"
+#include "Transform.h"
+#include "RectTransform.h"
+
+

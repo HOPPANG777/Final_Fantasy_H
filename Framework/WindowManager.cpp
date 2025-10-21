@@ -115,6 +115,7 @@ void WindowManager::MainRender()
 	KeyboardManager::Get()->Update();
 	MouseManager::Get()->Update();
 	TimeManager::Get()->Update();
+	CameraManager::Get()->Update();
 
 	program->Update();
 

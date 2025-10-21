@@ -60,13 +60,13 @@ void CameraManager::Move()
 
     if (targetPtr != nullptr)
     {
-        _position.x = targetPtr->GetPosition().x - Values::GetWinWidth() * 0.5f;
-        _position.y = targetPtr->GetPosition().y - Values::GetWinHeight() * 0.5f;
+        _position.x = targetPtr->GetComponent<Transform>("Transform")->GetPosition().x - Values::GetWinWidth() * 0.5f;
+        _position.y = targetPtr->GetComponent<Transform>("Transform")->GetPosition().y - Values::GetWinHeight() * 0.5f;
         return;
     }
 
     // 개발자 이동 모드
-    if (Input::Get()->KeyDown(VK_F4))
+    if (KeyboardManager::Get()->Down(VK_F4))
     {
         _isMove = !_isMove;
         _accelerationTime = 0.0f;
@@ -118,7 +118,7 @@ void CameraManager::UpdateFollow()
     if (targetPtr == nullptr) return;
 
     DirectX::SimpleMath::Vector3 camPos = _position;
-    const DirectX::SimpleMath::Vector3 targetPos = targetPtr->GetPosition();
+    const DirectX::SimpleMath::Vector3 targetPos = targetPtr->GetComponent<Transform>("Transform")->GetPosition();
 
     const float marginX = 600.0f;
     const float marginY = 200.0f;
@@ -147,7 +147,7 @@ void CameraManager::UpdateHorizontalScroll(GameObject* target, float minRatio, f
 {
     if (target == nullptr) return;
 
-    const DirectX::SimpleMath::Vector3 targetPos = target->GetPosition();
+    const DirectX::SimpleMath::Vector3 targetPos = target->GetComponent<Transform>("Transform")->GetPosition();
     const float w = Values::GetWinWidth();
 
     if (targetPos.x > w * minRatio && targetPos.x < w * maxRatio)
@@ -161,7 +161,7 @@ void CameraManager::UpdateVerticalScroll(GameObject* target, float minRatio, flo
 {
     if (target == nullptr) return;
 
-    const DirectX::SimpleMath::Vector3 targetPos = target->GetPosition();
+    const DirectX::SimpleMath::Vector3 targetPos = target->GetComponent<Transform>("Transform")->GetPosition();
     const float h = Values::GetWinHeight();
 
     if (targetPos.y > h * minRatio && targetPos.y < h * maxRatio)
