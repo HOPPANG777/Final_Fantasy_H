@@ -94,7 +94,8 @@ WPARAM WindowManager::Run()
 			// 메세지 변역
 			TranslateMessage(&msg);
 
-			//Input::Get()->InputProc(msg.message, msg.lParam);
+			// 마우스 프로시저
+			MouseManager::Get()->MouseProc(msg.message, msg.wParam, msg.lParam);
 
 			// 메시지 처리함수로 전달
 			DispatchMessage(&msg);
@@ -111,7 +112,8 @@ WPARAM WindowManager::Run()
 
 void WindowManager::MainRender()
 {
-	//Input::Get()->Update();
+	KeyboardManager::Get()->Update();
+	MouseManager::Get()->Update();
 	TimeManager::Get()->Update();
 
 	program->Update();

@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_INPUT_KEY 256
+constexpr size_t MAX_INPUT_KEY = 256;
 
 class KeyboardManager
 {

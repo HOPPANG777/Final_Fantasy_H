@@ -122,6 +122,8 @@ const std::wstring FontPath = L"_Fonts/";
 #include "GraphicsManager.h"
 #include "TimeManager.h"
 #include "CameraManager.h"
+#include "KeyboardManager.h"
+#include "MouseManager.h"
 
 //GameObject
 #include "GameObject.h"

@@ -77,11 +77,11 @@ void CameraManager::Move()
     {
         bool moving = false;
 
-        if (Input::Get()->Press('W')) { _position.y += _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
-        else if (Input::Get()->Press('S')) { _position.y -= _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
+        if (KeyboardManager::Get()->Press('W')) { _position.y += _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
+        else if (KeyboardManager::Get()->Press('S')) { _position.y -= _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
 
-        if (Input::Get()->Press('A')) { _position.x -= _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
-        else if (Input::Get()->Press('D')) { _position.x += _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
+        if (KeyboardManager::Get()->Press('A')) { _position.x -= _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
+        else if (KeyboardManager::Get()->Press('D')) { _position.x += _currentSpeed * TimeManager::Get()->GetDeltaTime(); moving = true; }
 
         if (moving)
         {
@@ -99,7 +99,7 @@ void CameraManager::Move()
 
 DirectX::SimpleMath::Vector3 CameraManager::Drag() const
 {
-    DirectX::SimpleMath::Vector3 mousePos = Input::Get()->GetMousePos();
+    DirectX::SimpleMath::Vector3 mousePos = MouseManager::Get()->GetMousePos();
     mousePos += _position;
     return mousePos;
 }
