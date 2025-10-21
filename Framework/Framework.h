@@ -128,6 +128,7 @@ const std::wstring FontPath = L"_Fonts/";
 #include "Gui.h"
 #include "AnimationClip.h"
 #include "Path.h"
+#include "String.h"
 
 //Systems
 #include "KeyboardManager.h"
