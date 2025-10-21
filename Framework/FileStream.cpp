@@ -1,38 +1,38 @@
 #include "Framework.h"
 #include "FileStream.h"
 
-FileStream::FileStream(string path, UINT flags)
+FileStream::FileStream(std::string path, UINT flags)
     : flag(flags)
 {
-    int iosFlags = ios::binary;
+    int iosFlags = std::ios::binary;
 
-    // ¾²±â / ÀĞ±â ¸ğµå·Î ¿­¸®´ÂÁö È®ÀÎ
-    iosFlags |= flags && FILE_STREAM_WRITE
+        ? std::ios::out : 0;
+        ? std::ios::in : 0;
         ? ios::out : 0;
     iosFlags |= flags && FILE_STREAM_READ
         ? ios::in : 0;
 
     if (flags & FILE_STREAM_WRITE)
     {
-        // Ãâ·Â ÆÄÀÏ ½ºÆ®¸² ¿©´Â
+        // ì¶œë ¥ íŒŒì¼ ìŠ¤íŠ¸ë¦¼ ì—¬ëŠ”
         out.open(path, iosFlags);
-        // ¸¸¾à ÆÄÀÏ ½ºÆ®¸²ÀÌ Á¤»óÀûÀÌÁö ¾Ê´Ù¸é
+        // ë§Œì•½ íŒŒì¼ ìŠ¤íŠ¸ë¦¼ì´ ì •ìƒì ì´ì§€ ì•Šë‹¤ë©´
         if (out.fail())
         {
-            // flushÁ¶Â÷ ¾ÈµÇ¸é °æ·Î ¹®Á¦
-            out.flush(); // µ¥ÀÌÅÍ Áö¿ì°í
-            out.close(); // ½ºÆ®¸² ´İ±â
+            // flushì¡°ì°¨ ì•ˆë˜ë©´ ê²½ë¡œ ë¬¸ì œ
+            out.flush(); // ë°ì´í„° ì§€ìš°ê³ 
+            out.close(); // ìŠ¤íŠ¸ë¦¼ ë‹«ê¸°
             assert(false);
         }
     }
-    // ÀĞ±â ¸ğµå¶ó¸é
+    // ì½ê¸° ëª¨ë“œë¼ë©´
     else if (flags & FILE_STREAM_READ)
     {
         in.open(path, iosFlags);
         if (in.fail())
         {
-            in.clear(); // µ¥ÀÌÅÍ Áö¿ì°í
-            in.close(); // ½ºÆ®¸² ´İ±â
+            in.clear(); // ë°ì´í„° ì§€ìš°ê³ 
+            in.close(); // ìŠ¤íŠ¸ë¦¼ ë‹«ê¸°
             assert(false);
         }
     }
@@ -42,13 +42,13 @@ FileStream::~FileStream()
 {
     if (flag & FILE_STREAM_WRITE)
     {
-        // ¾²±â¸ğµå ÆÄÀÏ µ¥ÀÌÅÍ Áö¿ì°í ´İ±â
+        // ì“°ê¸°ëª¨ë“œ íŒŒì¼ ë°ì´í„° ì§€ìš°ê³  ë‹«ê¸°
         out.flush();
         out.close();
     }
     else if (flag & FILE_STREAM_READ)
     {
-        // ÀĞ±â¸ğµå ÆÄÀÏ µ¥ÀÌÅÍ Áö¿ì°í ´İ±â
+        // ì½ê¸°ëª¨ë“œ íŒŒì¼ ë°ì´í„° ì§€ìš°ê³  ë‹«ê¸°
         in.clear();
         in.close();
     }

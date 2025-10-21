@@ -3,9 +3,9 @@
 	class TextureRect : public Drawable, public IColorable
 	{
 	private:
-		vector<VertexTexture> vertices;
+		std::vector<VertexTexture> vertices;
 
-		vector<UINT> indices;
+		std::vector<UINT> indices;
 	
 		ComPtr<ID3D11RasterizerState> rs = nullptr;
 
@@ -15,11 +15,11 @@
 
 		ComPtr<ID3D11ShaderResourceView> srv = nullptr;
 
-		// ÄÃ·¯ º¯È¯À» À§ÇÑ »ó¼ö ¹öÆÛ (ColorBuffer)
-		unique_ptr<ColorBuffer> colorBuffer;
+		std::unique_ptr<ColorBuffer> colorBuffer;
+		TextureRect(const Vector3& position, const Vector3& scale, const float rotation, const std::wstring path = L"", const TransformType type = TransformType::Normal, const std::wstring shaderPath = ShaderPath + L"VertexTexture.hlsl");
 
 	public:
-		TextureRect(const Vector3& position, const Vector3& scale, const float rotation, const wstring path = L"", const TransformType type = TransformType::Normal, const wstring shaderPath = ShaderPath + L"VertexTexture.hlsl");
+		void SetImage(std::wstring imagePath)
 		~TextureRect();
 
 	public:
@@ -31,7 +31,7 @@
 
 		void SetImage(wstring imagePath)
 		{
-			// SRV ÃßÃâ // ±×¸² µ¥ÀÌÅÍ ÃßÃâ
+			// SRV ì¶”ì¶œ // ê·¸ë¦¼ ë°ì´í„° ì¶”ì¶œ
 			HRESULT hr = D3DX11CreateShaderResourceViewFromFile
 			(
 				DEVICE,
@@ -50,8 +50,8 @@
 		virtual void SetColor(const Color& color) override
 		{
 			colorBuffer->SetColor(color);
-			// º°µµ·Î Á¤Á¡ ¹öÆÛÀÇ µ¥ÀÌÅÍ¸¦ º¯°æÇÒ ÇÊ¿ä´Â ¾ø½À´Ï´Ù.
-			// ÇÈ¼¿ ¼ÎÀÌ´õ¿¡¼­´Â »ó¼ö ¹öÆÛÀÇ »ö»ó °ªÀ» »ç¿ëÇÏ¿© ÅØ½ºÃ³ »ö»óÀ» º¯°æÇÕ´Ï´Ù.
+			// ë³„ë„ë¡œ ì •ì  ë²„í¼ì˜ ë°ì´í„°ë¥¼ ë³€ê²½í•  í•„ìš”ëŠ” ì—†ìŠµë‹ˆë‹¤.
+			// í”½ì…€ ì…°ì´ë”ì—ì„œëŠ” ìƒìˆ˜ ë²„í¼ì˜ ìƒ‰ìƒ ê°’ì„ ì‚¬ìš©í•˜ì—¬ í…ìŠ¤ì²˜ ìƒ‰ìƒì„ ë³€ê²½í•©ë‹ˆë‹¤.
 		}
 	};
 

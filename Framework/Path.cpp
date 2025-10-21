@@ -1,68 +1,68 @@
 #include "Framework.h"
 #include "Path.h"
 
-// ÆÄÀÏ Á¸Àç ¿©ºÎ
-bool Path::ExistFile(wstring path)
+bool Path::ExistFile(std::wstring path)
+bool Path::ExistDirectory(std::wstring path)
 {
-	// ÆÄÀÏÀÌ³ª Æú´õÀÇ ¼Ó¼ºÀ» ¾Ë¾Æº¸´Â ÇÔ¼ö DWORD¸¦ ¹İÈ¯
-	// ½ÇÆĞÇÏ¸é INVALID_FILE_ATTRIBUTES¸¦ ¹İÈ¯
-	DWORD fileValue = GetFileAttributes(path.c_str());
+bool Path::ExistDirectory(std::string path)
+std::string Path::Combine(std::string path1, std::string path2)
+std::wstring Path::Combine(std::wstring path1, std::wstring path2)
 
-	// ÆÄÀÏÀÌ Á¸ÀçÇÒ°æ¿ì True ¾øÀ»°æ¿ì False
-	return fileValue != INVALID_FILE_ATTRIBUTES;
+std::string Path::Combine(std::vector<std::string> paths)
+	for (const std::string& path : paths)
 }
 
-bool Path::ExistFile(std::string path)
+std::wstring Path::Combine(std::vector<std::wstring> paths)
 {
-	return ExistFile(String::ToWstring(path));
+	std::wstring temp = L"";
+	for (const std::wstring& path : paths)
+
+std::string Path::GetDirectoryName(std::string path)
+std::wstring Path::GetDirectoryName(std::wstring path)
+{
+std::string Path::GetExtension(std::string path)
+
+std::wstring Path::GetExtension(std::wstring path)
+std::string Path::GetFileName(std::string path)
+
+std::wstring Path::GetFileName(std::wstring path)
 }
 
-// Æú´õ Á¸Àç ¿©ºÎ
-bool Path::ExistDirectory(wstring path)
+std::string Path::GetFileNameWithoutExtension(std::string path)
 {
-	DWORD attribute = GetFileAttributes(path.c_str());
+std::wstring Path::GetFileNameWithoutExtension(std::wstring path)
+	std::wstring fileName = GetFileName(path);
 
-	BOOL temp = (attribute != INVALID_FILE_ATTRIBUTES &&
-		attribute & FILE_ATTRIBUTE_DIRECTORY);	// ÀÌ Á¶°Ç¹®ÀÌ ÂüÀÌ¸é °Ë»ç ÁßÀÎ Ç×¸ñÀÌ Æú´õ
+void Path::OpenFileDialog(std::wstring defaultFileName, const WCHAR* fileTypeFilter, const std::wstring defaultFolder, const std::function<void(std::wstring)> callback, HWND parentWindowHandle)
+	std::wstring tempFolder = defaultFolder;
+			std::wstring loadName = name;			// Ãµ  Î¸ 
+void Path::SaveFileDialog(std::wstring defaultFileName, const WCHAR* fileTypeFilter, const std::wstring defaultFolder, const std::function<void(std::wstring)> callback, HWND parentWindowHandle)
+	std::wstring tempFolder = defaultFolder;
 
-	return temp == TRUE;
+			std::wstring saveName = name;
+void Path::GetFiles(std::vector<std::string>* files, std::string path, std::string filter, bool bFindSubFolder)
+	std::vector<std::wstring> wFiles;
+	std::wstring wPath = String::ToWstring(path);
+	std::wstring wFilter = String::ToWstring(filter);
+	for (const std::wstring& str : wFiles)
+void Path::GetFiles(std::vector<std::wstring>* files, std::wstring path, std::wstring filter, bool bFindSubFolder/* Ë» É¼*/)
+	std::wstring file = path + filter; // Ë»  Î¿ Í¸ Ï¿ Ë»  Ã¼  
+					std::wstring folder = path + std::wstring(findData.cFileName) + L"/";
+				std::wstring fileName = path + std::wstring(findData.cFileName);
+
+void Path::CreateFolder(std::wstring path)
 }
 
-bool Path::ExistDirectory(string path)
+void Path::CreateFolder(std::string path)
 {
-	return ExistDirectory(String::ToWstring(path));
+void Path::CreateFolders(std::wstring path)
+	std::vector<std::wstring> folders;
+	std::wstring temp = L"";
+	for (const std::wstring& folder : folders)
+void Path::CreateFolders(std::string path)
 }
 
-// º´ÇÕ
-string Path::Combine(string path1, string path2)
-{
-	return path1 + path2;
-}
-
-wstring Path::Combine(wstring path1, wstring path2)
-{
-	return path1 + path2;
-}
-
-string Path::Combine(vector<string> paths)
-{
-	string temp = "";
-	for (string path : paths)
-		temp += path;
-
-	return temp;
-}
-
-wstring Path::Combine(vector<wstring> paths)
-{
-	wstring temp = L"";
-	for (wstring path : paths)
-		temp += path;
-
-	return temp;
-}
-
-// ÀÔ·ÂµÈ °æ·Î¿¡¼­ Æú´õ ÀÌ¸§À» ¹İÈ¯
+// ì…ë ¥ëœ ê²½ë¡œì—ì„œ í´ë” ì´ë¦„ì„ ë°˜í™˜
 string Path::GetDirectoryName(string path)
 {
 	String::Replace(&path, "\\", "/");
@@ -79,7 +79,7 @@ wstring Path::GetDirectoryName(wstring path)
 	return path.substr(0, index + 1);
 }
 
-// ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ¹İÈ¯
+// íŒŒì¼ì˜ í™•ì¥ìë¥¼ ë°˜í™˜
 string Path::GetExtension(string path)
 {
 	String::Replace(&path, "\\", "/");
@@ -96,7 +96,7 @@ wstring Path::GetExtension(wstring path)
 	return path.substr(index + 1, path.length());;
 }
 
-// ÆÄÀÏ ÀÌ¸§°ú È®ÀåÀÚ¸¦ ¹İÈ¯
+// íŒŒì¼ ì´ë¦„ê³¼ í™•ì¥ìë¥¼ ë°˜í™˜
 string Path::GetFileName(string path)
 {
 	String::Replace(&path, "\\", "/");
@@ -113,7 +113,7 @@ wstring Path::GetFileName(wstring path)
 	return path.substr(index + 1, path.length());
 }
 
-// ÆÄÀÏ ÀÌ¸§¸¸ ¹İÈ¯
+// íŒŒì¼ ì´ë¦„ë§Œ ë°˜í™˜
 string Path::GetFileNameWithoutExtension(string path)
 {
 	string fileName = GetFileName(path);
@@ -130,14 +130,14 @@ wstring Path::GetFileNameWithoutExtension(wstring path)
 	return fileName.substr(0, index);
 }
 
-// Æ¯Á¤ È®ÀåÀÚ ÆÄÀÏÀÇ ÇÊÅÍ
+// íŠ¹ì • í™•ì¥ì íŒŒì¼ì˜ í•„í„°
 const WCHAR* Path::ImageFilter = L"Image\0*.png;*.bmp;*.jpg";
 const WCHAR* Path::ShaderFilter = L"HLSL file\0*.hlsl";
 const WCHAR* Path::TextFilter = L"Text file\0*.txt";
 const WCHAR* Path::TileFilter = L"Tile file\0*.png;*.bmp;*.jpg;*.json;*.data";
 const WCHAR* Path::TMapFilter = L"TMap file\0*.tmap";
 
-// ÆÄÀÏ ¼±ÅÃ ´ëÈ­ »óÀÚ¸¦ ¿­¾î »ç¿ëÀÚ°¡ ÆÄÀÏÀ» ¼±ÅÃÇÏµµ·Ï ÇØÁÜ
+// íŒŒì¼ ì„ íƒ ëŒ€í™” ìƒìë¥¼ ì—´ì–´ ì‚¬ìš©ìê°€ íŒŒì¼ì„ ì„ íƒí•˜ë„ë¡ í•´ì¤Œ
 void Path::OpenFileDialog(wstring defaultFileName, const WCHAR* fileTypeFilter, const wstring defaultFolder, const function<void(wstring)> callback, HWND parentWindowHandle)
 {
 	WCHAR name[255];
@@ -148,36 +148,36 @@ void Path::OpenFileDialog(wstring defaultFileName, const WCHAR* fileTypeFilter, 
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = parentWindowHandle;			// ºÎ¸ğÃ¢ ÇÚµé
-	ofn.lpstrFilter = fileTypeFilter;			// ÆÄÀÏ À¯Çü ÇÊÅÍ
-	ofn.lpstrFile = name;						// ÆÄÀÏ ÀÌ¸§
-	ofn.lpstrTitle = L"ºÒ·¯¿À±â";				// ´ëÈ­ »óÀÚ Á¦¸ñ
-	ofn.nMaxFile = 255;							// ÆÄÀÏ ÀÌ¸§ ÃÖ´ë Å©±â
-	ofn.lpstrInitialDir = tempFolder.c_str();	// ±âº» Æú´õ °æ·Î
-	ofn.Flags = OFN_NOCHANGEDIR;				// ´ëÈ­ »óÀÚ ¿É¼Ç
+	ofn.hwndOwner = parentWindowHandle;			// ë¶€ëª¨ì°½ í•¸ë“¤
+	ofn.lpstrFilter = fileTypeFilter;			// íŒŒì¼ ìœ í˜• í•„í„°
+	ofn.lpstrFile = name;						// íŒŒì¼ ì´ë¦„
+	ofn.lpstrTitle = L"ë¶ˆëŸ¬ì˜¤ê¸°";				// ëŒ€í™” ìƒì ì œëª©
+	ofn.nMaxFile = 255;							// íŒŒì¼ ì´ë¦„ ìµœëŒ€ í¬ê¸°
+	ofn.lpstrInitialDir = tempFolder.c_str();	// ê¸°ë³¸ í´ë” ê²½ë¡œ
+	ofn.Flags = OFN_NOCHANGEDIR;				// ëŒ€í™” ìƒì ì˜µì…˜
 
-	if (GetOpenFileName(&ofn) == TRUE)			// ´ëÈ­ »óÀÚ ¿­°í »ç¿ëÀÚ°¡ ÆÄÀÏÀ» ¼±ÅÃÇÏ¸é
+	if (GetOpenFileName(&ofn) == TRUE)			// ëŒ€í™” ìƒì ì—´ê³  ì‚¬ìš©ìê°€ íŒŒì¼ì„ ì„ íƒí•˜ë©´
 	{
-		if (callback != NULL)					// Äİ¹é ÇÔ¼ö°¡ ÁöÁ¤µÇ¾î ÀÖÀ¸¸é
+		if (callback != NULL)					// ì½œë°± í•¨ìˆ˜ê°€ ì§€ì •ë˜ì–´ ìˆìœ¼ë©´
 		{
-			wstring loadName = name;			// ¼±ÅÃµÈ ÆÄÀÏÀÇ °æ·Î¸¦ ÀúÀå
-			String::Replace(&loadName, L"\\", L"/"); // °æ·Î¿¡¼­ ¿ª½½·¡½Ã¸¦ ½½·¡½Ã·Î º¯È¯
+			wstring loadName = name;			// ì„ íƒëœ íŒŒì¼ì˜ ê²½ë¡œë¥¼ ì €ì¥
+			String::Replace(&loadName, L"\\", L"/"); // ê²½ë¡œì—ì„œ ì—­ìŠ¬ë˜ì‹œë¥¼ ìŠ¬ë˜ì‹œë¡œ ë³€í™˜
 
-			callback(loadName);					// Äİ¹é ÇÔ¼ö È£Ãâ
+			callback(loadName);					// ì½œë°± í•¨ìˆ˜ í˜¸ì¶œ
 		}
 	}
 }
 
 /*
 typedef struct tagOFN {
-  DWORD         lStructSize;		//±¸Á¶Ã¼ÀÇ Å©±âÁöÁ¤, ¹öÀüÈ®ÀÎÀ» À§ÇØ »ç¿ëµÊ
-  HWND          hwndOwner;			//ÇÚµéÀÇ ÁÖÀÎÀ» ÁöÁ¤, ÁÖÀÎÀÌ µÉ À©µµ¿ì°¡ ¾øÀ»°æ¿ì NULL
-  HINSTANCE     hInstance;			//ÀÎ½ºÅÏ½º ÇÚµéÀ» ÁöÁ¤
-  LPCTSTR       lpstrFilter;		//ÆÄÀÏ Çü½ÄµéÀ» ±¸ºĞÇØÁÙ ÇÊÅÍµéÀ» ÁöÁ¤ ¿©·¯°³ÀÇ ÇÊÅÍ¸¦ µ¿½Ã¿¡ ÁöÁ¤°¡´É
-  LPTSTR        lpstrCustomFilter;	//»ç¿ëÀÚ°¡ ¸¸µç Ä¿½ºÅÒ ÇÊÅÍ¸¦ ÁöÁ¤
-  DWORD         nMaxCustFilter;		//Ä¿½ºÅÒ ÇÊÅÍÀÇ ¹öÆÛÀÇ ±æÀÌ¸¦ ÁöÁ¤ ÃÖ¼Ò 40ÀÚ
-  DWORD         nFilterIndex;		//ÇÊÅÍµéÀÇ ¸ñ·ÏÁß »ç¿ëÇÒ ÇÊÅÍÀÇ ÀÎµ¦½º¸¦ ÁöÁ¤
-  LPTSTR        lpstrFile;			//ÆÄÀÏÀÌ¸§ ÁöÁ¤¿¡ Ã¹¹øÂ°·Î ³ªÅ¸³¯ ÆÄÀÏ¸íÀ» ÁöÁ¤, ÇÊ¿ä¾øÀ»½Ã NULL
+  DWORD         lStructSize;		//êµ¬ì¡°ì²´ì˜ í¬ê¸°ì§€ì •, ë²„ì „í™•ì¸ì„ ìœ„í•´ ì‚¬ìš©ë¨
+  HWND          hwndOwner;			//í•¸ë“¤ì˜ ì£¼ì¸ì„ ì§€ì •, ì£¼ì¸ì´ ë  ìœˆë„ìš°ê°€ ì—†ì„ê²½ìš° NULL
+  HINSTANCE     hInstance;			//ì¸ìŠ¤í„´ìŠ¤ í•¸ë“¤ì„ ì§€ì •
+  LPCTSTR       lpstrFilter;		//íŒŒì¼ í˜•ì‹ë“¤ì„ êµ¬ë¶„í•´ì¤„ í•„í„°ë“¤ì„ ì§€ì • ì—¬ëŸ¬ê°œì˜ í•„í„°ë¥¼ ë™ì‹œì— ì§€ì •ê°€ëŠ¥
+  LPTSTR        lpstrCustomFilter;	//ì‚¬ìš©ìê°€ ë§Œë“  ì»¤ìŠ¤í…€ í•„í„°ë¥¼ ì§€ì •
+  DWORD         nMaxCustFilter;		//ì»¤ìŠ¤í…€ í•„í„°ì˜ ë²„í¼ì˜ ê¸¸ì´ë¥¼ ì§€ì • ìµœì†Œ 40ì
+  DWORD         nFilterIndex;		//í•„í„°ë“¤ì˜ ëª©ë¡ì¤‘ ì‚¬ìš©í•  í•„í„°ì˜ ì¸ë±ìŠ¤ë¥¼ ì§€ì •
+  LPTSTR        lpstrFile;			//íŒŒì¼ì´ë¦„ ì§€ì •ì— ì²«ë²ˆì§¸ë¡œ ë‚˜íƒ€ë‚  íŒŒì¼ëª…ì„ ì§€ì •, í•„ìš”ì—†ì„ì‹œ NULL
   DWORD         nMaxFile;
   LPTSTR        lpstrFileTitle;
   DWORD         nMaxFileTitle;
@@ -199,7 +199,7 @@ typedef struct tagOFN {
 */
 
 
-// ÆÄÀÏ ´ëÈ­ »óÀÚ¸¦ ¿­¾î »ç¿ëÀÚ°¡ ÆÄÀÏÀ» ÀúÀåÇÏµµ·Ï ÇÔ
+// íŒŒì¼ ëŒ€í™” ìƒìë¥¼ ì—´ì–´ ì‚¬ìš©ìê°€ íŒŒì¼ì„ ì €ì¥í•˜ë„ë¡ í•¨
 void Path::SaveFileDialog(wstring defaultFileName, const WCHAR* fileTypeFilter, const wstring defaultFolder, const function<void(wstring)> callback, HWND parentWindowHandle)
 {
 	WCHAR name[255];
@@ -213,7 +213,7 @@ void Path::SaveFileDialog(wstring defaultFileName, const WCHAR* fileTypeFilter, 
 	ofn.hwndOwner = parentWindowHandle;
 	ofn.lpstrFilter = fileTypeFilter;
 	ofn.lpstrFile = name;
-	ofn.lpstrTitle = L"ÀúÀåÇÏ±â";
+	ofn.lpstrTitle = L"ì €ì¥í•˜ê¸°";
 	ofn.nMaxFile = 255;
 	ofn.lpstrInitialDir = tempFolder.c_str();
 	ofn.Flags = OFN_NOCHANGEDIR;
@@ -230,7 +230,7 @@ void Path::SaveFileDialog(wstring defaultFileName, const WCHAR* fileTypeFilter, 
 	}
 }
 
-// ÁöÁ¤µÈ Æú´õ¿¡¼­ Æ¯Á¤ À¯ÇüÀÇ ÆÄÀÏµéÀ» Ã£¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+// ì§€ì •ëœ í´ë”ì—ì„œ íŠ¹ì • ìœ í˜•ì˜ íŒŒì¼ë“¤ì„ ì°¾ì•„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
 void Path::GetFiles(vector<string>* files, string path, string filter, bool bFindSubFolder)
 {
 	vector<wstring> wFiles;
@@ -245,49 +245,49 @@ void Path::GetFiles(vector<string>* files, string path, string filter, bool bFin
 
 //path : ../Temp/
 //filter : *.txt
-// ÁöÁ¤µÈ Æú´õ¿¡¼­ Æ¯Á¤ ÆÄÀÏµéÀ» Ã£¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
-void Path::GetFiles(vector<wstring>* files, wstring path, wstring filter, bool bFindSubFolder/*ÇÏÀ§Æú´õ °Ë»ö ¿É¼Ç*/)
+// ì§€ì •ëœ í´ë”ì—ì„œ íŠ¹ì • íŒŒì¼ë“¤ì„ ì°¾ì•„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+void Path::GetFiles(vector<wstring>* files, wstring path, wstring filter, bool bFindSubFolder/*í•˜ìœ„í´ë” ê²€ìƒ‰ ì˜µì…˜*/)
 {
-	wstring file = path + filter; // °Ë»öÇÒ ÆÄÀÏÀÇ °æ·Î¿Í ÇÊÅÍ¸¦ °áÇÕÇÏ¿© °Ë»öÇÒ ÆÄÀÏÀÇ ÀüÃ¼ °æ·Î »ı¼º
+	wstring file = path + filter; // ê²€ìƒ‰í•  íŒŒì¼ì˜ ê²½ë¡œì™€ í•„í„°ë¥¼ ê²°í•©í•˜ì—¬ ê²€ìƒ‰í•  íŒŒì¼ì˜ ì „ì²´ ê²½ë¡œ ìƒì„±
 
 	WIN32_FIND_DATA findData;
-	HANDLE handle = FindFirstFile(file.c_str(), &findData);	// Ã¹ ¹øÂ° ÆÄÀÏ °Ë»ö
-	if (handle != INVALID_HANDLE_VALUE)	// ÆÄÀÏÀÌ ¹ß°ßµÇ¸é
+	HANDLE handle = FindFirstFile(file.c_str(), &findData);	// ì²« ë²ˆì§¸ íŒŒì¼ ê²€ìƒ‰
+	if (handle != INVALID_HANDLE_VALUE)	// íŒŒì¼ì´ ë°œê²¬ë˜ë©´
 	{
 		do
 		{
-			// ¹ß°ßµÈ ÆÄÀÏÀÌ µğ·ºÅä¸®ÀÎ °æ¿ì
+			// ë°œê²¬ëœ íŒŒì¼ì´ ë””ë ‰í† ë¦¬ì¸ ê²½ìš°
 			if (findData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
 			{
-				// ÇÏÀ§ Æú´õ °Ë»ö ¿É¼Ç È°¼ºÈ­ & ¹ß°ßµÈ µğ·ºÅä¸®°¡ '.'À¸·Î ½ÃÀÛÇÏÁö ¾Ê´Â °æ¿ì
+				// í•˜ìœ„ í´ë” ê²€ìƒ‰ ì˜µì…˜ í™œì„±í™” & ë°œê²¬ëœ ë””ë ‰í† ë¦¬ê°€ '.'ìœ¼ë¡œ ì‹œì‘í•˜ì§€ ì•ŠëŠ” ê²½ìš°
 				if (bFindSubFolder == true && findData.cFileName[0] != '.')
 				{
-					// ¹ß°ßµÈ µğ·ºÅä¸®ÀÇ ÀüÃ¼ °æ·Î ¼³Á¤
+					// ë°œê²¬ëœ ë””ë ‰í† ë¦¬ì˜ ì „ì²´ ê²½ë¡œ ì„¤ì •
 					wstring folder = path + wstring(findData.cFileName) + L"/";
-					// Àç±ÍÀûÀ¸·Î ÇÏÀ§ Æú´õ¿¡¼­ ÆÄÀÏÀ» °Ë»ö
+					// ì¬ê·€ì ìœ¼ë¡œ í•˜ìœ„ í´ë”ì—ì„œ íŒŒì¼ì„ ê²€ìƒ‰
 					GetFiles(files, folder, filter, bFindSubFolder);
 				}
 			}
-			else // ¹ß°ßµÈ ÆÄÀÏÀÌ µğ·ºÅä¸®°¡ ¾Æ´Ñ °æ¿ì
+			else // ë°œê²¬ëœ íŒŒì¼ì´ ë””ë ‰í† ë¦¬ê°€ ì•„ë‹Œ ê²½ìš°
 			{
-				// ¹ß°ßµÈ ÆÄÀÏÀÇ ÀüÃ¼ °æ·Î »ı¼º
+				// ë°œê²¬ëœ íŒŒì¼ì˜ ì „ì²´ ê²½ë¡œ ìƒì„±
 				wstring fileName = path + wstring(findData.cFileName);
-				// º¤ÅÍ¿¡ ¹ß°ßµÈ ÆÄÀÏÀÇ ÀüÃ¼ °æ·Î¸¦ Ãß°¡
+				// ë²¡í„°ì— ë°œê²¬ëœ íŒŒì¼ì˜ ì „ì²´ ê²½ë¡œë¥¼ ì¶”ê°€
 				files->push_back(fileName);
 			}
-		} while (FindNextFile(handle, &findData)); // ´ÙÀ½ ÆÄÀÏ °Ë»ö
-		// ÆÄÀÏ °Ë»ö Á¾·á
+		} while (FindNextFile(handle, &findData)); // ë‹¤ìŒ íŒŒì¼ ê²€ìƒ‰
+		// íŒŒì¼ ê²€ìƒ‰ ì¢…ë£Œ
 		FindClose(handle);
 	}
 }
 
-// ÁÖ¾îÁø °æ·Î¿¡ Æú´õ°¡ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì »ı¼ºÇÏ´Â ÇÔ¼ö
-// ÁÖ¾îÁø °æ·ÎÀÇ Æú´õ¸¸ »ı¼º
+// ì£¼ì–´ì§„ ê²½ë¡œì— í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš° ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+// ì£¼ì–´ì§„ ê²½ë¡œì˜ í´ë”ë§Œ ìƒì„±
 void Path::CreateFolder(wstring path)
 {
-	// ÁÖ¾îÁø °æ·Î¿¡ Æú´õ°¡ ¾øÀ» °æ¿ì
+	// ì£¼ì–´ì§„ ê²½ë¡œì— í´ë”ê°€ ì—†ì„ ê²½ìš°
 	if (ExistDirectory(path) == false)
-		// Æú´õ »ı¼º
+		// í´ë” ìƒì„±
 		CreateDirectory(path.c_str(), NULL);
 }
 
@@ -296,8 +296,8 @@ void Path::CreateFolder(string path)
 	CreateFolder(String::ToWstring(path));
 }
 
-// Æú´õ°¡ ¾øÀ» °æ¿ì Æú´õ¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö
-// ÁÖ¾îÁø °æ·ÎÀÇ ¸ğµç ÇÏÀ§ Æú´õ¸¦ »ı¼º
+// í´ë”ê°€ ì—†ì„ ê²½ìš° í´ë”ë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+// ì£¼ì–´ì§„ ê²½ë¡œì˜ ëª¨ë“  í•˜ìœ„ í´ë”ë¥¼ ìƒì„±
 void Path::CreateFolders(wstring path)
 {
 	String::Replace(&path, L"\\", L"/");
