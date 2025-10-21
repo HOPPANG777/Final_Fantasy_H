@@ -67,10 +67,13 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Components\TransformComponents</Filter>
+      <Filter>Components\Transforms</Filter>
     </ClInclude>
     <ClInclude Include="RectTransform.h">
-      <Filter>Components\TransformComponents</Filter>
+      <Filter>Components\Transforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Components\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,10 +110,13 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Components\TransformComponents</Filter>
+      <Filter>Components\Transforms</Filter>
     </ClCompile>
     <ClCompile Include="RectTransform.cpp">
-      <Filter>Components\TransformComponents</Filter>
+      <Filter>Components\Transforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Components\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +144,10 @@
     <Filter Include="Components">
       <UniqueIdentifier>{cf2ac416-8e4b-4bb6-bf51-332c7353cc74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\TransformComponents">
+    <Filter Include="Components\Drawable">
+      <UniqueIdentifier>{78f14e32-3fd1-4ea2-bd5b-d79b86ec95b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Transforms">
       <UniqueIdentifier>{16c663c9-04bd-41d8-a9e3-c3d5d0427a36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
