@@ -15,7 +15,7 @@ public:
 
 	void SetWorld(const DirectX::SimpleMath::Matrix& world)
 	{
-		_data._world = XMMatrixTranspose(world);
+		_data._world = DirectX::XMMatrixTranspose(world);
 	}
 };
 
@@ -34,12 +34,12 @@ public:
 
 	void SetView(const DirectX::SimpleMath::Matrix& view)
 	{
-		_data._view = XMMatrixTranspose(view);
+		_data._view = DirectX::XMMatrixTranspose(view);
 	}
 
 	void SetProjection(const DirectX::SimpleMath::Matrix& proj)
 	{
-		_data._proj = XMMatrixTranspose(proj);
+		_data._proj = DirectX::XMMatrixTranspose(proj);
 	}
 };
 

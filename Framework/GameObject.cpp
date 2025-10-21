@@ -6,33 +6,29 @@ GameObject::GameObject(const std::string& name, bool RectTransformType)
 {
 	worldBuffer = std::make_unique<WorldBuffer>();
 
-	switch (RectTransformType)
+	if (RectTransformType)
 	{
-	case true:
 		const std::shared_ptr<RectTransform>& rectTransform = std::make_shared<RectTransform>();
 		AddComponent(rectTransform);
-		break;
-	case false:
+	}
+	else
+	{
 		const std::shared_ptr<Transform>& transform = std::make_shared<Transform>();
 		AddComponent(transform);
-		break;
-	default:
-		break;
 	}
 }
 
 GameObject::GameObject(
-	const std::string& name, 
-	const DirectX::SimpleMath::Vector3& initPos, 
-	const DirectX::SimpleMath::Vector3& initScale, 
-	float initRotation, 
+	const std::string& name,
+	const DirectX::SimpleMath::Vector3& initPos,
+	const DirectX::SimpleMath::Vector3& initScale,
+	float initRotation,
 	bool RectTransformType
 )
 	: GameObject(name, RectTransformType)
 {
-	switch (RectTransformType)
+	if (RectTransformType)
 	{
-	case true:
 		const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
 		if (rectTransform)
 		{
@@ -40,8 +36,10 @@ GameObject::GameObject(
 			rectTransform->SetScale(initScale);
 			rectTransform->SetRotation(initRotation);
 		}
-		break;
-	case false:
+
+	}
+	else
+	{
 		const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
 		if (transform)
 		{
@@ -49,10 +47,8 @@ GameObject::GameObject(
 			transform->SetScale(initScale);
 			transform->SetRotation(initRotation);
 		}
-		break;
-	default:
-		break;
 	}
+
 }
 
 GameObject::GameObject(const GameObject& other)
@@ -97,24 +93,36 @@ void GameObject::Update()
 		compPtr->Update();
 	}
 
-	switch (RectTransformType)
+	if (RectTransformType)
 	{
-	case true:
-		const std::shared_ptr<RectTransform>& rectTrans = GetComponent<RectTransform>("RectTransform");
-		if (rectTrans)
+		const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
+		if (rectTransform)
 		{
-			worldBuffer->SetWorld(rectTrans->GetWorld());
+			worldBuffer->SetWorld(rectTransform->GetWorld());
 		}
-		break;
-	case false:
-		const std::shared_ptr<Transform>& trans = GetComponent<Transform>("Transform");
-		if (trans)
+	}
+	else
+	{
+		const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
+		if (transform)
 		{
-			worldBuffer->SetWorld(trans->GetWorld());
+			worldBuffer->SetWorld(transform->GetWorld());
 		}
-		break;
-	default:
-		break;
+	}
+
+	// RectTransform이 있다면 우선적으로 사용합니다.
+	const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
+	if (rectTransform)
+	{
+		worldBuffer->SetWorld(rectTransform->GetWorld());
+	}
+	else
+	{
+		const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
+		if (transform)
+		{
+			worldBuffer->SetWorld(transform->GetWorld());
+		}
 	}
 }
 

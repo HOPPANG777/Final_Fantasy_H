@@ -1,5 +1,6 @@
 #include "Framework.h"
 #include "WindowManager.h"
+#include "Program.h"
 
 std::unique_ptr<Program> WindowManager::program = nullptr;
 
@@ -79,6 +80,7 @@ ATOM WindowManager::MyRegisterClass(const WinDesc& desc)
 WPARAM WindowManager::Run()
 {
 	program = std::make_unique<Program>();
+	program->Awake();
 	program->Start();
 
 	MSG msg = { 0 };
@@ -115,13 +117,15 @@ void WindowManager::MainRender()
 	KeyboardManager::Get()->Update();
 	MouseManager::Get()->Update();
 	TimeManager::Get()->Update();
-	CameraManager::Get()->Update();
 
 	program->Update();
 
 	GraphicsManager::Get()->Begin();
 	{
 		program->Render();
+		program->PostRender();
+
+		program->ImGUI();
 	}
 	GraphicsManager::Get()->End();
 }
