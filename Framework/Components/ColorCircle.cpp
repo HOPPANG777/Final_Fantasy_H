@@ -11,7 +11,7 @@ ColorCircle::ColorCircle(
     const DirectX::SimpleMath::Color& color,
     bool useRectTransform
 )
-    : Drawable("ColorCircle", position, scale, rotation, useRectTransform, ShaderPath + L"VertexColor.hlsl"),
+    : Drawable("ColorCircle", position, scale, rotation, useRectTransform, ShaderPath + L"Color.hlsl"),
       _segments(segments),
       _color(color)
 {

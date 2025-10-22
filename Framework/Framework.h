@@ -115,10 +115,10 @@ extern HWND gHandle;
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Path
-const std::wstring ShaderPath = L"_Shaders/";
-const std::wstring TexturePath = L"_Textures/";
-const std::wstring SoundPath = L"_Sounds/";
-const std::wstring FontPath = L"_Fonts/";
+const std::wstring ShaderPath = L"Contents/_Shaders/";
+const std::wstring TexturePath = L"Contents/_Textures/";
+const std::wstring SoundPath = L"Contents/_Sounds/";
+const std::wstring FontPath = L"Contents/_Fonts/";
 
 //Interfaces
 #include "Interfaces/IScene.h"

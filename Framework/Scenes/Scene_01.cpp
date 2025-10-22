@@ -25,7 +25,9 @@ void Scene_01::Start()
 
 void Scene_01::Destroy()
 {
-    for (auto& obj : objects) obj.reset();
+    for (auto& obj : objects) 
+        if (obj != nullptr)  
+            obj.reset();
 }
 
 void Scene_01::FixedUpdate()
@@ -34,7 +36,9 @@ void Scene_01::FixedUpdate()
 
 void Scene_01::Update()
 {
-    for (const auto& obj : objects) obj->Update();
+    for (const auto& obj : objects) 
+        if (obj != nullptr)  
+            obj->Update();
 }
 
 void Scene_01::LateUpdate()
@@ -43,7 +47,9 @@ void Scene_01::LateUpdate()
 
 void Scene_01::Render()
 {
-    for (const auto& obj : objects) obj->Render();
+    for (const auto& obj : objects) 
+        if (obj != nullptr)  
+            obj->Render();
 }
 
 void Scene_01::PostRender()

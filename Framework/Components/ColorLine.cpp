@@ -8,7 +8,7 @@ ColorLine::ColorLine(
     const DirectX::SimpleMath::Color& color,
     bool useRectTransform
 )
-    : Drawable("ColorLine", position, DirectX::SimpleMath::Vector3(length, 0.0f, 0.0f), rotation, useRectTransform, ShaderPath + L"VertexColor.hlsl"),
+    : Drawable("ColorLine", position, DirectX::SimpleMath::Vector3(length, 0.0f, 0.0f), rotation, useRectTransform, ShaderPath + L"Color.hlsl"),
       _color(color)
 {
     InitializeGeometry();

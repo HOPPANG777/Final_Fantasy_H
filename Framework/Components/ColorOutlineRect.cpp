@@ -8,7 +8,7 @@ ColorOutlineRect::ColorOutlineRect(
     const DirectX::SimpleMath::Color& color,
     bool useRectTransform
 )
-    : Drawable("ColorOutlineRect", position, scale, rotation, useRectTransform, ShaderPath + L"VertexColor.hlsl"),
+    : Drawable("ColorOutlineRect", position, scale, rotation, useRectTransform, ShaderPath + L"Color.hlsl"),
       _color(color)
 {
     InitializeGeometry();
