@@ -128,7 +128,7 @@
     <ClInclude Include="Components\CircleCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Texture.h">
+    <ClInclude Include="Components\TextureRect.h">
       <Filter>Components\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\ReadData.h">
@@ -248,7 +248,7 @@
     <ClCompile Include="Components\CircleCollider.cpp">
       <Filter>Components\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Components\Texture.cpp">
+    <ClCompile Include="Components\TextureRect.cpp">
       <Filter>Components\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Objects\TestObject.cpp">
