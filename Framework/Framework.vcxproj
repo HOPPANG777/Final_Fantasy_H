@@ -159,14 +159,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Components\CircleCollider.h" />
-    <ClInclude Include="Utilities\AnimationClip.h" />
-    <ClInclude Include="Components\Animator.h" />
     <ClInclude Include="Components\BoxCollider.h" />
     <ClInclude Include="Systems\CameraManager.h" />
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Managers\CollisionManager.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Renders\ConstantBuffer.h" />
+    <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Utilities\DirectHelper.h" />
     <ClInclude Include="Components\Drawable.h" />
     <ClInclude Include="Utilities\FileStream.h" />
@@ -176,7 +175,7 @@
     <ClInclude Include="Renders\GlobalBuffers.h" />
     <ClInclude Include="Systems\GraphicsManager.h" />
     <ClInclude Include="Managers\LogManager.h" />
-    <ClInclude Include="Managers\ImGUIManager.h" />
+    <ClInclude Include="Managers\ImGuiManager.h" />
     <ClInclude Include="Interfaces\IColorable.h" />
     <ClInclude Include="Renders\IndexBuffer.h" />
     <ClInclude Include="Renders\InputLayout.h" />
@@ -193,12 +192,9 @@
     <ClInclude Include="Program\resource.h" />
     <ClInclude Include="Managers\SceneManager.h" />
     <ClInclude Include="Components\ShakingText.h" />
-    <ClInclude Include="Utilities\ReadData.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Program\targetver.h" />
     <ClInclude Include="Components\Texts.h" />
-    <ClInclude Include="Renders\Texture2D.h" />
-    <ClInclude Include="Managers\Texture2DManager.h" />
     <ClInclude Include="Systems\TimeManager.h" />
     <ClInclude Include="Components\Transform.h" />
     <ClInclude Include="Components\TypingText.h" />
@@ -209,11 +205,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\CircleCollider.cpp" />
-    <ClCompile Include="Utilities\AnimationClip.cpp" />
-    <ClCompile Include="Components\Animator.cpp" />
     <ClCompile Include="Components\BoxCollider.cpp" />
     <ClCompile Include="Systems\CameraManager.cpp" />
     <ClCompile Include="Managers\CollisionManager.cpp" />
+    <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Utilities\DirectHelper.cpp" />
     <ClCompile Include="Components\Drawable.cpp" />
     <ClCompile Include="Utilities\FileStream.cpp" />
@@ -227,7 +222,7 @@
     <ClCompile Include="Managers\GizmoManager.cpp" />
     <ClCompile Include="Systems\GraphicsManager.cpp" />
     <ClCompile Include="Managers\LogManager.cpp" />
-    <ClCompile Include="Managers\ImGUIManager.cpp" />
+    <ClCompile Include="Managers\ImGuiManager.cpp" />
     <ClCompile Include="Systems\KeyboardManager.cpp" />
     <ClCompile Include="Systems\MouseManager.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
@@ -239,7 +234,6 @@
     <ClCompile Include="Components\ShakingText.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="Components\Texts.cpp" />
-    <ClCompile Include="Managers\Texture2DManager.cpp" />
     <ClCompile Include="Systems\TimeManager.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
     <ClCompile Include="Components\TypingText.cpp" />

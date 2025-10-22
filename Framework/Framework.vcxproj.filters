@@ -53,9 +53,6 @@
     <ClInclude Include="Interfaces\IScene.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Animator.h">
-      <Filter>Components\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Components\BoxCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
@@ -71,14 +68,8 @@
     <ClInclude Include="Components\TypingText.h">
       <Filter>Components\Texts</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\Texture2D.h">
-      <Filter>Renders\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Managers\CollisionManager.h">
       <Filter>Managers\CollisionManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Managers\Texture2DManager.h">
-      <Filter>Managers\Texture2DManager</Filter>
     </ClInclude>
     <ClInclude Include="Managers\SceneManager.h">
       <Filter>Managers\SceneManager</Filter>
@@ -95,7 +86,7 @@
     <ClInclude Include="Managers\LogManager.h">
       <Filter>Managers\LogManager</Filter>
     </ClInclude>
-    <ClInclude Include="Managers\ImGUIManager.h">
+    <ClInclude Include="Managers\ImGuiManager.h">
       <Filter>Managers\ImGUIManager</Filter>
     </ClInclude>
     <ClInclude Include="Managers\GizmoManager.h">
@@ -128,9 +119,6 @@
     <ClInclude Include="Utilities\Path.h">
       <Filter>Utilities\Path</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\AnimationClip.h">
-      <Filter>Utilities\AnimationClip</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\DirectHelper.h">
       <Filter>Utilities\DirectHelper</Filter>
     </ClInclude>
@@ -140,7 +128,9 @@
     <ClInclude Include="Components\CircleCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\ReadData.h" />
+    <ClInclude Include="Components\Texture.h">
+      <Filter>Components\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -162,9 +152,6 @@
     <ClCompile Include="Components\Drawable.cpp">
       <Filter>Components\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Components\Animator.cpp">
-      <Filter>Components\Animator</Filter>
-    </ClCompile>
     <ClCompile Include="Components\BoxCollider.cpp">
       <Filter>Components\Collider</Filter>
     </ClCompile>
@@ -180,9 +167,6 @@
     <ClCompile Include="Managers\CollisionManager.cpp">
       <Filter>Managers\CollisionManager</Filter>
     </ClCompile>
-    <ClCompile Include="Managers\Texture2DManager.cpp">
-      <Filter>Managers\Texture2DManager</Filter>
-    </ClCompile>
     <ClCompile Include="Managers\SceneManager.cpp">
       <Filter>Managers\SceneManager</Filter>
     </ClCompile>
@@ -192,7 +176,7 @@
     <ClCompile Include="Managers\LogManager.cpp">
       <Filter>Managers\LogManager</Filter>
     </ClCompile>
-    <ClCompile Include="Managers\ImGUIManager.cpp">
+    <ClCompile Include="Managers\ImGuiManager.cpp">
       <Filter>Managers\ImGUIManager</Filter>
     </ClCompile>
     <ClCompile Include="Managers\GizmoManager.cpp">
@@ -225,9 +209,6 @@
     <ClCompile Include="Utilities\Path.cpp">
       <Filter>Utilities\Path</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\AnimationClip.cpp">
-      <Filter>Utilities\AnimationClip</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\DirectHelper.cpp">
       <Filter>Utilities\DirectHelper</Filter>
     </ClCompile>
@@ -236,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="Components\CircleCollider.cpp">
       <Filter>Components\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Texture.cpp">
+      <Filter>Components\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +327,9 @@
     </Filter>
     <Filter Include="Utilities\String">
       <UniqueIdentifier>{704005d4-8ab8-4b91-a892-d461962148f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Texture">
+      <UniqueIdentifier>{69d4f87c-ae76-44b4-9db8-b201f174d432}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,7 @@ void CameraManager::Init()
     _vpBuffer = std::make_unique<ViewProjectionBuffer>();
 
     _view = DirectX::XMMatrixLookAtLH(DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(0, 0, 1), DirectX::SimpleMath::Vector3(0, 1, 0));
-    _proj = DirectX::XMMatrixOrthographicOffCenterLH(0, DirectHelper::GetWinWidth(), 0, DirectHelper::GetWinHeight(), kDefaultNear, kDefaultFar);
+    _proj = DirectX::XMMatrixOrthographicOffCenterLH(0, Values::GetWinWidth(), 0, Values::GetWinHeight(), kDefaultNear, kDefaultFar);
 
     _vpBuffer->SetView(_view);
     _vpBuffer->SetProjection(_proj);
@@ -60,8 +60,8 @@ void CameraManager::Move()
 
     if (targetPtr != nullptr)
     {
-        _position.x = targetPtr->GetComponent<Transform>("Transform")->GetPosition().x - DirectHelper::GetWinWidth() * 0.5f;
-        _position.y = targetPtr->GetComponent<Transform>("Transform")->GetPosition().y - DirectHelper::GetWinHeight() * 0.5f;
+        _position.x = targetPtr->GetComponent<Transform>("Transform")->GetPosition().x - Values::GetWinWidth() * 0.5f;
+        _position.y = targetPtr->GetComponent<Transform>("Transform")->GetPosition().y - Values::GetWinHeight() * 0.5f;
         return;
     }
 
@@ -124,9 +124,9 @@ void CameraManager::UpdateFollow()
     const float marginY = 200.0f;
 
     const float viewLeft = camPos.x;
-    const float viewRight = camPos.x + DirectHelper::GetWinWidth();
+    const float viewRight = camPos.x + Values::GetWinWidth();
     const float viewTop = camPos.y;
-    const float viewBottom = camPos.y + DirectHelper::GetWinHeight();
+    const float viewBottom = camPos.y + Values::GetWinHeight();
 
     const float deadLeft = viewLeft + marginX;
     const float deadRight = viewRight - marginX;
@@ -134,10 +134,10 @@ void CameraManager::UpdateFollow()
     const float deadBottom = viewBottom - marginY;
 
     if (targetPos.x < deadLeft) camPos.x = targetPos.x - marginX;
-    else if (targetPos.x > deadRight) camPos.x = targetPos.x + marginX - DirectHelper::GetWinWidth();
+    else if (targetPos.x > deadRight) camPos.x = targetPos.x + marginX - Values::GetWinWidth();
 
     if (targetPos.y < deadTop) camPos.y = targetPos.y - marginY;
-    else if (targetPos.y > deadBottom) camPos.y = targetPos.y + marginY - DirectHelper::GetWinHeight();
+    else if (targetPos.y > deadBottom) camPos.y = targetPos.y + marginY - Values::GetWinHeight();
 
     _position = camPos;
     UpdateView();
@@ -148,7 +148,7 @@ void CameraManager::UpdateHorizontalScroll(GameObject* target, float minRatio, f
     if (target == nullptr) return;
 
     const DirectX::SimpleMath::Vector3 targetPos = target->GetComponent<Transform>("Transform")->GetPosition();
-    const float w = DirectHelper::GetWinWidth();
+    const float w = Values::GetWinWidth();
 
     if (targetPos.x > w * minRatio && targetPos.x < w * maxRatio)
     {
@@ -162,7 +162,7 @@ void CameraManager::UpdateVerticalScroll(GameObject* target, float minRatio, flo
     if (target == nullptr) return;
 
     const DirectX::SimpleMath::Vector3 targetPos = target->GetComponent<Transform>("Transform")->GetPosition();
-    const float h = DirectHelper::GetWinHeight();
+    const float h = Values::GetWinHeight();
 
     if (targetPos.y > h * minRatio && targetPos.y < h * maxRatio)
     {

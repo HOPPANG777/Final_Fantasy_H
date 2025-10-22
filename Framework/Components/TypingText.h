@@ -15,7 +15,7 @@ public:
         const std::wstring& text,
         const RECT& rect,
         const float size = 25.0f,
-        const DirectX::SimpleMath::Color& color = DirectHelper::White,
+        const DirectX::SimpleMath::Color& color = Values::White,
         const std::wstring& font = L"Pretendard JP",
         const DWRITE_FONT_WEIGHT& weight = DWRITE_FONT_WEIGHT_NORMAL,
         const DWRITE_FONT_STYLE& style = DWRITE_FONT_STYLE_NORMAL,

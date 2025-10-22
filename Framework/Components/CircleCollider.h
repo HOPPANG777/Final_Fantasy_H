@@ -6,7 +6,7 @@ public:
     CircleCollider(
         const DirectX::SimpleMath::Vector3& center, 
         float radius, 
-        const DirectX::SimpleMath::Color& color = DirectHelper::Green
+        const DirectX::SimpleMath::Color& color = Values::Green
     ) 
         : Collider("CircleCollider", Type::Circle), center(center), radius(radius), color(color) 
     {
@@ -24,7 +24,7 @@ public:
     void SetRadius(float newRadius) { radius = newRadius; }
 
 public:
-    Vector3 GetCenter() const { return center; }
+    DirectX::SimpleMath::Vector3 GetCenter() const { return center; }
     float GetRadius() const { return radius; }
 
 public:

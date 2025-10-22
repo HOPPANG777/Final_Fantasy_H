@@ -48,9 +48,9 @@ private:
 	std::array<unsigned char, MAX_INPUT_MOUSE> buttonMap = { 0 };
 
 private:
-	DirectX::SimpleMath::Vector3 wheelStatus = DirectHelper::ZeroVector3;
-	DirectX::SimpleMath::Vector3 wheelOldStatus = DirectHelper::ZeroVector3;
-	DirectX::SimpleMath::Vector3 wheelMoveValue = DirectHelper::ZeroVector3;
+	DirectX::SimpleMath::Vector3 wheelStatus = Values::ZeroVector3;
+	DirectX::SimpleMath::Vector3 wheelOldStatus = Values::ZeroVector3;
+	DirectX::SimpleMath::Vector3 wheelMoveValue = Values::ZeroVector3;
 
 private:
 	DWORD timeDblClk;

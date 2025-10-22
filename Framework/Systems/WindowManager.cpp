@@ -69,7 +69,7 @@ ATOM WindowManager::MyRegisterClass(const WinDesc& desc)
 	wcex.hInstance = desc.instance;
 	wcex.hIcon = desc.icon;
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground = HBRUSH(GetStockObject(GRAY_BRUSH));
+	wcex.hbrBackground = HBRUSH(GetStockObject(WHITE_BRUSH));
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = desc.appName.c_str();
 	wcex.hIconSm = wcex.hIcon;
@@ -117,7 +117,7 @@ void WindowManager::MainRender()
 	KeyboardManager::Get()->Update();
 	MouseManager::Get()->Update();
 	TimeManager::Get()->Update();
-	ImGUIManager::Get()->Update();
+	ImGuiManager::Get()->Update();
 
 	program->Update();
 
@@ -127,6 +127,7 @@ void WindowManager::MainRender()
 		program->PostRender();
 
 		program->ImGUI();
+		ImGuiManager::Get()->Render();
 	}
 	GraphicsManager::Get()->End();
 }

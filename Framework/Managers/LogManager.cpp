@@ -13,7 +13,7 @@ LogManager::~LogManager()
 
 void LogManager::Pre_Log()
 {
-	std::std::cout << "--------------------------------------------------------------------------" << std::std::endl;
+	std::cout << "--------------------------------------------------------------------------" << std::endl;
 
 	time_t now1 = time(nullptr);
 	tm tm_1;

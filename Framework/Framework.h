@@ -73,7 +73,7 @@
 #include <imgui_impl_dx11.h>
 
 //ReadData
-#include "Utilities/ReadData.h"
+//#include "Utilities/ReadData.h"
 
 //Macro
 #define WIN_DEFAULT_WIDTH 1280
@@ -124,6 +124,14 @@ const std::wstring FontPath = L"_Fonts/";
 #include "Interfaces/IScene.h"
 #include "Interfaces/IColorable.h"
 
+//Utilities
+//#include "Utilities/AnimationClip.h"
+#include "Utilities/DirectHelper.h"
+#include "Utilities/FileStream.h"
+#include "Utilities/String.h"
+#include "Utilities/Random.h"	
+#include "Utilities/Path.h"
+
 //Systems
 #include "Systems/WindowManager.h"
 #include "Systems/KeyboardManager.h"
@@ -134,18 +142,10 @@ const std::wstring FontPath = L"_Fonts/";
 //Managers
 #include "Managers/CollisionManager.h"
 #include "Managers/LogManager.h"
-#include "Managers/ImGUIManager.h"
+#include "Managers/ImGuiManager.h"
 #include "Managers/GizmoManager.h"
 #include "Managers/SceneManager.h"
-#include "Managers/Texture2DManager.h"
-
-//Utilities
-#include "Utilities/AnimationClip.h"
-#include "Utilities/DirectHelper.h"
-#include "Utilities/FileStream.h"
-#include "Utilities/String.h"
-#include "Utilities/Random.h"	
-#include "Utilities/Path.h"
+//#include "Managers/Texture2DManager.h"
 
 //Renders
 #include "Renders/IndexBuffer.h"
@@ -154,7 +154,7 @@ const std::wstring FontPath = L"_Fonts/";
 
 #include "Renders/ConstantBuffer.h"
 #include "Renders/GlobalBuffers.h"
-#include "Renders/Texture2D.h"
+//#include "Renders/Texture2D.h"
 #include "Renders/VertexType.h"
 
 #include "Renders/IShader.h"
@@ -167,10 +167,12 @@ const std::wstring FontPath = L"_Fonts/";
 #include "Components/Component.h"
 #include "Components/Transform.h"
 #include "Components/RectTransform.h"
-#include "Components/Animator.h"
+//#include "Components/Animator.h"
 #include "Components/Collider.h"
 #include "Components/BoxCollider.h"
 #include "Components/CircleCollider.h"
+#include "Components/Drawable.h"
+#include "Components/Texture.h"
 #include "Components/Texts.h"
 #include "Components/TypingText.h"
 #include "Components/ShakingText.h"

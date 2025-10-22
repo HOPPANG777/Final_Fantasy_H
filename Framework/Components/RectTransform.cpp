@@ -11,7 +11,7 @@ void RectTransform::Update()
 {
     using namespace DirectX::SimpleMath;
 
-    const Vector2 screenSize(static_cast<float>(DirectHelper::GetWinWidth()), static_cast<float>(DirectHelper::GetWinHeight()));
+    const Vector2 screenSize(static_cast<float>(Values::GetWinWidth()), static_cast<float>(Values::GetWinHeight()));
     Vector3 translation = position;
 
     const Vector3 anchorOffset(anchor.x * screenSize.x, anchor.y * screenSize.y, 0.0f);
@@ -44,7 +44,7 @@ RECT RectTransform::GetRect() const
 {
     using namespace DirectX::SimpleMath;
 
-    const Vector2 screenSize(static_cast<float>(DirectHelper::GetWinWidth()), static_cast<float>(DirectHelper::GetWinHeight()));
+    const Vector2 screenSize(static_cast<float>(Values::GetWinWidth()), static_cast<float>(Values::GetWinHeight()));
     const Vector2 scaledSize(size.x * scale.x, size.y * scale.y);
 
     Vector2 position2D(position.x, position.y);

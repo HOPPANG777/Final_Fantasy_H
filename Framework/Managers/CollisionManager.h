@@ -1,5 +1,8 @@
 #pragma once
 
+class Collider;
+class GameObject;
+
 class CollisionManager
 {
 	DECLARE_SINGLETON(CollisionManager);

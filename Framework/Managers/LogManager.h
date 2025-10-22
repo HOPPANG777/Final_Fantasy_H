@@ -2,7 +2,7 @@
 
 class LogManager
 {
-	DECLARE_SINGLETON(HelpMe);
+	DECLARE_SINGLETON(LogManager);
 
 public:
 	int Log_Count = 0;

@@ -14,7 +14,7 @@ public:
     BoxCollider(
         const DirectX::SimpleMath::Vector3& center, 
         const DirectX::SimpleMath::Vector3& size, 
-        const DirectX::SimpleMath::Color& color = DirectHelper::Green
+        const DirectX::SimpleMath::Color& color = Values::Green
     ) 
         : Collider("BoxCollider", Type::Box), center(center), size(size), color(color)
     {

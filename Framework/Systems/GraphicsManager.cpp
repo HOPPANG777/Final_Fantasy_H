@@ -31,6 +31,16 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
         if (vram > maxVRam) { _selectedAdapterIndex = (int)i; maxVRam = (UINT)vram; }
     }
 
+    // 출력해보기
+    for (size_t i = 0; i < _adapterInfos.size(); i++)
+    {
+        std::wcout << L"GPU Name : " << _adapterInfos[i]->adapterDesc.Description << std::endl;
+        std::cout << "VRAM : " << _adapterInfos[i]->adapterDesc.DedicatedVideoMemory << std::endl;
+        std::cout << std::endl;
+    }
+
+    std::wcout << L"Selected GPU Name : " << _adapterInfos[_selectedAdapterIndex]->adapterDesc.Description << std::endl;
+
     Microsoft::WRL::ComPtr<IDXGIAdapter1> chosenAdapter = _adapterInfos[_selectedAdapterIndex]->adapter;
 
     DXGI_SWAP_CHAIN_DESC desc = {};
@@ -146,7 +156,7 @@ void GraphicsManager::Begin()
 {
     _deviceContext->RSSetViewports(1, &_viewport);
     _deviceContext->OMSetRenderTargets(1, _rtv.GetAddressOf(), nullptr);
-    _deviceContext->ClearRenderTargetView(_rtv.Get(), DirectHelper::ClearColor);
+    _deviceContext->ClearRenderTargetView(_rtv.Get(), Values::Gray);
 
     _d2DeviceContext->BeginDraw();
 }
@@ -229,8 +239,8 @@ bool GraphicsManager::EnumerateAdapterOutput(AdapterInfo* adapterInfo)
     for (UINT i = 0; i < numModes; i++)
     {
         bool bCheck = true;
-        bCheck &= displayModes[i].Width == DirectHelper::GetWinWidth();
-        bCheck &= displayModes[i].Height == DirectHelper::GetWinHeight();
+        bCheck &= displayModes[i].Width == Values::GetWinWidth();
+        bCheck &= displayModes[i].Height == Values::GetWinHeight();
         if (bCheck)
         {
             outputInfo->numerator = displayModes[i].RefreshRate.Numerator;
