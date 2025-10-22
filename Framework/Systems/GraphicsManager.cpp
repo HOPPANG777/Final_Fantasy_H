@@ -146,7 +146,7 @@ void GraphicsManager::Begin()
 {
     _deviceContext->RSSetViewports(1, &_viewport);
     _deviceContext->OMSetRenderTargets(1, _rtv.GetAddressOf(), nullptr);
-    _deviceContext->ClearRenderTargetView(_rtv.Get(), Values::ClearColor);
+    _deviceContext->ClearRenderTargetView(_rtv.Get(), DirectHelper::ClearColor);
 
     _d2DeviceContext->BeginDraw();
 }
@@ -229,8 +229,8 @@ bool GraphicsManager::EnumerateAdapterOutput(AdapterInfo* adapterInfo)
     for (UINT i = 0; i < numModes; i++)
     {
         bool bCheck = true;
-        bCheck &= displayModes[i].Width == Values::GetWinWidth();
-        bCheck &= displayModes[i].Height == Values::GetWinHeight();
+        bCheck &= displayModes[i].Width == DirectHelper::GetWinWidth();
+        bCheck &= displayModes[i].Height == DirectHelper::GetWinHeight();
         if (bCheck)
         {
             outputInfo->numerator = displayModes[i].RefreshRate.Numerator;

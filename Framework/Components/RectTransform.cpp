@@ -11,7 +11,7 @@ void RectTransform::Update()
 {
     using namespace DirectX::SimpleMath;
 
-    const Vector2 screenSize(static_cast<float>(Values::GetWinWidth()), static_cast<float>(Values::GetWinHeight()));
+    const Vector2 screenSize(static_cast<float>(DirectHelper::GetWinWidth()), static_cast<float>(DirectHelper::GetWinHeight()));
     Vector3 translation = position;
 
     const Vector3 anchorOffset(anchor.x * screenSize.x, anchor.y * screenSize.y, 0.0f);
@@ -38,6 +38,33 @@ void RectTransform::Render()
 const DirectX::SimpleMath::Matrix& RectTransform::GetWorld() const
 {
     return world;
+}
+
+RECT RectTransform::GetRect() const
+{
+    using namespace DirectX::SimpleMath;
+
+    const Vector2 screenSize(static_cast<float>(DirectHelper::GetWinWidth()), static_cast<float>(DirectHelper::GetWinHeight()));
+    const Vector2 scaledSize(size.x * scale.x, size.y * scale.y);
+
+    Vector2 position2D(position.x, position.y);
+    position2D += Vector2(anchor.x * screenSize.x, anchor.y * screenSize.y);
+
+    const Vector2 pivotOffset(pivot.x * scaledSize.x, pivot.y * scaledSize.y);
+    Vector2 topLeft = position2D - pivotOffset;
+
+    const DirectX::SimpleMath::Vector3 cameraPos = CameraManager::Get()->GetPosition();
+    topLeft += Vector2(cameraPos.x, cameraPos.y);
+
+    const Vector2 bottomRight = topLeft + scaledSize;
+
+    RECT rect{};
+    rect.left = static_cast<LONG>(topLeft.x);
+    rect.top = static_cast<LONG>(topLeft.y);
+    rect.right = static_cast<LONG>(bottomRight.x);
+    rect.bottom = static_cast<LONG>(bottomRight.y);
+
+    return rect;
 }
 
 DirectX::SimpleMath::Vector3 RectTransform::GetPosition() const

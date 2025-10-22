@@ -1,11 +1,11 @@
 #include "Framework.h"
-#include "Gizmo.h"
+#include "GizmoManager.h"
 
-Gizmo::Gizmo() {}
+GizmoManager::GizmoManager() {}
 
-Gizmo::~Gizmo() {}
+GizmoManager::~GizmoManager() {}
 
-void Gizmo::DrawBox(const DirectX::SimpleMath::Vector3& center, const DirectX::SimpleMath::Vector3& size, const DirectX::SimpleMath::Color& color, float thickness)
+void GizmoManager::DrawBox(const DirectX::SimpleMath::Vector3& center, const DirectX::SimpleMath::Vector3& size, const DirectX::SimpleMath::Color& color, float thickness)
 {
 	if (!GraphicsManager::Get()->GetD2DC()) return;
 
@@ -17,7 +17,7 @@ void Gizmo::DrawBox(const DirectX::SimpleMath::Vector3& center, const DirectX::S
 	GraphicsManager::Get()->GetD2DC()->DrawRectangle(&rect, brush.Get(), thickness);
 }
 
-void Gizmo::DrawCircle(const DirectX::SimpleMath::Vector3& center, float radius, const DirectX::SimpleMath::Color& color, float thickness)
+void GizmoManager::DrawCircle(const DirectX::SimpleMath::Vector3& center, float radius, const DirectX::SimpleMath::Color& color, float thickness)
 {
 	if (!GraphicsManager::Get()->GetD2DC()) return;
 
@@ -28,7 +28,7 @@ void Gizmo::DrawCircle(const DirectX::SimpleMath::Vector3& center, float radius,
 	GraphicsManager::Get()->GetD2DC()->DrawEllipse(&ellipse, brush.Get(), thickness);
 }
 
-void Gizmo::DrawLine(const DirectX::SimpleMath::Vector3& start, const DirectX::SimpleMath::Vector3& end, const DirectX::SimpleMath::Color& color, float thickness)
+void GizmoManager::DrawLine(const DirectX::SimpleMath::Vector3& start, const DirectX::SimpleMath::Vector3& end, const DirectX::SimpleMath::Color& color, float thickness)
 {
 	if (!GraphicsManager::Get()->GetD2DC()) return;
 

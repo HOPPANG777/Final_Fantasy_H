@@ -50,7 +50,7 @@ public:
         const std::wstring& text,
         const RECT& rect,
         const float size = 25.0f,
-        const DirectX::SimpleMath::Color& color = Values::White,
+        const DirectX::SimpleMath::Color& color = DirectHelper::White,
         const std::wstring& font = L"Pretendard JP",
         const DWRITE_FONT_WEIGHT& weight = DWRITE_FONT_WEIGHT_NORMAL,
         const DWRITE_FONT_STYLE& style = DWRITE_FONT_STYLE_NORMAL,
@@ -81,7 +81,7 @@ protected:
     );
 
     GameObject* attachedObject = nullptr; // 텍스트가 따라다닐 객체
-    DirectX::SimpleMath::Vector3 offset = Values::ZeroVector3;  // 객체 위치에 더할 오프셋
+    DirectX::SimpleMath::Vector3 offset = DirectHelper::ZeroVector3;  // 객체 위치에 더할 오프셋
 
     bool textOut = false;
 

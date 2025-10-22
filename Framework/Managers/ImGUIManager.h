@@ -1,8 +1,8 @@
 #pragma once
 
-class Gui
+class ImGUIManager
 {
-	DECLARE_SINGLETON(Gui);
+	DECLARE_SINGLETON(ImGUIManager);
 public:
 	void Init();
 

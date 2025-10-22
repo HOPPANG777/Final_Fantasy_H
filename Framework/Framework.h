@@ -9,8 +9,8 @@
 #pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console") // 콘솔창을 띄어줌
 #endif // #if나 #ifdef를 했다면 endif로 끝내야함
 
-#include "resource.h"
-#include "targetver.h"
+#include "Program/resource.h"
+#include "Program/targetver.h"
 #define WIN32_LEAN_AND_MEAN // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
 // Windows 헤더 파일
 #include <windows.h>
@@ -118,58 +118,61 @@ const std::wstring SoundPath = L"_Sounds/";
 const std::wstring FontPath = L"_Fonts/";
 
 //Interfaces
-#include "IScene.h"
-#include "IColorable.h"
-
-//Utilities
-#include "DirectHelper.h"
-#include "Gizmo.h"
-#include "Random.h"
-#include "Gui.h"
-#include "AnimationClip.h"
-#include "Path.h"
-#include "String.h"
+#include "Interfaces/IScene.h"
+#include "Interfaces/IColorable.h"
 
 //Systems
-#include "KeyboardManager.h"
-#include "MouseManager.h"
-#include "TimeManager.h"
-#include "GraphicsManager.h"
+#include "Systems/WindowManager.h"
+#include "Systems/KeyboardManager.h"
+#include "Systems/MouseManager.h"
+#include "Systems/TimeManager.h"
+#include "Systems/GraphicsManager.h"
+
+//Utilities
+#include "Utilities/AnimationClip.h"
+#include "Utilities/DirectHelper.h"
+#include "Utilities/FileStream.h"
+#include "Utilities/String.h"
+#include "Utilities/Random.h"	
+#include "Utilities/Path.h"
 
 //Renders
-#include "IndexBuffer.h"
-#include "InputLayout.h"
-#include "VertexBuffer.h"
+#include "Renders/IndexBuffer.h"
+#include "Renders/InputLayout.h"
+#include "Renders/VertexBuffer.h"
 
-#include "ConstantBuffer.h"
-#include "GlobalBuffers.h"
-#include "Texture2D.h"
-#include "VertexType.h"
+#include "Renders/ConstantBuffer.h"
+#include "Renders/GlobalBuffers.h"
+#include "Renders/Texture2D.h"
+#include "Renders/VertexType.h"
 
-#include "IShader.h"
-#include "PixelShader.h"
-#include "VertexShader.h"
+#include "Renders/IShader.h"
 
-#include "RenderStates.h"
+#include "Renders/PixelShader.h"
+#include "Renders/VertexShader.h"
+#include "Renders/RenderStates.h"
 
 //Components
-#include "Transform.h"
-#include "RectTransform.h"
-#include "Animator.h"
-#include "BoxCollider.h"
-#include "Collider.h"
-#include "TypingText.h"
-#include "ShakingText.h"
-#include "Texts.h"
-#include "Component.h"
+#include "Components/Component.h"
+#include "Components/Transform.h"
+#include "Components/RectTransform.h"
+#include "Components/Animator.h"
+#include "Components/Collider.h"
+#include "Components/BoxCollider.h"
+#include "Components/Texts.h"
+#include "Components/TypingText.h"
+#include "Components/ShakingText.h"
 
 //Object
-#include "GameObject.h"
+#include "Objects/GameObject.h"
 
 //Camera
-#include "CameraManager.h"
+#include "Systems/CameraManager.h"
 
 //Managers
-#include "CollisionManager.h"
-#include "SceneManager.h"
-#include "Texture2DManager.h"
+#include "Managers/CollisionManager.h"
+#include "Managers/LogManager.h"
+#include "Managers/ImGUIManager.h"
+#include "Managers/GizmoManager.h"
+#include "Managers/SceneManager.h"
+#include "Managers/Texture2DManager.h"

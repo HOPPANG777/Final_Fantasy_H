@@ -1,6 +1,6 @@
 #include "Framework.h"
 #include "WindowManager.h"
-#include "Program.h"
+#include "Program/Program.h"
 
 std::unique_ptr<Program> WindowManager::program = nullptr;
 
@@ -117,7 +117,7 @@ void WindowManager::MainRender()
 	KeyboardManager::Get()->Update();
 	MouseManager::Get()->Update();
 	TimeManager::Get()->Update();
-	Gui::Get()->Update();
+	ImGUIManager::Get()->Update();
 
 	program->Update();
 

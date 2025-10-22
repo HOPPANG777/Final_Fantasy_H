@@ -42,7 +42,7 @@ private:
     DirectX::SimpleMath::Matrix _proj;
     std::unique_ptr<ViewProjectionBuffer> _vpBuffer = nullptr;
 
-    DirectX::SimpleMath::Vector3 _position = Values::ZeroVector3;
+    DirectX::SimpleMath::Vector3 _position = DirectHelper::ZeroVector3;
 
 private:
     // 타겟은 weak_ptr 우선. 기존 코드 호환을 위해 raw 포인터도 병행 유지.

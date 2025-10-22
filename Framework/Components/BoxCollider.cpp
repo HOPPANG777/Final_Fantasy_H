@@ -25,5 +25,5 @@ void BoxCollider::Render()
 
     // 기즈모 그리기
     // size(박스 크기)는 그대로, center만 screenCenter로
-    Gizmo::Get()->DrawBox(screenCenter, size, color, 1.0f);
+    GizmoManager::Get()->DrawBox(screenCenter, size, color, 1.0f);
 }

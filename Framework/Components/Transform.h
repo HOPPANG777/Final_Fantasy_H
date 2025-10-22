@@ -32,8 +32,8 @@ public:
 	void Rotate(float degrees);
 		 
 private:
-	DirectX::SimpleMath::Vector3 position = Values::ZeroVector3;
-	DirectX::SimpleMath::Vector3 scale = Values::ZeroVector3;
+	DirectX::SimpleMath::Vector3 position = DirectHelper::ZeroVector3;
+	DirectX::SimpleMath::Vector3 scale = DirectHelper::ZeroVector3;
 	float rotation = 0.0f;	// 라디안(radian)으로 보관
 
 	DirectX::SimpleMath::Matrix world = DirectX::XMMatrixIdentity();	// S * R * T 결과

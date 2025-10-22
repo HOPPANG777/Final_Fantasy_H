@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "Program.h"
 
-#include "WindowManager.h"
-
 float gWinWidth = WIN_DEFAULT_WIDTH;
 float gWinHeight = WIN_DEFAULT_HEIGHT;
 HWND gHandle;

@@ -2,223 +2,233 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="targetver.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Program.h" />
-    <ClInclude Include="DirectHelper.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsManager.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraManager.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeManager.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
+    <ClInclude Include="Renders\IndexBuffer.h">
       <Filter>Renders\IA</Filter>
     </ClInclude>
-    <ClInclude Include="InputLayout.h">
+    <ClInclude Include="Renders\InputLayout.h">
       <Filter>Renders\IA</Filter>
     </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
+    <ClInclude Include="Renders\VertexBuffer.h">
       <Filter>Renders\IA</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
+    <ClInclude Include="Renders\ConstantBuffer.h">
       <Filter>Renders\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalBuffers.h">
+    <ClInclude Include="Renders\GlobalBuffers.h">
       <Filter>Renders\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VertexType.h">
+    <ClInclude Include="Renders\VertexType.h">
       <Filter>Renders\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="IShader.h">
+    <ClInclude Include="Renders\IShader.h">
       <Filter>Renders\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="PixelShader.h">
+    <ClInclude Include="Renders\PixelShader.h">
       <Filter>Renders\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="VertexShader.h">
+    <ClInclude Include="Renders\VertexShader.h">
       <Filter>Renders\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="RenderStates.h">
+    <ClInclude Include="Renders\RenderStates.h">
       <Filter>Renders</Filter>
     </ClInclude>
-    <ClInclude Include="WindowManager.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardManager.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseManager.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
+    <ClInclude Include="Objects\GameObject.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
+    <ClInclude Include="Components\Component.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
+    <ClInclude Include="Components\Transform.h">
       <Filter>Components\Transforms</Filter>
     </ClInclude>
-    <ClInclude Include="RectTransform.h">
+    <ClInclude Include="Components\RectTransform.h">
       <Filter>Components\Transforms</Filter>
     </ClInclude>
-    <ClInclude Include="Drawable.h">
+    <ClInclude Include="Components\Drawable.h">
       <Filter>Components\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="Random.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="IColorable.h">
+    <ClInclude Include="Interfaces\IColorable.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IScene.h">
+    <ClInclude Include="Interfaces\IScene.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Animator.h">
+    <ClInclude Include="Components\Animator.h">
       <Filter>Components\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
+    <ClInclude Include="Components\BoxCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
+    <ClInclude Include="Components\Collider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="ShakingText.h">
+    <ClInclude Include="Components\ShakingText.h">
       <Filter>Components\Texts</Filter>
     </ClInclude>
-    <ClInclude Include="Texts.h">
+    <ClInclude Include="Components\Texts.h">
       <Filter>Components\Texts</Filter>
     </ClInclude>
-    <ClInclude Include="TypingText.h">
+    <ClInclude Include="Components\TypingText.h">
       <Filter>Components\Texts</Filter>
     </ClInclude>
-    <ClInclude Include="Gizmo.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
+    <ClInclude Include="Renders\Texture2D.h">
       <Filter>Renders\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationClip.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Gui.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
+    <ClInclude Include="Managers\CollisionManager.h">
       <Filter>Managers\CollisionManager</Filter>
     </ClInclude>
-    <ClInclude Include="Texture2DManager.h">
+    <ClInclude Include="Managers\Texture2DManager.h">
       <Filter>Managers\Texture2DManager</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
+    <ClInclude Include="Managers\SceneManager.h">
       <Filter>Managers\SceneManager</Filter>
     </ClInclude>
-    <ClInclude Include="Path.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Program\resource.h">
+      <Filter>Program</Filter>
     </ClInclude>
-    <ClInclude Include="FileStream.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Program\targetver.h">
+      <Filter>Program</Filter>
     </ClInclude>
-    <ClInclude Include="String.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Program\Program.h">
+      <Filter>Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\LogManager.h">
+      <Filter>Managers\LogManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\ImGUIManager.h">
+      <Filter>Managers\ImGUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\GizmoManager.h">
+      <Filter>Managers\GizmoManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CameraManager.h">
+      <Filter>Systems\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\GraphicsManager.h">
+      <Filter>Systems\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\KeyboardManager.h">
+      <Filter>Systems\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\MouseManager.h">
+      <Filter>Systems\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\TimeManager.h">
+      <Filter>Systems\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\WindowManager.h">
+      <Filter>Systems\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\String.h">
+      <Filter>Utilities\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Random.h">
+      <Filter>Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Path.h">
+      <Filter>Utilities\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\AnimationClip.h">
+      <Filter>Utilities\AnimationClip</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\DirectHelper.h">
+      <Filter>Utilities\DirectHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\FileStream.h">
+      <Filter>Utilities\FileStream</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="Program.cpp" />
-    <ClCompile Include="DirectHelper.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsManager.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraManager.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexType.cpp">
+    <ClCompile Include="Renders\VertexType.cpp">
       <Filter>Renders\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="RenderStates.cpp">
+    <ClCompile Include="Renders\RenderStates.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyboardManager.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseManager.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
+    <ClCompile Include="Objects\GameObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
+    <ClCompile Include="Components\Transform.cpp">
       <Filter>Components\Transforms</Filter>
     </ClCompile>
-    <ClCompile Include="RectTransform.cpp">
+    <ClCompile Include="Components\RectTransform.cpp">
       <Filter>Components\Transforms</Filter>
     </ClCompile>
-    <ClCompile Include="Drawable.cpp">
+    <ClCompile Include="Components\Drawable.cpp">
       <Filter>Components\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Random.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator.cpp">
+    <ClCompile Include="Components\Animator.cpp">
       <Filter>Components\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
+    <ClCompile Include="Components\BoxCollider.cpp">
       <Filter>Components\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="ShakingText.cpp">
+    <ClCompile Include="Components\ShakingText.cpp">
       <Filter>Components\Texts</Filter>
     </ClCompile>
-    <ClCompile Include="Texts.cpp">
+    <ClCompile Include="Components\Texts.cpp">
       <Filter>Components\Texts</Filter>
     </ClCompile>
-    <ClCompile Include="TypingText.cpp">
+    <ClCompile Include="Components\TypingText.cpp">
       <Filter>Components\Texts</Filter>
     </ClCompile>
-    <ClCompile Include="Gizmo.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationClip.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Gui.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
+    <ClCompile Include="Managers\CollisionManager.cpp">
       <Filter>Managers\CollisionManager</Filter>
     </ClCompile>
-    <ClCompile Include="Texture2DManager.cpp">
+    <ClCompile Include="Managers\Texture2DManager.cpp">
       <Filter>Managers\Texture2DManager</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
+    <ClCompile Include="Managers\SceneManager.cpp">
       <Filter>Managers\SceneManager</Filter>
     </ClCompile>
-    <ClCompile Include="Path.cpp">
-      <Filter>Utilities</Filter>
+    <ClCompile Include="Program\Program.cpp">
+      <Filter>Program</Filter>
     </ClCompile>
-    <ClCompile Include="FileStream.cpp">
-      <Filter>Utilities</Filter>
+    <ClCompile Include="Managers\LogManager.cpp">
+      <Filter>Managers\LogManager</Filter>
     </ClCompile>
-    <ClCompile Include="String.cpp">
-      <Filter>Utilities</Filter>
+    <ClCompile Include="Managers\ImGUIManager.cpp">
+      <Filter>Managers\ImGUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\GizmoManager.cpp">
+      <Filter>Managers\GizmoManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CameraManager.cpp">
+      <Filter>Systems\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\GraphicsManager.cpp">
+      <Filter>Systems\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\KeyboardManager.cpp">
+      <Filter>Systems\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\MouseManager.cpp">
+      <Filter>Systems\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\TimeManager.cpp">
+      <Filter>Systems\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\WindowManager.cpp">
+      <Filter>Systems\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\String.cpp">
+      <Filter>Utilities\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Random.cpp">
+      <Filter>Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Path.cpp">
+      <Filter>Utilities\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\AnimationClip.cpp">
+      <Filter>Utilities\AnimationClip</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\DirectHelper.cpp">
+      <Filter>Utilities\DirectHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\FileStream.cpp">
+      <Filter>Utilities\FileStream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -279,10 +289,58 @@
     <Filter Include="Managers\Texture2DManager">
       <UniqueIdentifier>{188175a7-d3bc-43cd-8ae0-36c2a7651cda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Program">
+      <UniqueIdentifier>{3a3dce5d-41da-46df-893f-5aa268b3c11a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\LogManager">
+      <UniqueIdentifier>{266ba96f-7e94-4058-ba5b-d7aed2a3d50c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\ImGUIManager">
+      <UniqueIdentifier>{9e2f4c84-27ac-4263-b83d-4ec5ba348ed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\GizmoManager">
+      <UniqueIdentifier>{538c8a20-6a80-4ffb-869d-d762449f76c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Camera">
+      <UniqueIdentifier>{290fabf0-5bca-47eb-8764-6789db5be643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Graphics">
+      <UniqueIdentifier>{e54bb034-5af7-4c59-ad66-0b143eb59746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Keyboard">
+      <UniqueIdentifier>{2d3b52ba-ba16-4279-aace-41484683420a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Mouse">
+      <UniqueIdentifier>{96dee476-eba6-4f1e-8efc-3bd0e839ea81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Time">
+      <UniqueIdentifier>{aea5b62c-5ebe-4b23-9bcd-b84f56d56970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Window">
+      <UniqueIdentifier>{2a1e9cf5-e8c6-45fd-b83a-802f9b2fd2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\AnimationClip">
+      <UniqueIdentifier>{1aed7b32-c49d-44c7-bc8d-97308017a289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\DirectHelper">
+      <UniqueIdentifier>{357154dc-40b7-4dd1-b587-5171ad939d98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\FileStream">
+      <UniqueIdentifier>{6f43ae9d-a6fd-40db-83f7-20c5e2d72fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Path">
+      <UniqueIdentifier>{abbb61da-570b-4306-9144-866fc869bbdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Random">
+      <UniqueIdentifier>{3ded0b39-1d02-44a9-a34e-a8f31c269dd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\String">
+      <UniqueIdentifier>{704005d4-8ab8-4b91-a892-d461962148f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Framework.rc">
-      <Filter>Utilities</Filter>
+    <ResourceCompile Include="Program\Framework.rc">
+      <Filter>Program</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

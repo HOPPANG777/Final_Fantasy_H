@@ -11,6 +11,7 @@ public:
     void Render() override;
 
     const DirectX::SimpleMath::Matrix& GetWorld() const;
+    RECT GetRect() const;
 
 public:
     DirectX::SimpleMath::Vector3 GetPosition() const;
@@ -40,8 +41,8 @@ public:
     void Rotate(float degrees);
 
 private:
-    DirectX::SimpleMath::Vector3 position = Values::ZeroVector3;
-    DirectX::SimpleMath::Vector3 scale = Values::OneVector3;
+    DirectX::SimpleMath::Vector3 position = DirectHelper::ZeroVector3;
+    DirectX::SimpleMath::Vector3 scale = DirectHelper::OneVector3;
     float rotation = 0.0f;
 
     // Normalized anchor relative to the screen (0.0f ~ 1.0f)
@@ -49,7 +50,7 @@ private:
     // Pivot inside the rectangle (0.0f ~ 1.0f)
     DirectX::SimpleMath::Vector2 pivot = DirectX::SimpleMath::Vector2(0.5f, 0.5f);
     // Pixel size of the rectangle used for pivot offset
-    DirectX::SimpleMath::Vector2 size = Values::ZeroVector2;
+    DirectX::SimpleMath::Vector2 size = DirectHelper::ZeroVector2;
 
     DirectX::SimpleMath::Matrix world = DirectX::XMMatrixIdentity();
 };

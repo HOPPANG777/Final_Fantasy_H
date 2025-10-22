@@ -1,6 +1,6 @@
 #pragma once
 
-class Values
+class DirectHelper
 {
 public:
 	static UINT GetWinWidth() { return static_cast<UINT>(gWinWidth); }

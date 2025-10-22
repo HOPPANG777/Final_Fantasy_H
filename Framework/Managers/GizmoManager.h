@@ -1,8 +1,8 @@
 #pragma once
 
-class Gizmo
+class GizmoManager
 {
-    DECLARE_SINGLETON(Gizmo)
+    DECLARE_SINGLETON(GizmoManager)
 
 public:
     // 도형 그리기

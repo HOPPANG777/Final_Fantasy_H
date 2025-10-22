@@ -1,25 +1,25 @@
 #include "Framework.h"
-#include "Gui.h"
+#include "ImGUIManager.h"
 
-LRESULT Gui::MsgProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT ImGUIManager::MsgProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	// ImGui가 메시지를 처리한 경우
 	return ImGui_ImplWin32_WndProcHandler(handle, message, wParam, lParam);
 }
 
-Gui::Gui() 
+ImGUIManager::ImGUIManager() 
 {
 	Init();
 }
 
-Gui::~Gui() 
+ImGUIManager::~ImGUIManager() 
 {
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 }
 
-void Gui::Init()
+void ImGUIManager::Init()
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -36,20 +36,20 @@ void Gui::Init()
 	//ApplyStyle();
 }
 
-void Gui::Resize()
+void ImGUIManager::Resize()
 {
 	ImGui_ImplDX11_InvalidateDeviceObjects();
 	ImGui_ImplDX11_CreateDeviceObjects();
 }
 
-void Gui::Update()
+void ImGUIManager::Update()
 {
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 }
 
-void Gui::Render()
+void ImGUIManager::Render()
 {
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -62,7 +62,7 @@ void Gui::Render()
 	}
 }
 
-void Gui::ApplyStyle()
+void ImGUIManager::ApplyStyle()
 {
 	ImGui::GetIO().ConfigWindowsResizeFromEdges = true;
 	ImGui::StyleColorsDark();

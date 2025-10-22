@@ -1,7 +1,5 @@
 #pragma once
 
-#include "IScene.h"
-
 class SceneManager
 {
     DECLARE_SINGLETON(SceneManager);    

@@ -26,7 +26,7 @@ public:
     DirectX::SimpleMath::Vector2 GetCurrentFrame() const { return currentFrame; }
     DirectX::SimpleMath::Vector2 GetTexelFrameSize() const
     {
-        return currentClip ? currentClip->texelFrameSize : Values::ZeroVector2;
+        return currentClip ? currentClip->texelFrameSize : DirectHelper::ZeroVector2;
     }
 
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetCurrentSRV() const
@@ -77,7 +77,7 @@ private:
 
     // 애니메이션 재생 관련
     UINT    currentFrameIndex = 0;
-    DirectX::SimpleMath::Vector2 currentFrame = Values::ZeroVector2;
+    DirectX::SimpleMath::Vector2 currentFrame = DirectHelper::ZeroVector2;
     float   frameTime = 0.0f;
     float   animationTime = 1.0f / 15.0f; // 기본 15FPS
 
