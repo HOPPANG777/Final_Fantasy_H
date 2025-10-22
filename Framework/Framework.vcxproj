@@ -202,6 +202,7 @@
     <ClInclude Include="Renders\VertexShader.h" />
     <ClInclude Include="Renders\VertexType.h" />
     <ClInclude Include="Systems\WindowManager.h" />
+    <ClInclude Include="Utilities\ReadData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\CircleCollider.cpp" />

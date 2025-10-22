@@ -131,6 +131,7 @@
     <ClInclude Include="Components\Texture.h">
       <Filter>Components\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\ReadData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
