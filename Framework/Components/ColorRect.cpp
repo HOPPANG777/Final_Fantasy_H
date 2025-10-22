@@ -8,20 +8,19 @@ ColorRect::ColorRect(
     const DirectX::SimpleMath::Color& color,
     bool useRectTransform
 )
-    : Drawable("ColorRect", position, scale, rotation, useRectTransform, ShaderPath + L"VertexColor.hlsl"),
-      _color(color)
+    : Drawable("ColorRect", position, scale, rotation, useRectTransform, ShaderPath + L"Color.hlsl"), _color(color)
 {
     InitializeGeometry();
 }
 
 void ColorRect::Update()
 {
-    Drawable::Update();
+    __super::Update();
 }
 
 void ColorRect::Render()
 {
-    Drawable::Render();
+    __super::Render();
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 

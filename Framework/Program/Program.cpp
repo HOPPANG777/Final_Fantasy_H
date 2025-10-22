@@ -1,5 +1,6 @@
 #include "Framework.h"
 #include "Program.h"
+#include "Scenes/SceneList.h"
 
 float gWinWidth = WIN_DEFAULT_WIDTH;
 float gWinHeight = WIN_DEFAULT_HEIGHT;
@@ -10,28 +11,42 @@ void Program::Awake()
 	RenderStates::Init();
 
 	CameraManager::Get()->Init();
+
+	// Scene ¼¼ÆÃ
+	{
+		SceneManager::Get()->AddScene("SplashScene", std::make_shared<Scene_01>());
+
+		SceneManager::Get()->StartGame("SplashScene");
+	}
 }
 
 void Program::Start()
 {
+	SceneManager::Get()->Start();
 }
 
 void Program::Update()
 {
 	CameraManager::Get()->Update();
+
+	SceneManager::Get()->Update();
 }
 
 void Program::Render()
 {
 	CameraManager::Get()->Render();
+
+	SceneManager::Get()->Render();
 }
 
 void Program::PostRender()
 {
+	SceneManager::Get()->PostRender();
 }
 
 void Program::ImGUI()
 {
+	SceneManager::Get()->ImGUI();
 }
 
 int APIENTRY wWinMain

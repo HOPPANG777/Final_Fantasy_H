@@ -165,12 +165,16 @@
     <ClInclude Include="Components\ColorOutlineRect.h" />
     <ClInclude Include="Components\ColorRect.h" />
     <ClInclude Include="Components\BoxCollider.h" />
+    <ClInclude Include="Objects\ObjectList.h" />
+    <ClInclude Include="Scenes\SceneList.h" />
     <ClInclude Include="Systems\CameraManager.h" />
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Managers\CollisionManager.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Renders\ConstantBuffer.h" />
     <ClInclude Include="Components\Texture.h" />
+    <ClInclude Include="Scenes\Scene_01.h" />
+    <ClInclude Include="Objects\TestObject.h" />
     <ClInclude Include="Utilities\DirectHelper.h" />
     <ClInclude Include="Components\Drawable.h" />
     <ClInclude Include="Utilities\FileStream.h" />
@@ -220,6 +224,8 @@
     <ClCompile Include="Systems\CameraManager.cpp" />
     <ClCompile Include="Managers\CollisionManager.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
+    <ClCompile Include="Scenes\Scene_01.cpp" />
+    <ClCompile Include="Objects\TestObject.cpp" />
     <ClCompile Include="Utilities\DirectHelper.cpp" />
     <ClCompile Include="Components\Drawable.cpp" />
     <ClCompile Include="Utilities\FileStream.cpp" />

@@ -47,21 +47,6 @@
     <ClInclude Include="Components\Drawable.h">
       <Filter>Components\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="Components\ColorRect.h">
-      <Filter>Components\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\ColorOutlineRect.h">
-      <Filter>Components\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\ColorCircle.h">
-      <Filter>Components\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\ColorFilledCircle.h">
-      <Filter>Components\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\ColorLine.h">
-      <Filter>Components\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\IColorable.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -146,7 +131,36 @@
     <ClInclude Include="Components\Texture.h">
       <Filter>Components\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\ReadData.h" />
+    <ClInclude Include="Utilities\ReadData.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\SceneList.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\ObjectList.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TestObject.h">
+      <Filter>Objects\TestObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\Scene_01.h">
+      <Filter>Scenes\Scene_01</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorCircle.h">
+      <Filter>Components\Color\ColorCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorFilledCircle.h">
+      <Filter>Components\Color\ColorFiledCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorLine.h">
+      <Filter>Components\Color\ColorLine</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorOutlineRect.h">
+      <Filter>Components\Color\ColorOutlineRect</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorRect.h">
+      <Filter>Components\Color\ColorRect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -166,21 +180,6 @@
       <Filter>Components\Transforms</Filter>
     </ClCompile>
     <ClCompile Include="Components\Drawable.cpp">
-      <Filter>Components\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\ColorRect.cpp">
-      <Filter>Components\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\ColorOutlineRect.cpp">
-      <Filter>Components\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\ColorCircle.cpp">
-      <Filter>Components\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\ColorFilledCircle.cpp">
-      <Filter>Components\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\ColorLine.cpp">
       <Filter>Components\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Components\BoxCollider.cpp">
@@ -251,6 +250,27 @@
     </ClCompile>
     <ClCompile Include="Components\Texture.cpp">
       <Filter>Components\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TestObject.cpp">
+      <Filter>Objects\TestObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Scene_01.cpp">
+      <Filter>Scenes\Scene_01</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorCircle.cpp">
+      <Filter>Components\Color\ColorCircle</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorFilledCircle.cpp">
+      <Filter>Components\Color\ColorFiledCircle</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorLine.cpp">
+      <Filter>Components\Color\ColorLine</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorOutlineRect.cpp">
+      <Filter>Components\Color\ColorOutlineRect</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorRect.cpp">
+      <Filter>Components\Color\ColorRect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +381,30 @@
     </Filter>
     <Filter Include="Components\Texture">
       <UniqueIdentifier>{69d4f87c-ae76-44b4-9db8-b201f174d432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Color">
+      <UniqueIdentifier>{cc75a6e7-1898-4783-af15-ec7690795017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{fc5e3f09-4711-473a-b36c-c0576a84ec50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Scene_01">
+      <UniqueIdentifier>{dc5b265b-247f-4608-a5e1-c4012e6d70ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Color\ColorRect">
+      <UniqueIdentifier>{9978bc42-8e54-414a-919c-c25bd1bae4cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Color\ColorCircle">
+      <UniqueIdentifier>{aecd1c11-c283-455f-9fb5-f17515a11074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Color\ColorFiledCircle">
+      <UniqueIdentifier>{9178d49a-aba8-4038-a016-d692b2a8c18a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Color\ColorOutlineRect">
+      <UniqueIdentifier>{ce7e68df-1b12-455e-9fdb-4f3bb10b98a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Color\ColorLine">
+      <UniqueIdentifier>{28be6e39-ae01-4c3f-8999-26c64a0de0c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

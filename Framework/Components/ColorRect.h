@@ -10,6 +10,7 @@ public:
         const DirectX::SimpleMath::Color& color = DirectX::SimpleMath::Color(1.0f, 0.0f, 0.0f, 1.0f),
         bool useRectTransform = false
     );
+    ~ColorRect() override = default;
 
     void Update() override;
     void Render() override;
