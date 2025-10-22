@@ -38,7 +38,7 @@ Texture2D sourceTex : register(t0);
 
 SamplerState samp : register(s0);
 
-float4 PS(PixelInput input) : SV_TARGET0
+float4 PS(PixelInput input) : SV_Target
 {
     return sourceTex.Sample(samp, input.uv);
 }
