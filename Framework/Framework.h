@@ -72,6 +72,9 @@
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx11.h>
 
+//ReadData
+#include "Utilities/ReadData.h"
+
 //Macro
 #define WIN_DEFAULT_WIDTH 1280
 #define WIN_DEFAULT_HEIGHT 720

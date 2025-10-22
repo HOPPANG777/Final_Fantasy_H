@@ -193,6 +193,7 @@
     <ClInclude Include="Program\resource.h" />
     <ClInclude Include="Managers\SceneManager.h" />
     <ClInclude Include="Components\ShakingText.h" />
+    <ClInclude Include="Utilities\ReadData.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Program\targetver.h" />
     <ClInclude Include="Components\Texts.h" />
