@@ -18,7 +18,7 @@ cbuffer WorldBuffer : register(b0)
 cbuffer ViewProjectionBuffer : register(b1)
 {
     matrix _view;
-    matrix _proj;
+    matrix _projection;
 }
 
 PixelInput VS(VertexInput input)
@@ -27,7 +27,7 @@ PixelInput VS(VertexInput input)
     
     output.position = mul(input.position, _world);
     output.position = mul(output.position, _view);
-    output.position = mul(output.position, _proj);
+    output.position = mul(output.position, _projection);
     
     output.uv = input.uv;
     
