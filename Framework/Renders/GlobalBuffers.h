@@ -76,8 +76,8 @@ class IndexNumBuffer : public ConstantBuffer
 {
 	struct IndexStruct
 	{
-		UINT _index;
-		DirectX::SimpleMath::Vector3 _dummy;
+		UINT _index = 0;
+		DirectX::SimpleMath::Vector3 _dummy = Values::ZeroVector3;
 	};
 
 	IndexStruct _data;

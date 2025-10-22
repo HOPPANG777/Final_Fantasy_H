@@ -10,9 +10,13 @@ struct PixelInput
     float2 uv : TEXCOORD0;
 };
 
-cbuffer TransformBuffer : register(b0)
+cbuffer WorldBuffer : register(b0)
 {
     matrix _world;
+}
+
+cbuffer ViewProjectionBuffer : register(b1)
+{
     matrix _view;
     matrix _proj;
 }

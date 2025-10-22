@@ -49,9 +49,8 @@ void ColorRect::InitializeGeometry()
         vertex._color = _color;
     }
 
-    _indices = { 0, 1, 2, 2, 1, 3 };
-
     vertexBuffer->Create(_vertices, D3D11_USAGE_DYNAMIC);
+    _indices = { 0, 1, 2, 2, 1, 3 };
     indexBuffer->Create(_indices, D3D11_USAGE_IMMUTABLE);
     inputLayout->Create(VertexColor::ieDescs.data(), VertexColor::ieDescs.size(), vertexShader->GetBlob());
 }

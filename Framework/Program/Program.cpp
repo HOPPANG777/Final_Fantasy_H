@@ -18,7 +18,7 @@ void Program::Awake()
 	{
 		SceneManager::Get()->AddScene("SplashScene", std::make_shared<Scene_01>());
 
-		SceneManager::Get()->StartGame("SplashScene");
+		SceneManager::Get()->LoadScene("SplashScene");
 	}
 }
 

@@ -83,16 +83,6 @@ std::shared_ptr<RectTransform> GameObject::GetRectTransform() const
 
 void GameObject::Update()
 {
-	// 등록된 모든 컴포넌트 업데이트
-	 // 여기서 each element의 타입은 std::pair<const std::string, std::shared_ptr<Component>>
-	for (const std::pair<const std::string, std::shared_ptr<Component>>& element : components)
-	{
-		const std::string& compName = element.first;    // 컴포넌트 이름
-		const std::shared_ptr<Component>& compPtr = element.second; // 컴포넌트 포인터
-
-		compPtr->Update();
-	}
-
 	if (RectTransformType)
 	{
 		const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
@@ -124,10 +114,23 @@ void GameObject::Update()
 			worldBuffer->SetWorld(transform->GetWorld());
 		}
 	}
+
+	// 등록된 모든 컴포넌트 업데이트
+	// 여기서 each element의 타입은 std::pair<const std::string, std::shared_ptr<Component>>
+	for (const std::pair<const std::string, std::shared_ptr<Component>>& element : components)
+	{
+		const std::string& compName = element.first;    // 컴포넌트 이름
+		const std::shared_ptr<Component>& compPtr = element.second; // 컴포넌트 포인터
+
+		compPtr->Update();
+	}
 }
 
 void GameObject::Render()
 {
+	// WorldBuffer를 VS에 등록 (셰이더에서 월드 행렬 사용 가능)
+	worldBuffer->SetVSBuffer(0);
+
 	// 등록된 모든 컴포넌트 Render
 	for (const auto& element : components)
 	{
@@ -136,7 +139,4 @@ void GameObject::Render()
 
 		compPtr->Render();
 	}
-
-	// WorldBuffer를 VS에 등록 (셰이더에서 월드 행렬 사용 가능)
-	worldBuffer->SetVSBuffer(0);
 }
