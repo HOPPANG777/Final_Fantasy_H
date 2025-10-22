@@ -47,6 +47,21 @@
     <ClInclude Include="Components\Drawable.h">
       <Filter>Components\Drawable</Filter>
     </ClInclude>
+    <ClInclude Include="Components\ColorRect.h">
+      <Filter>Components\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorOutlineRect.h">
+      <Filter>Components\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorCircle.h">
+      <Filter>Components\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorFilledCircle.h">
+      <Filter>Components\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorLine.h">
+      <Filter>Components\Drawable</Filter>
+    </ClInclude>
     <ClInclude Include="Interfaces\IColorable.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -151,6 +166,21 @@
       <Filter>Components\Transforms</Filter>
     </ClCompile>
     <ClCompile Include="Components\Drawable.cpp">
+      <Filter>Components\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorRect.cpp">
+      <Filter>Components\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorOutlineRect.cpp">
+      <Filter>Components\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorCircle.cpp">
+      <Filter>Components\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorFilledCircle.cpp">
+      <Filter>Components\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorLine.cpp">
       <Filter>Components\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Components\BoxCollider.cpp">
