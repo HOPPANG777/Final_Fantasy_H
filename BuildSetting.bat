@@ -14,11 +14,28 @@ REM   $(SolutionDir)Build\bin\$(ProjectName)\$(PlatformTarget)\$(Configuration)\
 REM =====================================================
 
 REM ====== [1] 빌드 환경 변수 설정 ======
-set "DEST_CONTENTS=$(SolutionDir)Build\bin\$(ProjectName)\$(PlatformTarget)\$(Configuration)\Contents"
-set "CONFIG=$(ConfigurationName)"
+REM 인자: 1=SolutionDir, 2=ProjectDir, 3=Platform, 4=Configuration, 5=ProjectName
+set "SOLUTION_DIR=%~1"
+set "PROJECT_DIR=%~2"
+set "PLATFORM=%~3"
+set "CONFIG=%~4"
+set "PROJECT_NAME=%~5"
+
+REM --- 기본값 보정 (필수 인자가 없을 경우 대비) ---
+if "%SOLUTION_DIR%"=="" set "SOLUTION_DIR=%cd%\"
+if "%PROJECT_DIR%"=="" set "PROJECT_DIR=%~dp0Framework\"
+if "%PLATFORM%"=="" set "PLATFORM=Win32"
+if "%CONFIG%"=="" set "CONFIG=Debug"
+if "%PROJECT_NAME%"=="" set "PROJECT_NAME=Framework"
+
+REM 경로 정규화: ProjectDir/SolutionDir에 항상 trailing backslash 보장
+for %%P in ("%SOLUTION_DIR%") do set "SOLUTION_DIR=%%~fP\"
+for %%P in ("%PROJECT_DIR%") do set "PROJECT_DIR=%%~fP\"
+
+set "DEST_CONTENTS=%SOLUTION_DIR%Build\bin\%PROJECT_NAME%\%PLATFORM%\%CONFIG%\Contents"
 
 REM ====== [2] 소스 폴더 경로 설정 ======
-set "SRC_ROOT=$(ProjectDir)"
+set "SRC_ROOT=%PROJECT_DIR%"
 set "TEX_SRC=%SRC_ROOT%_Textures"
 set "FNT_SRC=%SRC_ROOT%_Fonts"
 set "SND_SRC=%SRC_ROOT%_Sounds"
