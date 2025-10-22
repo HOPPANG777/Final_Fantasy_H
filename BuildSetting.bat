@@ -71,34 +71,15 @@ set "ROBO_OPTS=/E /XO /R:1 /W:1"
 set "ERROR_FLAG=0"
 
 REM [6] _Fonts
-if exist "%SRC_FONTS%" (
-  echo [Fonts]   "%SRC_FONTS%" -> "%DST_FONTS%"
-  robocopy "%SRC_FONTS%" "%DST_FONTS%" * %ROBO_OPTS%
-  if errorlevel 8 set "ERROR_FLAG=1"
-) else (
-  echo [Fonts]   원본 폴더 없음: "%SRC_FONTS%"
-)
+call :CopyWithFallback "%SRC_FONTS%" "%DST_FONTS%" "*" "Fonts"
 
 REM [7] _Textures
-if exist "%SRC_TEXTURES%" (
-  echo [Textures] "%SRC_TEXTURES%" -> "%DST_TEXTURES%"
-  robocopy "%SRC_TEXTURES%" "%DST_TEXTURES%" * %ROBO_OPTS%
-  if errorlevel 8 set "ERROR_FLAG=1"
-) else (
-  echo [Textures] 원본 폴더 없음: "%SRC_TEXTURES%"
-)
+call :CopyWithFallback "%SRC_TEXTURES%" "%DST_TEXTURES%" "*" "Textures"
 
 REM [8] _Shaders (형상별 마스크)
 set "SHADER_MASK=*.hlsl"
 echo %CONFIG% | find /I "Release" >nul && set "SHADER_MASK=*.cso"
-
-if exist "%SRC_SHADERS%" (
-  echo [Shaders]  "%SRC_SHADERS%" -> "%DST_SHADERS%"  (mask: %SHADER_MASK%)
-  robocopy "%SRC_SHADERS%" "%DST_SHADERS%" %SHADER_MASK% %ROBO_OPTS%
-  if errorlevel 8 set "ERROR_FLAG=1"
-) else (
-  echo [Shaders] 원본 폴더 없음: "%SRC_SHADERS%"
-)
+call :CopyWithFallback "%SRC_SHADERS%" "%DST_SHADERS%" "%SHADER_MASK%" "Shaders"
 
 REM [9] ImGui 설정 파일(imgui.ini) 배치
 if exist "%SRC_IMGUI_1%" (
@@ -118,3 +99,56 @@ if "%ERROR_FLAG%"=="1" (
 )
 echo 완료(성공). 배포 완료.
 exit /b 0
+
+REM ----------------------------------------------------
+REM [Helper] 디렉터리 복사 + 실패 시 XCOPY 재시도
+REM   인자: 1=원본, 2=대상, 3=마스크, 4=라벨
+:CopyWithFallback
+set "_SRC=%~1"
+set "_DST=%~2"
+set "_MASK=%~3"
+set "_LABEL=%~4"
+
+if "%_MASK%"=="" set "_MASK=*"
+
+if not exist "%_SRC%" (
+  echo [%_LABEL%] 원본 폴더 없음: "%_SRC%"
+  goto :EOF
+)
+
+echo [%_LABEL%] "%_SRC%" -> "%_DST%"  (mask: %_MASK%)
+robocopy "%_SRC%" "%_DST%" %_MASK% %ROBO_OPTS%
+set "_RC=%ERRORLEVEL%"
+
+for /f "delims=0123456789" %%I in ("%_RC%") do set "_RC=16"
+
+if %_RC% LSS 8 (
+  if %_RC% GTR 0 echo [%_LABEL%] ROBOCOPY 경고 코드 %_RC% (성공 범위) -> 계속.
+  goto :EOF
+)
+
+echo [%_LABEL%] ROBOCOPY 실패 (코드 %_RC%). XCOPY 재시도...
+set "_XCOPY_SRC=%_SRC%"
+set "_XCOPY_MASK=%_MASK%"
+
+if "%_MASK%"=="*" (
+  xcopy "%_XCOPY_SRC%\*" "%_DST%\" /E /I /Y >nul
+) else (
+  xcopy "%_XCOPY_SRC%\%_XCOPY_MASK%" "%_DST%\" /E /I /Y >nul
+)
+
+set "_XC=%ERRORLEVEL%"
+
+if %_XC% EQU 0 (
+  echo [%_LABEL%] XCOPY 성공.
+  goto :EOF
+)
+
+if %_XC% EQU 1 (
+  echo [%_LABEL%] XCOPY: 복사할 파일 없음(코드 1) -> 계속.
+  goto :EOF
+)
+
+echo [%_LABEL%] XCOPY 실패 (코드 %_XC%).
+set "ERROR_FLAG=1"
+goto :EOF
