@@ -1,5 +1,8 @@
 #pragma once
 
+#include <algorithm>
+#include <vector>
+
 class IShader
 {
 protected:
@@ -28,21 +31,38 @@ protected:
 		compileFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-		HRESULT hr = D3DCompileFromFile
-		(
-			path.c_str(),
-			nullptr,
-			nullptr,
-			entryName.c_str(),
-			profile.c_str(),
-			compileFlags,
-			0,
-			blob,
-			&error
-		);
+                HRESULT hr = E_FAIL;
+                const auto candidates = BuildSourceShaderSearchPaths(path);
+                for (const auto& candidate : candidates)
+                {
+                        if (candidate.empty())
+                                continue;
 
-		CheckShaderError(hr, error.Get());
-		SaveCompiledShader(path, *blob);
+                        error.Reset();
+                        hr = D3DCompileFromFile
+                        (
+                                candidate.c_str(),
+                                nullptr,
+                                nullptr,
+                                entryName.c_str(),
+                                profile.c_str(),
+                                compileFlags,
+                                0,
+                                blob,
+                                &error
+                        );
+
+                        if (SUCCEEDED(hr))
+                                break;
+                }
+
+                if (FAILED(hr))
+                {
+                        CheckShaderError(hr, error.Get());
+                        return;
+                }
+
+                SaveCompiledShader(path, *blob);
 #else
 		LoadCompiledShader(path, blob);
 #endif
@@ -88,22 +108,41 @@ private:
 		}
 	}
 
-	void LoadCompiledShader(const std::wstring& sourcePath, ID3DBlob** blob)
-	{
-		const std::wstring binaryPath = ResolveBinaryPath(sourcePath);
-		if (binaryPath.empty())
-			throw std::runtime_error("Invalid shader path");
+        void LoadCompiledShader(const std::wstring& sourcePath, ID3DBlob** blob)
+        {
+                const std::wstring binaryPath = ResolveBinaryPath(sourcePath);
+                if (binaryPath.empty())
+                        throw std::runtime_error("Invalid shader path");
 
-		try
-		{
-			DX::ReadData(binaryPath.c_str(), blob);
-		}
-		catch (const std::exception& e)
-		{
-			MessageBoxA(nullptr, e.what(), "Shader Cache Load Error", MB_OK);
-			throw;
-		}
-	}
+                const auto candidates = BuildCompiledShaderSearchPaths(binaryPath);
+                std::string lastError;
+
+                for (const auto& candidate : candidates)
+                {
+                        if (candidate.empty())
+                                continue;
+
+                        try
+                        {
+                                DX::ReadData(candidate.c_str(), blob);
+                                return;
+                        }
+                        catch (const std::exception& e)
+                        {
+                                lastError = e.what();
+                        }
+                        catch (...)
+                        {
+                                lastError = "Unknown error while loading shader cache.";
+                        }
+                }
+
+                if (lastError.empty())
+                        lastError = "Unable to locate compiled shader file.";
+
+                MessageBoxA(nullptr, lastError.c_str(), "Shader Cache Load Error", MB_OK);
+                throw std::runtime_error(lastError);
+        }
 
 	std::wstring ResolveBinaryPath(const std::wstring& sourcePath) const
 	{
@@ -168,37 +207,28 @@ private:
 		return normalized.substr(start);
 	}
 
-	std::wstring ResolveSourceShaderRoot() const
-	{
-		wchar_t modulePath[MAX_PATH] = { 0 };
-		if (!GetModuleFileNameW(nullptr, modulePath, MAX_PATH))
-			return {};
+        std::wstring ResolveSourceShaderRoot() const
+        {
+                wchar_t modulePath[MAX_PATH] = { 0 };
+                if (!GetModuleFileNameW(nullptr, modulePath, MAX_PATH))
+                        return {};
 
-		std::wstring directory = GetDirectoryName(modulePath);
+                std::wstring directory = GetDirectoryName(modulePath);
 
-		while (!directory.empty())
-		{
-			const std::wstring folderName = GetFileName(directory);
-			if (IsBuildFolder(folderName))
-			{
-				const std::wstring root = GetDirectoryName(directory);
-				if (root.empty())
-					break;
+                while (!directory.empty())
+                {
+                        const std::wstring shaderDirectory = CombinePath(directory, L"_Shaders");
+                        if (DirectoryExists(shaderDirectory))
+                                return shaderDirectory;
 
-				const std::wstring shaderRoot = CombinePath(CombinePath(root, L"Framework"), L"_Shaders");
-				if (DirectoryExists(shaderRoot))
-					return shaderRoot;
-				break;
-			}
+                        const std::wstring parent = GetDirectoryName(directory);
+                        if (parent == directory)
+                                break;
+                        directory = parent;
+                }
 
-			const std::wstring parent = GetDirectoryName(directory);
-			if (parent == directory)
-				break;
-			directory = parent;
-		}
-
-		return L"";
-	}
+                return L"";
+        }
 
 	std::wstring NormalizePath(const std::wstring& path) const
 	{
@@ -231,54 +261,86 @@ private:
 		return normalized.substr(pos + 1);
 	}
 
-	bool IsBuildFolder(const std::wstring& name) const
-	{
-		if (name.size() != 5)
-			return false;
+        std::wstring CombinePath(const std::wstring& base, const std::wstring& relative) const
+        {
+                if (base.empty())
+                        return NormalizePath(relative);
+                if (relative.empty())
+                        return NormalizePath(base);
 
-		std::wstring lowered = name;
-		std::transform(lowered.begin(), lowered.end(), lowered.begin(), [](wchar_t ch) { return static_cast<wchar_t>(::towlower(ch)); });
-		return lowered == L"build";
-	}
+                std::wstring normalizedBase = NormalizePath(base);
+                std::wstring normalizedRelative = NormalizePath(relative);
+                if (normalizedBase.back() != L'\\')
+                        normalizedBase += L'\\';
+                return normalizedBase + normalizedRelative;
+        }
 
-	std::wstring CombinePath(const std::wstring& base, const std::wstring& relative) const
-	{
-		if (base.empty())
-			return NormalizePath(relative);
-		if (relative.empty())
-			return NormalizePath(base);
+        bool DirectoryExists(const std::wstring& path) const
+        {
+                if (path.empty())
+                        return false;
 
-		std::wstring normalizedBase = NormalizePath(base);
-		std::wstring normalizedRelative = NormalizePath(relative);
-		if (normalizedBase.back() != L'\\')
-			normalizedBase += L'\\';
-		return normalizedBase + normalizedRelative;
-	}
+                const DWORD attributes = GetFileAttributesW(path.c_str());
+                return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY);
+        }
 
-	bool DirectoryExists(const std::wstring& path) const
-	{
-		if (path.empty())
-			return false;
+        void CreateDirectoriesRecursively(const std::wstring& directory) const
+        {
+                if (directory.empty())
+                        return;
 
-		const DWORD attributes = GetFileAttributesW(path.c_str());
-		return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY);
-	}
+                const std::wstring normalized = NormalizePath(directory);
+                if (DirectoryExists(normalized))
+                        return;
 
-	void CreateDirectoriesRecursively(const std::wstring& directory) const
-	{
-		if (directory.empty())
-			return;
+                const std::wstring parent = GetDirectoryName(normalized);
+                if (!parent.empty() && parent != normalized)
+                        CreateDirectoriesRecursively(parent);
 
-		const std::wstring normalized = NormalizePath(directory);
-		if (DirectoryExists(normalized))
-			return;
+                CreateDirectoryW(normalized.c_str(), nullptr);
+        }
 
-		const std::wstring parent = GetDirectoryName(normalized);
-		if (!parent.empty() && parent != normalized)
-			CreateDirectoriesRecursively(parent);
+        std::vector<std::wstring> BuildSourceShaderSearchPaths(const std::wstring& requestedPath) const
+        {
+                std::vector<std::wstring> candidates;
+                AddCandidatePath(candidates, NormalizePath(requestedPath));
 
-		CreateDirectoryW(normalized.c_str(), nullptr);
-	}
+                const std::wstring relative = ExtractRelativeShaderPath(requestedPath);
+                if (!relative.empty())
+                {
+                        const std::wstring root = ResolveSourceShaderRoot();
+                        if (!root.empty())
+                                AddCandidatePath(candidates, CombinePath(root, relative));
+                }
+
+                return candidates;
+        }
+
+        std::vector<std::wstring> BuildCompiledShaderSearchPaths(const std::wstring& binaryPath) const
+        {
+                std::vector<std::wstring> candidates;
+                AddCandidatePath(candidates, NormalizePath(binaryPath));
+
+                const std::wstring relative = ExtractRelativeShaderPath(binaryPath);
+                if (!relative.empty())
+                {
+                        const std::wstring root = ResolveSourceShaderRoot();
+                        if (!root.empty())
+                                AddCandidatePath(candidates, CombinePath(root, relative));
+                }
+
+                return candidates;
+        }
+
+        void AddCandidatePath(std::vector<std::wstring>& candidates, std::wstring path) const
+        {
+                if (path.empty())
+                        return;
+
+                path = NormalizePath(path);
+                if (std::find(candidates.begin(), candidates.end(), path) == candidates.end())
+                        candidates.push_back(path);
+        }
 
 
 };
