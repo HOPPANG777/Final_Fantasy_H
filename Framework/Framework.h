@@ -128,6 +128,14 @@ const std::wstring FontPath = L"_Fonts/";
 #include "Systems/TimeManager.h"
 #include "Systems/GraphicsManager.h"
 
+//Managers
+#include "Managers/CollisionManager.h"
+#include "Managers/LogManager.h"
+#include "Managers/ImGUIManager.h"
+#include "Managers/GizmoManager.h"
+#include "Managers/SceneManager.h"
+#include "Managers/Texture2DManager.h"
+
 //Utilities
 #include "Utilities/AnimationClip.h"
 #include "Utilities/DirectHelper.h"
@@ -159,6 +167,7 @@ const std::wstring FontPath = L"_Fonts/";
 #include "Components/Animator.h"
 #include "Components/Collider.h"
 #include "Components/BoxCollider.h"
+#include "Components/CircleCollider.h"
 #include "Components/Texts.h"
 #include "Components/TypingText.h"
 #include "Components/ShakingText.h"
@@ -169,10 +178,4 @@ const std::wstring FontPath = L"_Fonts/";
 //Camera
 #include "Systems/CameraManager.h"
 
-//Managers
-#include "Managers/CollisionManager.h"
-#include "Managers/LogManager.h"
-#include "Managers/ImGUIManager.h"
-#include "Managers/GizmoManager.h"
-#include "Managers/SceneManager.h"
-#include "Managers/Texture2DManager.h"
+

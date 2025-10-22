@@ -1,0 +1,55 @@
+#pragma once
+
+class CircleCollider : public Collider
+{
+public:
+    CircleCollider(
+        const DirectX::SimpleMath::Vector3& center, 
+        float radius, 
+        const DirectX::SimpleMath::Color& color = DirectHelper::Green
+    ) 
+        : Collider("CircleCollider", Type::Circle), center(center), radius(radius), color(color) 
+    {
+        
+    }
+    ~CircleCollider() override = default;
+
+public:
+    // Component을(를) 통해 상속됨
+    void Update() override;
+    void Render() override;
+
+public:
+    void SetCenter(const DirectX::SimpleMath::Vector3& newCenter) { center = newCenter; }
+    void SetRadius(float newRadius) { radius = newRadius; }
+
+public:
+    Vector3 GetCenter() const { return center; }
+    float GetRadius() const { return radius; }
+
+public:
+    bool IsColliding(const Collider* other) const override
+    {
+        if (other->GetType() == Type::Circle)
+        {
+            const CircleCollider* otherCircle = static_cast<const CircleCollider*>(other);
+            return IsCircleColliding(otherCircle);
+        }
+        return false;
+    }
+
+private:
+    bool IsCircleColliding(const CircleCollider* other) const
+    {
+        float dx = center.x - other->center.x;
+        float dy = center.y - other->center.y;
+        float distance = sqrt(dx * dx + dy * dy);
+
+        return distance < (radius + other->radius);
+    }
+
+    DirectX::SimpleMath::Vector3 center;
+    float radius;
+    DirectX::SimpleMath::Color color;
+
+};

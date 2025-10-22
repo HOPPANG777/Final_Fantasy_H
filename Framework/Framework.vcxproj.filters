@@ -137,6 +137,9 @@
     <ClInclude Include="Utilities\FileStream.h">
       <Filter>Utilities\FileStream</Filter>
     </ClInclude>
+    <ClInclude Include="Components\CircleCollider.h">
+      <Filter>Components\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="Utilities\FileStream.cpp">
       <Filter>Utilities\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CircleCollider.cpp">
+      <Filter>Components\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\CircleCollider.h" />
     <ClInclude Include="Utilities\AnimationClip.h" />
     <ClInclude Include="Components\Animator.h" />
     <ClInclude Include="Components\BoxCollider.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Systems\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\CircleCollider.cpp" />
     <ClCompile Include="Utilities\AnimationClip.cpp" />
     <ClCompile Include="Components\Animator.cpp" />
     <ClCompile Include="Components\BoxCollider.cpp" />
