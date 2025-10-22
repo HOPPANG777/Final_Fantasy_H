@@ -104,9 +104,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>call "$(SolutionDir)BuildSetting.bat" "$(SolutionDir)" "$(ProjectDir)" "$(Platform)" "$(Configuration)" "$(ProjectName)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,9 +122,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>call "$(SolutionDir)BuildSetting.bat" "$(SolutionDir)" "$(ProjectDir)" "$(Platform)" "$(Configuration)" "$(ProjectName)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -144,9 +138,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>call "$(SolutionDir)BuildSetting.bat" "$(SolutionDir)" "$(ProjectDir)" "$(Platform)" "$(Configuration)" "$(ProjectName)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -165,9 +156,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>call "$(SolutionDir)BuildSetting.bat" "$(SolutionDir)" "$(ProjectDir)" "$(Platform)" "$(Configuration)" "$(ProjectName)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Components\CircleCollider.h" />
@@ -275,4 +263,47 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ItemGroup Condition="Exists('$(ProjectDir)_Fonts')">
+    <AssetFonts Include="$(ProjectDir)_Fonts\**\*" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('$(ProjectDir)_Textures')">
+    <AssetTextures Include="$(ProjectDir)_Textures\**\*" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('$(ProjectDir)_Shaders') and '$(Configuration)'=='Debug'">
+    <AssetShaders Include="$(ProjectDir)_Shaders\**\*.hlsl" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('$(ProjectDir)_Shaders') and '$(Configuration)'!='Debug'">
+    <AssetShaders Include="$(ProjectDir)_Shaders\**\*.cso" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('$(ProjectDir)imgui.ini')">
+    <ImGuiConfig Include="$(ProjectDir)imgui.ini" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('$(ProjectDir)imgui.ini') and Exists('$(SolutionDir)imgui.ini')">
+    <ImGuiConfig Include="$(SolutionDir)imgui.ini" />
+  </ItemGroup>
+  <Target Name="CopyContentAssets" AfterTargets="Build">
+    <PropertyGroup>
+      <ContentRoot>$(OutDir)Contents\</ContentRoot>
+    </PropertyGroup>
+    <MakeDir Directories="$(ContentRoot)" />
+    <MakeDir Condition="'@(AssetFonts)'!=''" Directories="$(ContentRoot)_Fonts\" />
+    <MakeDir Condition="'@(AssetTextures)'!=''" Directories="$(ContentRoot)_Textures\" />
+    <MakeDir Condition="'@(AssetShaders)'!=''" Directories="$(ContentRoot)_Shaders\" />
+    <Copy Condition="'@(AssetFonts)'!=''"
+          SourceFiles="@(AssetFonts)"
+          DestinationFiles="@(AssetFonts-&gt;'$(ContentRoot)_Fonts\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+    <Copy Condition="'@(AssetTextures)'!=''"
+          SourceFiles="@(AssetTextures)"
+          DestinationFiles="@(AssetTextures-&gt;'$(ContentRoot)_Textures\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+    <Copy Condition="'@(AssetShaders)'!=''"
+          SourceFiles="@(AssetShaders)"
+          DestinationFiles="@(AssetShaders-&gt;'$(ContentRoot)_Shaders\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+    <Copy Condition="'@(ImGuiConfig)'!=''"
+          SourceFiles="@(ImGuiConfig)"
+          DestinationFiles="@(ImGuiConfig-&gt;'$(OutDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+  </Target>
 </Project>
