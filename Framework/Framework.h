@@ -168,3 +168,8 @@ const std::wstring FontPath = L"_Fonts/";
 
 //Camera
 #include "CameraManager.h"
+
+//Managers
+#include "CollisionManager.h"
+#include "SceneManager.h"
+#include "Texture2DManager.h"
