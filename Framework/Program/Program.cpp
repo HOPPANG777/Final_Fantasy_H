@@ -2,6 +2,8 @@
 #include "Program.h"
 #include "Scenes/SceneList.h"
 
+// $(SolutionDir)Build\bin\$(ProjectName)\$(PlatformTarget)\$(Configuration)\ <- 이걸 프로젝트 설정 디버깅에 작업 디렉토리에 입력하시오
+
 float gWinWidth = WIN_DEFAULT_WIDTH;
 float gWinHeight = WIN_DEFAULT_HEIGHT;
 HWND gHandle;

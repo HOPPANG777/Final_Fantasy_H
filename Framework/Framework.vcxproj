@@ -145,7 +145,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>call "$(SolutionDir)SettingBuild.bat" "$(SolutionDir)Build\bin\$(ProjectName)\$(PlatformTarget)\$(Configuration)"</Command>
+      <Command>call "$(SolutionDir)BuildSetting.bat" "$(SolutionDir)Build\bin\$(ProjectName)\$(PlatformTarget)\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
