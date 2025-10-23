@@ -9,7 +9,7 @@ public:
         float rotation,
         const std::wstring& texturePath = L"",
         bool useRectTransform = false,
-        const std::wstring& shaderPath = ShaderPath + L"VertexTexture.hlsl"
+        const std::wstring& shaderPath = ShaderPath + L"Texture.hlsl"
     );
     ~Texture() override = default;
 

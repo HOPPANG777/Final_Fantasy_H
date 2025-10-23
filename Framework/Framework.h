@@ -145,7 +145,6 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 #include "Managers/ImGuiManager.h"
 #include "Managers/GizmoManager.h"
 #include "Managers/SceneManager.h"
-//#include "Managers/Texture2DManager.h"
 
 //Renders
 #include "Renders/IndexBuffer.h"
@@ -154,7 +153,6 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 
 #include "Renders/ConstantBuffer.h"
 #include "Renders/GlobalBuffers.h"
-//#include "Renders/Texture2D.h"
 #include "Renders/VertexType.h"
 
 #include "Renders/IShader.h"

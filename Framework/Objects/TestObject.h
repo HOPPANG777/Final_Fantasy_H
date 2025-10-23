@@ -3,15 +3,33 @@
 class TestObject : public GameObject
 {
 public:
+	//TestObject(
+	//	const std::string& name,
+	//	const DirectX::SimpleMath::Vector3& pos,
+	//	const DirectX::SimpleMath::Vector3& scale,
+	//	float rotation,
+	//	const DirectX::SimpleMath::Color& color = Values::Red,
+	//	bool useRectTransformType = false
+	//)
+	//	: GameObject(name, pos, scale, rotation, useRectTransformType)
+	//{
+	//	this->AddComponent(std::make_shared<ColorRect>(pos, scale, rotation, color, useRectTransformType));
+	//}
+
 	TestObject(
 		const std::string& name,
 		const DirectX::SimpleMath::Vector3& pos,
 		const DirectX::SimpleMath::Vector3& scale,
 		float rotation,
-		const DirectX::SimpleMath::Color& color = Values::Red,
+		const std::wstring& texturePath = L"",
 		bool useRectTransformType = false
-	);
-	~TestObject();
+	)
+		: GameObject(name, pos, scale, rotation, useRectTransformType)
+	{
+		this->AddComponent(std::make_shared<Texture>(pos, scale, rotation, texturePath, useRectTransformType));
+	}
+
+	~TestObject() = default;
 
 public:
 	void Update() override;

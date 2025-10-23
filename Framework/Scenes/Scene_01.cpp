@@ -6,13 +6,23 @@ void Scene_01::Awake()
 {
     isLoaded = false;
 
-    objects.push_back(
+ /*   objects.push_back(
         std::make_shared<TestObject>(
             "Rect",
             Values::GetCenter(),
             DirectX::SimpleMath::Vector3(100, 100, 0),
             0.0f
             )
+    );*/
+
+    objects.push_back(
+        std::make_shared<TestObject>(
+            "Mirko",
+            Values::GetCenter(),
+            DirectX::SimpleMath::Vector3(100, 100, 0),
+            0.0f,
+            TexturePath + L"Mirko1.png"
+        )
     );
 
     isLoaded = true;
@@ -59,5 +69,5 @@ void Scene_01::PostRender()
 
 void Scene_01::ImGUI()
 {
-
+    //GraphicsManager::Get()->GUI();
 }
