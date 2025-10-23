@@ -190,6 +190,7 @@
     <ClInclude Include="Utilities\DirectHelper.h" />
     <ClInclude Include="Components\Drawable.h" />
     <ClInclude Include="Utilities\FileStream.h" />
+    <ClInclude Include="Utilities\ImageLoader.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Managers\GizmoManager.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="Utilities\DirectHelper.cpp" />
     <ClCompile Include="Components\Drawable.cpp" />
     <ClCompile Include="Utilities\FileStream.cpp" />
+    <ClCompile Include="Utilities\ImageLoader.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

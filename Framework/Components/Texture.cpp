@@ -1,48 +1,6 @@
 #include "Framework.h"
 #include "Texture.h"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
-namespace
-{
-    struct LoadedImage
-    {
-        int width = 0;
-        int height = 0;
-        int channels = 0;
-        std::vector<uint8_t> pixels;
-    };
-
-    bool LoadImageFile(const std::wstring& filePath, LoadedImage& outImage)
-    {
-        if (filePath.empty())
-        {
-            return false;
-        }
-
-        const std::string narrowPath = String::ToString(filePath);
-
-        int width = 0;
-        int height = 0;
-        int channels = 0;
-        stbi_uc* data = stbi_load(narrowPath.c_str(), &width, &height, &channels, STBI_rgb_alpha);
-        if (data == nullptr)
-        {
-            return false;
-        }
-
-        outImage.width = width;
-        outImage.height = height;
-        outImage.channels = 4;
-
-        const size_t pixelCount = static_cast<size_t>(width) * static_cast<size_t>(height) * static_cast<size_t>(outImage.channels);
-        outImage.pixels.assign(data, data + pixelCount);
-
-        stbi_image_free(data);
-        return true;
-    }
-}
+#include "Utilities/ImageLoader.h"
 
 Texture::Texture(
     const DirectX::SimpleMath::Vector3& position,
@@ -280,8 +238,8 @@ void Texture::UpdateIndexBuffer()
 
 bool Texture::CreateTextureFromImage(const std::wstring& filePath)
 {
-    LoadedImage image;
-    if (!LoadImageFile(filePath, image))
+    ImageLoader::LoadedImage image;
+    if (!ImageLoader::Load(filePath, image))
     {
         _texture.Reset();
         _shaderResourceView.Reset();
