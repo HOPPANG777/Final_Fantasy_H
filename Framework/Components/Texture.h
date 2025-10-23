@@ -1,9 +1,9 @@
 #pragma once
 
-class TextureRect : public Drawable, public IColorable
+class Texture : public Drawable, public IColorable
 {
 public:
-    TextureRect(
+    Texture(
         const DirectX::SimpleMath::Vector3& position,
         const DirectX::SimpleMath::Vector3& scale,
         float rotation,
@@ -11,7 +11,7 @@ public:
         bool useRectTransform = false,
         const std::wstring& shaderPath = ShaderPath + L"VertexTexture.hlsl"
     );
-    ~TextureRect() override = default;
+    ~Texture() override = default;
 
     void Update() override;
     void Render() override;

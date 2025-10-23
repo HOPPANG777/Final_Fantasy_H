@@ -184,7 +184,7 @@
     <ClInclude Include="Managers\CollisionManager.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Renders\ConstantBuffer.h" />
-    <ClInclude Include="Components\TextureRect.h" />
+    <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Scenes\Scene_01.h" />
     <ClInclude Include="Objects\TestObject.h" />
     <ClInclude Include="Utilities\DirectHelper.h" />
@@ -235,7 +235,7 @@
     <ClCompile Include="Components\BoxCollider.cpp" />
     <ClCompile Include="Systems\CameraManager.cpp" />
     <ClCompile Include="Managers\CollisionManager.cpp" />
-    <ClCompile Include="Components\TextureRect.cpp" />
+    <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Scenes\Scene_01.cpp" />
     <ClCompile Include="Objects\TestObject.cpp" />
     <ClCompile Include="Utilities\DirectHelper.cpp" />

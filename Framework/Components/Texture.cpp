@@ -1,5 +1,5 @@
 #include "Framework.h"
-#include "TextureRect.h"
+#include "Texture.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -44,14 +44,14 @@ namespace
     }
 }
 
-TextureRect::TextureRect(
+Texture::Texture(
     const DirectX::SimpleMath::Vector3& position,
     const DirectX::SimpleMath::Vector3& scale,
     float rotation,
     const std::wstring& texturePath,
     bool useRectTransform,
     const std::wstring& shaderPath)
-    : Drawable("TextureRect", position, scale, rotation, useRectTransform, shaderPath)
+    : Drawable("Texture", position, scale, rotation, useRectTransform, shaderPath)
 {
     InitializeGeometry();
     InitializeStates();
@@ -64,12 +64,12 @@ TextureRect::TextureRect(
     }
 }
 
-void TextureRect::Update()
+void Texture::Update()
 {
     Drawable::Update();
 }
 
-void TextureRect::Render()
+void Texture::Render()
 {
     Drawable::Render();
 
@@ -115,7 +115,7 @@ void TextureRect::Render()
     context->OMSetBlendState(nullptr, defaultBlend, 0xFFFFFFFF);
 }
 
-DirectX::SimpleMath::Color TextureRect::GetColor() const
+DirectX::SimpleMath::Color Texture::GetColor() const
 {
     if (_colorBuffer)
     {
@@ -125,7 +125,7 @@ DirectX::SimpleMath::Color TextureRect::GetColor() const
     return DirectX::SimpleMath::Color(1.f, 1.f, 1.f, 1.f);
 }
 
-void TextureRect::SetColor(const DirectX::SimpleMath::Color& color)
+void Texture::SetColor(const DirectX::SimpleMath::Color& color)
 {
     if (_colorBuffer)
     {
@@ -133,7 +133,7 @@ void TextureRect::SetColor(const DirectX::SimpleMath::Color& color)
     }
 }
 
-void TextureRect::SetTexture(const std::wstring& filePath)
+void Texture::SetTexture(const std::wstring& filePath)
 {
     if (filePath.empty())
     {
@@ -145,7 +145,7 @@ void TextureRect::SetTexture(const std::wstring& filePath)
     CreateTextureFromImage(filePath);
 }
 
-void TextureRect::SetSRV(ID3D11ShaderResourceView* shaderResourceView)
+void Texture::SetSRV(ID3D11ShaderResourceView* shaderResourceView)
 {
     _texture.Reset();
     _shaderResourceView.Reset();
@@ -157,7 +157,7 @@ void TextureRect::SetSRV(ID3D11ShaderResourceView* shaderResourceView)
     }
 }
 
-void TextureRect::SetGeometry(const std::vector<VertexTexture>& vertices, const std::vector<UINT>& indices)
+void Texture::SetGeometry(const std::vector<VertexTexture>& vertices, const std::vector<UINT>& indices)
 {
     _vertices = vertices;
     _indices = indices;
@@ -166,7 +166,7 @@ void TextureRect::SetGeometry(const std::vector<VertexTexture>& vertices, const 
     UpdateIndexBuffer();
 }
 
-void TextureRect::SetShapeFromPositions(
+void Texture::SetShapeFromPositions(
     const std::vector<DirectX::SimpleMath::Vector3>& positions,
     const std::vector<UINT>& indices)
 {
@@ -214,12 +214,12 @@ void TextureRect::SetShapeFromPositions(
     UpdateIndexBuffer();
 }
 
-void TextureRect::SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& topology)
+void Texture::SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& topology)
 {
     _topology = topology;
 }
 
-void TextureRect::InitializeGeometry()
+void Texture::InitializeGeometry()
 {
     _vertices =
     {
@@ -237,7 +237,7 @@ void TextureRect::InitializeGeometry()
     inputLayout->Create(VertexTexture::ieDescs.data(), VertexTexture::ieDescs.size(), vertexShader->GetBlob());
 }
 
-void TextureRect::InitializeStates()
+void Texture::InitializeStates()
 {
     ID3D11Device* device = GraphicsManager::Get()->GetDevice();
 
@@ -254,7 +254,7 @@ void TextureRect::InitializeStates()
     _blendStateAlpha = RenderStates::CreateBlend(device, blendDesc);
 }
 
-void TextureRect::UpdateVertexBuffer()
+void Texture::UpdateVertexBuffer()
 {
     if (_vertices.empty())
     {
@@ -265,7 +265,7 @@ void TextureRect::UpdateVertexBuffer()
     vertexBuffer->Create(_vertices, D3D11_USAGE_DYNAMIC);
 }
 
-void TextureRect::UpdateIndexBuffer()
+void Texture::UpdateIndexBuffer()
 {
     if (_indices.empty())
     {
@@ -278,7 +278,7 @@ void TextureRect::UpdateIndexBuffer()
     indexBuffer->Create(_indices, D3D11_USAGE_IMMUTABLE);
 }
 
-bool TextureRect::CreateTextureFromImage(const std::wstring& filePath)
+bool Texture::CreateTextureFromImage(const std::wstring& filePath)
 {
     LoadedImage image;
     if (!LoadImageFile(filePath, image))

@@ -1,9 +1,9 @@
 #include "Framework.h"
-#include "TextureRect.h"
+#include "Texture.h"
 
 //, texture(std::make_shared<Texture2D>(path))
-TextureRect::TextureRect(const Vector3& position, const Vector3& scale, const float rotation, const wstring path, const TransformType type, const wstring shaderPath)
-	: Drawable("TextureRect", position, scale, rotation, type, shaderPath)
+Texture::Texture(const Vector3& position, const Vector3& scale, const float rotation, const wstring path, const TransformType type, const wstring shaderPath)
+	: Drawable("Texture", position, scale, rotation, type, shaderPath)
 {
 	//vertices
 	{
@@ -113,16 +113,16 @@ TextureRect::TextureRect(const Vector3& position, const Vector3& scale, const fl
 
 }
 
-TextureRect::~TextureRect()
+Texture::~Texture()
 {
 }
 
-void TextureRect::Update()
+void Texture::Update()
 {
 	BASE::Update();
 }
 
-void TextureRect::Render()
+void Texture::Render()
 {
 	BASE::Render();
 
