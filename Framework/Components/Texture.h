@@ -8,8 +8,7 @@ public:
         const DirectX::SimpleMath::Vector3& scale,
         float rotation,
         const std::wstring& texturePath = L"",
-        bool useRectTransform = false,
-        const std::wstring& shaderPath = ShaderPath + L"Texture.hlsl"
+        bool useRectTransform = false
     );
     ~Texture() override = default;
 

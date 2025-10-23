@@ -49,9 +49,9 @@ Texture::Texture(
     const DirectX::SimpleMath::Vector3& scale,
     float rotation,
     const std::wstring& texturePath,
-    bool useRectTransform,
-    const std::wstring& shaderPath)
-    : Drawable("Texture", position, scale, rotation, useRectTransform, shaderPath)
+    bool useRectTransform
+)
+    : Drawable("Texture", position, scale, rotation, useRectTransform, ShaderPath + L"Texture.hlsl")
 {
     InitializeGeometry();
     InitializeStates();
@@ -66,12 +66,12 @@ Texture::Texture(
 
 void Texture::Update()
 {
-    Drawable::Update();
+    __super::Update();
 }
 
 void Texture::Render()
 {
-    Drawable::Render();
+    __super::Render();
 
     ID3D11DeviceContext* context = GraphicsManager::Get()->GetDC();
 
