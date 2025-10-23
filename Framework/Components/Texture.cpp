@@ -1,6 +1,8 @@
 #include "Framework.h"
 #include "Texture.h"
-#include "Utilities/ImageLoader.h"
+
+#include <algorithm>
+#include <cwctype>
 
 Texture::Texture(
     const DirectX::SimpleMath::Vector3& position,
@@ -238,40 +240,57 @@ void Texture::UpdateIndexBuffer()
 
 bool Texture::CreateTextureFromImage(const std::wstring& filePath)
 {
-    ImageLoader::LoadedImage image;
-    if (!ImageLoader::Load(filePath, image))
+    _texture.Reset();
+    _shaderResourceView.Reset();
+
+    if (filePath.empty())
     {
-        _texture.Reset();
-        _shaderResourceView.Reset();
         return false;
     }
 
-    ID3D11Device* device = GraphicsManager::Get()->GetDevice();
+    DirectX::ScratchImage scratchImage;
+    DirectX::TexMetadata metadata;
 
-    D3D11_TEXTURE2D_DESC textureDesc = {};
-    textureDesc.Width = static_cast<UINT>(image.width);
-    textureDesc.Height = static_cast<UINT>(image.height);
-    textureDesc.MipLevels = 1;
-    textureDesc.ArraySize = 1;
-    textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    textureDesc.SampleDesc.Count = 1;
-    textureDesc.SampleDesc.Quality = 0;
-    textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
-    textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-    textureDesc.CPUAccessFlags = 0;
-    textureDesc.MiscFlags = 0;
+    std::wstring extension = Path::GetExtension(filePath);
+    std::transform(extension.begin(), extension.end(), extension.begin(), [](wchar_t character)
+    {
+        return static_cast<wchar_t>(std::towlower(character));
+    });
 
-    D3D11_SUBRESOURCE_DATA subresourceData = {};
-    subresourceData.pSysMem = image.pixels.data();
-    subresourceData.SysMemPitch = static_cast<UINT>(image.width * image.channels);
+    HRESULT hr = S_OK;
 
-    Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
-    HRESULT hr = device->CreateTexture2D(&textureDesc, &subresourceData, texture.GetAddressOf());
-    CHECK(hr);
+    if (extension == L"dds")
+    {
+        hr = DirectX::LoadFromDDSFile(filePath.c_str(), DirectX::DDS_FLAGS_NONE, &metadata, scratchImage);
+    }
+    else if (extension == L"tga")
+    {
+        hr = DirectX::LoadFromTGAFile(filePath.c_str(), &metadata, scratchImage);
+    }
+    else
+    {
+        hr = DirectX::LoadFromWICFile(filePath.c_str(), DirectX::WIC_FLAGS_NONE, &metadata, scratchImage);
+    }
+
+    if (FAILED(hr))
+    {
+        return false;
+    }
 
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shaderResourceView;
-    hr = device->CreateShaderResourceView(texture.Get(), nullptr, shaderResourceView.GetAddressOf());
+    hr = DirectX::CreateShaderResourceView(
+        GraphicsManager::Get()->GetDevice(),
+        scratchImage.GetImages(),
+        scratchImage.GetImageCount(),
+        metadata,
+        shaderResourceView.GetAddressOf());
     CHECK(hr);
+
+    Microsoft::WRL::ComPtr<ID3D11Resource> resource;
+    shaderResourceView->GetResource(resource.GetAddressOf());
+
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
+    resource.As(&texture);
 
     _texture = texture;
     _shaderResourceView = shaderResourceView;
