@@ -19,7 +19,7 @@ void Scene_01::Awake()
         std::make_shared<TestObject>(
             "Mirko",
             Values::GetCenter(),
-            DirectX::SimpleMath::Vector3(100, 100, 0),
+            DirectX::SimpleMath::Vector3(317, 832, 0),
             0.0f,
             TexturePath + L"Mirko1.png"
         )

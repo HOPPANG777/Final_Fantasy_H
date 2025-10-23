@@ -16,12 +16,12 @@ Texture::Texture(
     InitializeGeometry();
     InitializeStates();
 
-    _colorBuffer = std::make_unique<ColorBuffer>();
-
     if (!texturePath.empty())
     {
         CreateTextureFromImage(texturePath);
     }
+
+    _colorBuffer = std::make_unique<ColorBuffer>();
 }
 
 void Texture::Update()
