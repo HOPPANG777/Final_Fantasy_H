@@ -177,6 +177,7 @@
     <ClInclude Include="Components\ColorOutlineRect.h" />
     <ClInclude Include="Components\ColorRect.h" />
     <ClInclude Include="Components\BoxCollider.h" />
+    <ClInclude Include="Components\MoveComponent.h" />
     <ClInclude Include="Objects\ObjectList.h" />
     <ClInclude Include="Scenes\SceneList.h" />
     <ClInclude Include="Systems\CameraManager.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="Components\ColorOutlineRect.cpp" />
     <ClCompile Include="Components\ColorRect.cpp" />
     <ClCompile Include="Components\BoxCollider.cpp" />
+    <ClCompile Include="Components\MoveComponent.cpp" />
     <ClCompile Include="Systems\CameraManager.cpp" />
     <ClCompile Include="Managers\CollisionManager.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
