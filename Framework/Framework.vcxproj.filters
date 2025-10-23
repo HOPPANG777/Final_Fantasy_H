@@ -125,6 +125,9 @@
     <ClInclude Include="Utilities\FileStream.h">
       <Filter>Utilities\FileStream</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\ImageLoader.h">
+      <Filter>Utilities\ImageLoader</Filter>
+    </ClInclude>
     <ClInclude Include="Components\CircleCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
@@ -244,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="Utilities\FileStream.cpp">
       <Filter>Utilities\FileStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\ImageLoader.cpp">
+      <Filter>Utilities\ImageLoader</Filter>
     </ClCompile>
     <ClCompile Include="Components\CircleCollider.cpp">
       <Filter>Components\Collider</Filter>
@@ -369,6 +375,9 @@
     </Filter>
     <Filter Include="Utilities\FileStream">
       <UniqueIdentifier>{6f43ae9d-a6fd-40db-83f7-20c5e2d72fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\ImageLoader">
+      <UniqueIdentifier>{09abeda8-8e8f-45cf-95f6-10c1e99dd322}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utilities\Path">
       <UniqueIdentifier>{abbb61da-570b-4306-9144-866fc869bbdf}</UniqueIdentifier>
