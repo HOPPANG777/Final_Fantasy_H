@@ -1,3 +1,5 @@
+// Texts Œ¥ €≤ “Ω ÿ∫œ∞ ⁄ø Œø »£ —¥.
+
 #include "Framework.h"
 #include "Texts.h"
 
@@ -13,9 +15,12 @@ void Texts::RenderText
 	const DWRITE_FONT_STRETCH& stretch
 )
 {
+        //   Í∑Ø√∏    Œ¥.
 	FontBrushDesc* brush = GetOrCreateBrush(color);
+        // €≤√∞ ≈© ’µ ƒ≥    ÷º»≠—¥.
 	FontTextDesc* textDesc = GetOrCreateTextFormat(font, size, weight, style, stretch);
 
+        //  ∆Æ   ƒ°  Á∞¢ —¥.
 	RECT finalRect = CalculateRectFromObject(rect);
 
 	D2D1_RECT_F rectF =
@@ -26,6 +31,7 @@ void Texts::RenderText
 	static_cast<float>(gWinHeight - finalRect.top)
 	};
 
+        // Direct2D ÿΩ∆Æ   ÿΩ∆Æ ◊∏.
 	GraphicsManager::Get()->GetD2DC()->DrawTextW
 	(
 		text.c_str(),
@@ -35,9 +41,15 @@ void Texts::RenderText
 		brush->brush.Get()
 	);
 
-	// ≈ÿΩ∫∆Æ ¡§∑ƒ º≥¡§
-	textDesc->format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-	textDesc->format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+        //  CalculateRectFromObject ÿ¥ ∆Æ ƒ° »∞—¥.
+        // Ãπ   Í∑Ø√∞     ¥¬¥.
+        //   Í∑Ø√∏ «∞ ‘≤ Ã≥ ø —¥.
+        //   œ∏   —¥.
+        //  Àµ ƒ≥√ø   »£‚ø° —¥.
+        //  Á∞¢ œ±  ”Ω .
+                // RectTransform ÷¥Ÿ∏ ÿ¥ Rect  ◊¥ —¥.
+                //  ‚∫ª Transform ƒ° offset  Á∞¢ Ãµ≈≤.
+}
 }
 
 void Texts::AttachToObject(GameObject* object)
@@ -119,7 +131,7 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 	RECT adjustedRect;
 	if (attachedObject)
 	{
-		// RectTransform¿Ã ¿÷¥Ÿ∏È ±◊ ∞™¿ª ªÁøÎ
+		// RectTransformÏù¥ ÏûàÎã§Î©¥ Í∑∏ Í∞íÏùÑ ÏÇ¨Ïö©
 		const auto& rectTransform = attachedObject->GetComponent<RectTransform>("RectTransform");
 		if (rectTransform)
 		{
@@ -127,7 +139,7 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 		}
 		else
 		{
-			// æ¯¿∏∏È ±‚∫ª¿˚¿∏∑Œ ∞¥√º¿« ¿ßƒ°øÕ offset¿ª ¥ı«‘
+			// ÏóÜÏúºÎ©¥ Í∏∞Î≥∏Ï†ÅÏúºÎ°ú Í∞ùÏ≤¥Ïùò ÏúÑÏπòÏôÄ offsetÏùÑ ÎçîÌï®
 			DirectX::SimpleMath::Vector3 objectPos = attachedObject->GetComponent<RectTransform>("RectTransform")->GetPosition();
 			adjustedRect = rect;
 			adjustedRect.left += static_cast<LONG>(objectPos.x + offset.x);
@@ -135,19 +147,19 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 			adjustedRect.top += static_cast<LONG>(objectPos.y + offset.y);
 			adjustedRect.bottom += static_cast<LONG>(objectPos.y + offset.y);
 		}
-		// ∫∏¡§ «‘ºˆ »£√‚: DX3D ¡¬«•∞Ë -> ¿©µµøÏ ¡¬«•∞Ë∑Œ ∫Ø»Ø
+		// Î≥¥Ï†ï Ìï®Ïàò Ìò∏Ï∂ú: DX3D Ï¢åÌëúÍ≥Ñ -> ÏúàÎèÑÏö∞ Ï¢åÌëúÍ≥ÑÎ°ú Î≥ÄÌôò
 		return ConvertToWindowCoordinates(adjustedRect, gWinHeight);
 	}
 	return rect;
 }
 
-// ¡¬«•∞Ë∏¶ ∫∏¡§«œ¥¬ «Ô∆€ «‘ºˆ: DX3D(ø¯¡°: ¡¬«œ¥‹) -> DX2D(ø¯¡°: ¡¬ªÛ¥‹)
+// Ï¢åÌëúÍ≥ÑÎ•º Î≥¥Ï†ïÌïòÎäî Ìó¨Ìçº Ìï®Ïàò: DX3D(ÏõêÏ†ê: Ï¢åÌïòÎã®) -> DX2D(ÏõêÏ†ê: Ï¢åÏÉÅÎã®)
 RECT Texts::ConvertToWindowCoordinates(const RECT& rect, float screenHeight)
 {
 	RECT windowRect;
 	windowRect.left = rect.left;
 	windowRect.right = rect.right;
-	windowRect.top = static_cast<LONG>(screenHeight) - rect.bottom; // bottom ∞™ø°º≠ ∫∏¡§
+	windowRect.top = static_cast<LONG>(screenHeight) - rect.bottom; // bottom Í∞íÏóêÏÑú Î≥¥Ï†ï
 	windowRect.bottom = static_cast<LONG>(screenHeight) - rect.top;
 	return windowRect;
 }

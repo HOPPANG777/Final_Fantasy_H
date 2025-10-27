@@ -1,5 +1,8 @@
 #pragma once
 
+// ShakingText ؽƮ    ִ  ϴ Ʈ.
+//  شϴ intensity   鸲 ⸦ Ѵ.
+
 class ShakingText : public Texts
 {
 public:
@@ -9,6 +12,7 @@ public:
 
     }
 
+    //      鸮 ȿ .
     void RenderText
     (
         const std::wstring& text,
@@ -22,12 +26,14 @@ public:
     ) override;
 
 
+    // 鸲  ܰ迡 óϹǷ Update  д.
     void Update() override;
     void Render() override;
 
 private:
     float intensity;
 
+    // intensity   -intensity ~ +intensity   Ѵ.
     int RandomOffset()
     {
         return int((rand() / float(RAND_MAX) - 0.5f) * 2 * intensity);

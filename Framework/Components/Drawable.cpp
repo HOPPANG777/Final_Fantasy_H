@@ -1,3 +1,5 @@
+// Drawable δ ȯ  ο ȣ Ѵ.
+
 #include "Framework.h"
 #include "Drawable.h"
 
@@ -31,11 +33,13 @@ Drawable::Drawable(
 
 void Drawable::Update()
 {
+    // ʱ ġ, ȸ, ũ⸦   Ѵ.
     ApplyPendingTransform();
 }
 
 void Drawable::Render()
 {
+    //  ʿ ۿ ̴ εѴ.
     vertexBuffer->SetIA();
     indexBuffer->SetIA();
     inputLayout->SetIA();
@@ -47,6 +51,7 @@ void Drawable::Render()
 
 void Drawable::DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed)
 {
+    // ϴ    ε ο  Draw Լ ȣѴ.
     GraphicsManager::Get()->GetDC()->IASetPrimitiveTopology(topology);
 
     if (indexed) GraphicsManager::Get()->GetDC()->DrawIndexed(indexBuffer->GetCount(), 0, 0);
@@ -55,11 +60,14 @@ void Drawable::DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed)
 
 void Drawable::ApplyPendingTransform()
 {
+    // ʱȭ Ŀ ٽ  ʴ´.
     if (!pendingTransformApply) return;
 
     GameObject* ownerObject = GetOwner();
+    //  Ʈ   Transform .
     if (!ownerObject) return;
 
+    // RectTransform  ο  бѴ.
     if (RectTransformType == true)
     {
         const std::shared_ptr<RectTransform>& rectTransform = ownerObject->GetRectTransform();

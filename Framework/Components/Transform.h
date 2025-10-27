@@ -1,5 +1,8 @@
 #pragma once
 
+// Transform Ä¡, È¸, Å©  Ï´ âº» Æ®.
+//    Ù¸ Æ®   Öµ Ñ´.
+
 class Transform : public Component
 {
 public:
@@ -7,7 +10,7 @@ public:
 	virtual ~Transform() override = default;
 
 public:
-	// ComponentÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+        // Component Ö±â¿¡    Ñ´.
 	void Update() override;
 	void Render() override;
 
@@ -26,7 +29,7 @@ public:
 	void SetRotation(float degrees);
 
 public:
-	// ÀÌµ¿/È¸Àü/½ºÄÉÀÏ º¯È­¸¦ DELTA ±â¹İÀ¸·Î Àû¿ëÇÒ ¼ö ÀÖ´Â ÇÔ¼öµé
+        DirectX::SimpleMath::Vector3 scale = Values::ZeroVector3; //   
 	void Move(const DirectX::SimpleMath::Vector3& speed);
 	void Scale(const DirectX::SimpleMath::Vector3& scale);
 	void Rotate(float degrees);
@@ -34,9 +37,9 @@ public:
 private:
 	DirectX::SimpleMath::Vector3 position = Values::ZeroVector3;
 	DirectX::SimpleMath::Vector3 scale = Values::ZeroVector3;
-	float rotation = 0.0f;	// ¶óµğ¾È(radian)À¸·Î º¸°ü
+	float rotation = 0.0f;	// ë¼ë””ì•ˆ(radian)ìœ¼ë¡œ ë³´ê´€
 
-	DirectX::SimpleMath::Matrix world = DirectX::XMMatrixIdentity();	// S * R * T °á°ú
+	DirectX::SimpleMath::Matrix world = DirectX::XMMatrixIdentity();	// S * R * T ê²°ê³¼
 	
 };
 

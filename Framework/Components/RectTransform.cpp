@@ -1,3 +1,5 @@
+// RectTransform δ Ŀ, ǹ,  ̿  ġ ũ⸦ Ѵ.
+
 #include "Framework.h"
 #include "RectTransform.h"
 
@@ -11,16 +13,20 @@ void RectTransform::Update()
 {
     using namespace DirectX::SimpleMath;
 
+    // ȭ ũ⸦ ȼ  Ѵ.
     const Vector2 screenSize(static_cast<float>(Values::GetWinWidth()), static_cast<float>(Values::GetWinHeight()));
     Vector3 translation = position;
 
+    // Ŀ ġ  ȭ  ǥ ̵Ѵ.
     const Vector3 anchorOffset(anchor.x * screenSize.x, anchor.y * screenSize.y, 0.0f);
     translation += anchorOffset;
 
+    // ǹ ߾ ƴ , ش ¸ŭ Ѵ.
     const Vector2 pivotOffset((pivot.x - 0.5f) * size.x, (pivot.y - 0.5f) * size.y);
     translation.x -= pivotOffset.x;
     translation.y -= pivotOffset.y;
 
+    // ī޶ ġ  UI ī޶ ̵ 󰡵 Ѵ.
     translation += CameraManager::Get()->GetPosition();
 
     const Matrix S = DirectX::XMMatrixScalingFromVector(scale);
@@ -45,14 +51,17 @@ RECT RectTransform::GetRect() const
     using namespace DirectX::SimpleMath;
 
     const Vector2 screenSize(static_cast<float>(Values::GetWinWidth()), static_cast<float>(Values::GetWinHeight()));
+    //    ȼ ũ⸦ Ѵ.
     const Vector2 scaledSize(size.x * scale.x, size.y * scale.y);
 
     Vector2 position2D(position.x, position.y);
     position2D += Vector2(anchor.x * screenSize.x, anchor.y * screenSize.y);
 
+    // ǹ ̿ 簢 » ġ Ѵ.
     const Vector2 pivotOffset(pivot.x * scaledSize.x, pivot.y * scaledSize.y);
     Vector2 topLeft = position2D - pivotOffset;
 
+    // ī޶ ̵   ȭ ǥ ´.
     const DirectX::SimpleMath::Vector3 cameraPos = CameraManager::Get()->GetPosition();
     topLeft += Vector2(cameraPos.x, cameraPos.y);
 

@@ -1,3 +1,5 @@
+// CircleCollider Î´  Æ® Ä¡ ß½ Ï°, Ê¿   Ç¥Ã¸ ×¸.
+
 #include "Framework.h"
 #include "CircleCollider.h"
 
@@ -5,7 +7,7 @@ void CircleCollider::Update()
 {
     if (GetOwner())
     {
-        // ¼ÒÀ¯ °´Ã¼ÀÇ À§Ä¡¸¦ ±â¹ÝÀ¸·Î Áß½ÉÀ» ¾÷µ¥ÀÌÆ®
+        // Transform Æ® Ä¡ ×´  æµ¹ ß½ .
         DirectX::SimpleMath::Vector3 ownerPosition = GetOwner()->GetComponent<Transform>("Transform")->GetPosition();
         center = ownerPosition;
     }
@@ -15,14 +17,13 @@ void CircleCollider::Render()
 {
     if (!CollisionManager::Get()->GetColliderDebug()) return;
 
-    // colliderÀÇ center(¿ùµå ÁÂÇ¥)
-    DirectX::SimpleMath::Vector3 center = GetCenter(); // ¿¹: Transform µî¿¡¼­ °¡Á®¿È
-    DirectX::SimpleMath::Vector3 cameraPos = CameraManager::Get()->GetPosition();
-
-    // È­¸é ÁÂÇ¥·Î º¯È¯ (Ä«¸Þ¶ó°¡ ÀÌµ¿ÇÑ ¸¸Å­ »©±â)
+    //  Ç¥ ß½    Ç¥Ã¿ Ñ´.
+    // Ä«Þ¶ Ä¡  È­ Ç¥ È¯Ñ´.
+    //  È­ Ç¥    ×¸.
+    // í™”ë©´ ì¢Œí‘œë¡œ ë³€í™˜ (ì¹´ë©”ë¼ê°€ ì´ë™í•œ ë§Œí¼ ë¹¼ê¸°)
     DirectX::SimpleMath::Vector3 screenCenter = center - cameraPos;
 
-    // ±âÁî¸ð ±×¸®±â
-    // size(¹Ú½º Å©±â)´Â ±×´ë·Î, center¸¸ screenCenter·Î
+    // ê¸°ì¦ˆëª¨ ê·¸ë¦¬ê¸°
+    // size(ë°•ìŠ¤ í¬ê¸°)ëŠ” ê·¸ëŒ€ë¡œ, centerë§Œ screenCenterë¡œ
     GizmoManager::Get()->DrawCircle(screenCenter, radius, color, 1.0f);
 }

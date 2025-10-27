@@ -1,5 +1,8 @@
 #pragma once
 
+// Component   Ʈ    ̴.
+// ̸  ͸ ϰ Update/Render ̽ Ѵ.
+
 class GameObject;
 
 class Component
@@ -16,10 +19,13 @@ public:
 	GameObject* GetOwner() const { return owner; }
 	std::string GetName() const { return name; }
 
+        // GameObject   ڸ Ѵ.
 	void SetOwner(GameObject* obj) { owner = obj; }
 
 public:
+        // Ӻ   Ļ Ŭ Ѵ.
 	virtual void Update() = 0;
+        // ȭ  ʿ  Ļ Ŭ Ѵ.
 	virtual void Render() = 0;
 
 };
