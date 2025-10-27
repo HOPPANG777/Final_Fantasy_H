@@ -2,144 +2,141 @@
 #include "GameObject.h"
 
 GameObject::GameObject(const std::string& name, bool RectTransformType)
-        : name(name), RectTransformType(RectTransformType)
+	: name(name), RectTransformType(RectTransformType)
 {
-        worldBuffer = std::make_unique<WorldBuffer>();
+	worldBuffer = std::make_unique<WorldBuffer>();
 
-        if (RectTransformType)
-        {
-                // UI Æ® RectTransform âº» Æ® ß°Õ´Ï´.
-                const std::shared_ptr<RectTransform>& rectTransform = std::make_shared<RectTransform>();
-                AddComponent(rectTransform);
-        }
-        else
-        {
-                // Ï¹ Æ® Transform âº» Æ® ß°Õ´Ï´.
-                const std::shared_ptr<Transform>& transform = std::make_shared<Transform>();
-                AddComponent(transform);
-        }
+	if (RectTransformType)
+	{
+		const std::shared_ptr<RectTransform>& rectTransform = std::make_shared<RectTransform>();
+		AddComponent(rectTransform);
+	}
+	else
+	{
+		const std::shared_ptr<Transform>& transform = std::make_shared<Transform>();
+		AddComponent(transform);
+	}
 }
 
 GameObject::GameObject(
-        const std::string& name,
-        const DirectX::SimpleMath::Vector3& initPos,
-        const DirectX::SimpleMath::Vector3& initScale,
-        float initRotation,
-        bool RectTransformType
+	const std::string& name,
+	const DirectX::SimpleMath::Vector3& initPos,
+	const DirectX::SimpleMath::Vector3& initScale,
+	float initRotation,
+	bool RectTransformType
 )
-        : GameObject(name, RectTransformType)
+	: GameObject(name, RectTransformType)
 {
-        if (RectTransformType)
-        {
-                // RectTransform  Ê± Ç¥ Õ´Ï´.
-                const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
-                if (rectTransform)
-                {
-                        rectTransform->SetPosition(initPos);
-                        rectTransform->SetScale(initScale);
-                        rectTransform->SetRotation(initRotation);
-                }
+	if (RectTransformType)
+	{
+		const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
+		if (rectTransform)
+		{
+			rectTransform->SetPosition(initPos);
+			rectTransform->SetScale(initScale);
+			rectTransform->SetRotation(initRotation);
+		}
 
-        }
-        else
-        {
-                // Transform  Ê± Ç¥ Õ´Ï´.
-                const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
-                if (transform)
-                {
-                        transform->SetPosition(initPos);
-                        transform->SetScale(initScale);
-                        transform->SetRotation(initRotation);
-                }
-        }
+	}
+	else
+	{
+		const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
+		if (transform)
+		{
+			transform->SetPosition(initPos);
+			transform->SetScale(initScale);
+			transform->SetRotation(initRotation);
+		}
+	}
 
 }
 
 GameObject::GameObject(const GameObject& other)
-        : GameObject(other.name, false) // TODO: Ê¿  RectTransformType ç¸¦ Õ´Ï´.
+	: GameObject(other.name, false) // º¹»ç »ý¼ºÀÚ ·ÎÁ÷Àº ÇÊ¿ä¿¡ µû¶ó ¼öÁ¤
 {
-        // TODO: Æ®   Ê¿Ï¸ â¿¡ Õ´Ï´.
+	// º¹»ç »ý¼ºÀÚ ±¸Çö (ÇÊ¿ä ½Ã components º¹»ç)
 }
 
 
 void GameObject::AddComponent(const std::shared_ptr<Component>& component)
 {
-        if (components.count(component->GetName())) return;
+	if (components.count(component->GetName())) return;
 
-        component->SetOwner(this);
-        components.emplace(component->GetName(), component);
+	component->SetOwner(this);
+	components.emplace(component->GetName(), component);
 }
 
 void GameObject::RemoveComponent(const std::string& compName)
 {
-        components.erase(compName);
+	components.erase(compName);
 }
 
 std::shared_ptr<Transform> GameObject::GetTransform() const
 {
-        return GetComponent<Transform>("Transform");
+	return GetComponent<Transform>("Transform");
 }
 
 std::shared_ptr<RectTransform> GameObject::GetRectTransform() const
 {
-        return GetComponent<RectTransform>("RectTransform");
+	return GetComponent<RectTransform>("RectTransform");
 }
 
 void GameObject::Update()
 {
-        // Ïµ  Æ® Update Ô¼  È£Õ´Ï´.
-        for (const std::pair<const std::string, std::shared_ptr<Component>>& element : components)
-        {
-                const std::shared_ptr<Component>& compPtr = element.second;
+	// µî·ÏµÈ ¸ðµç ÄÄÆ÷³ÍÆ® ¾÷µ¥ÀÌÆ®
+	// ¿©±â¼­ each elementÀÇ Å¸ÀÔÀº std::pair<const std::string, std::shared_ptr<Component>>
+	for (const std::pair<const std::string, std::shared_ptr<Component>>& element : components)
+	{
+		const std::string& compName = element.first;    // ÄÄÆ÷³ÍÆ® ÀÌ¸§
+		const std::shared_ptr<Component>& compPtr = element.second; // ÄÄÆ÷³ÍÆ® Æ÷ÀÎÅÍ
 
-                compPtr->Update();
-        }
+		compPtr->Update();
+	}
 
-        if (RectTransformType)
-        {
-                // UI Æ® RectTransform   Û¿ Ý¿Õ´Ï´.
-                const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
-                if (rectTransform)
-                {
-                        worldBuffer->SetWorld(rectTransform->GetWorld());
-                }
-        }
-        else
-        {
-                // Ï¹ Æ® Transform   Û¿ Ý¿Õ´Ï´.
-                const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
-                if (transform)
-                {
-                        worldBuffer->SetWorld(transform->GetWorld());
-                }
-        }
+	if (RectTransformType)
+	{
+		const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
+		if (rectTransform)
+		{
+			worldBuffer->SetWorld(rectTransform->GetWorld());
+		}
+	}
+	else
+	{
+		const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
+		if (transform)
+		{
+			worldBuffer->SetWorld(transform->GetWorld());
+		}
+	}
 
-        // È¤Ã¶ RectTransform ß° Ñ´Ù¸ ì¼± RectTransform Ó´Ï´.
-        const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
-        if (rectTransform)
-        {
-                worldBuffer->SetWorld(rectTransform->GetWorld());
-        }
-        else
-        {
-                const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
-                if (transform)
-                {
-                        worldBuffer->SetWorld(transform->GetWorld());
-                }
-        }
+	// RectTransformÀÌ ÀÖ´Ù¸é ¿ì¼±ÀûÀ¸·Î »ç¿ëÇÕ´Ï´Ù.
+	const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
+	if (rectTransform)
+	{
+		worldBuffer->SetWorld(rectTransform->GetWorld());
+	}
+	else
+	{
+		const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
+		if (transform)
+		{
+			worldBuffer->SetWorld(transform->GetWorld());
+		}
+	}
 }
 
 void GameObject::Render()
 {
-        //  Û¸  Ì´  0 ÎµÕ´Ï´.
-        worldBuffer->SetVSBuffer(0);
+	// WorldBuffer¸¦ VS¿¡ µî·Ï (¼ÎÀÌ´õ¿¡¼­ ¿ùµå Çà·Ä »ç¿ë °¡´É)
+	worldBuffer->SetVSBuffer(0);
 
-        // Ïµ  Æ® Render Ô¼ È£Õ´Ï´.
-        for (const auto& element : components)
-        {
-                const std::shared_ptr<Component>& compPtr = element.second;
+	// µî·ÏµÈ ¸ðµç ÄÄÆ÷³ÍÆ® Render
+	for (const auto& element : components)
+	{
+		const auto& compName = element.first;
+		const auto& compPtr = element.second;
 
-                compPtr->Render();
-        }
+		compPtr->Render();
+	}
 }
