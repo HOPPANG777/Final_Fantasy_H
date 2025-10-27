@@ -1,40 +1,49 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <directxtk/SimpleMath.h>
+
+class TileSet;
+
+// \ud0c0\uc77c\uc138\ud2b8 \uad00\ub9ac\uc790\ub294 \ud604\uc7ac \uc801\uc6a9 \ub41c \ud0c0\uc77c\uc138\ud2b8\ub97c \ubcf4\uad00\ud558\uace0
+// ImGui\ub97c \ud1b5\ud574 \uc720\uc120\uc744 \uc120\ud0dd\ud560 \uc218 \uc788\ub294 \ud654\uba74\uc744 \uc81c\uacf5\ud55c\ub2e4.
 class TileSetManager
 {
-    DECLARE_SINGLETON(TileSetManager);
-
 public:
-    void Init();
+    TileSetManager();
+    ~TileSetManager() = default;
 
-    // GUI 창에서 타일셋 팔레트를 표시
     void ImGUI();
 
-    // SRV를 얻을 때는 ComPtr의 Get()을 사용
-    ComPtr<ID3D11ShaderResourceView> GetSRV() const { return tileSRV; }
+    void LoadTileSet(const std::wstring& atlasPath, UINT columns, UINT rows);
+    void ClearTileSet();
 
-    // 타일셋 변경: 새로운 이미지와 타일 분할 정보를 적용
-    void ChangeTileMap(const std::wstring& imagePath, UINT xCount, UINT yCount);
+    std::shared_ptr<TileSet> GetActiveTileSet() const noexcept { return activeTileSet; }
 
-public:
-    wstring GetTilePath() { return tilePath; }
+    DirectX::SimpleMath::Vector2 GetSelectedStartUV() const noexcept { return selectedStartUV; }
+    DirectX::SimpleMath::Vector2 GetSelectedEndUV() const noexcept { return selectedStartUV + tileUVSize; }
+    DirectX::SimpleMath::Vector2 GetTileUVSize() const noexcept { return tileUVSize; }
 
-    UINT GetXCount() { return tileXCount; }
-    UINT GetYCount() { return tileYCount; }
+    const std::wstring& GetTilePath() const noexcept { return tilePath; }
+    UINT GetColumns() const noexcept { return columns; }
+    UINT GetRows() const noexcept { return rows; }
 
-public:
-    // 플레이어가 선택한 타일의 시작 UV와 이미지의 타일 크기
-    Vector2 selectedStartUV = Values::ZeroVec2;
-    Vector2 texelTileSize = Values::ZeroVec2;
+    bool HasTileSet() const noexcept { return static_cast<bool>(activeTileSet); }
+
+    void SetSelection(UINT column, UINT row);
 
 private:
-    // ComPtr으로 관리하여 자동으로 해제되도록 함
-    ComPtr<ID3D11ShaderResourceView> tileSRV;
+    void DrawTileSelector();
 
-    UINT tileXCount = 0;
-    UINT tileYCount = 0;
+private:
+    std::shared_ptr<TileSet> activeTileSet;
 
-    wstring tilePath = L"";
+    std::wstring tilePath;
+    UINT columns = 0;
+    UINT rows = 0;
 
+    DirectX::SimpleMath::Vector2 tileUVSize = DirectX::SimpleMath::Vector2::Zero;
+    DirectX::SimpleMath::Vector2 selectedStartUV = DirectX::SimpleMath::Vector2::Zero;
 };
 

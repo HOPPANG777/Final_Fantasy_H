@@ -1,79 +1,115 @@
 #include "Framework.h"
 #include "TileSetManager.h"
 
+#include <algorithm>
+
+#include "TileSet.h"
+
+using namespace DirectX::SimpleMath;
+
 TileSetManager::TileSetManager()
 {
-    //Init();
-}
-
-TileSetManager::~TileSetManager()
-{
-    // ComPtr은 자동으로 Release()를 호출하므로 별도 처리 불필요
-}
-
-void TileSetManager::Init()
-{
-    // 기본 타일셋 경로 설정
-    tilePath = TexturePath + L"Tilesets/tile.png";
-
-    // Texture2D 객체를 unique_ptr로 생성
-    const auto& tex = std::make_unique<Texture2D>(tilePath);
-    // Texture2D 내부에서 ComPtr<ID3D11ShaderResourceView>를 관리하고 있다면 GetSRV()를 사용
-    tileSRV = tex->GetSRV();
-    // tex는 scope 종료 시 자동 삭제됨
-
-    // GUI에서 표현할 타일셋의 가로, 세로 분할 개수
-    tileXCount = 11;
-    tileYCount = 7;
-
-    texelTileSize = Vector2(1.0f / static_cast<float>(tileXCount), 1.0f / static_cast<float>(tileYCount));
+    // \uae30\ubcf8 \ud0c0\uc77c\uc138\ud2b8 \ud30c\uc77c\uc744 \ub85c\ub4dc\ud558\uc5ec \uace0\uc815 \ud658\uacbd\uc744 \ucd94\uc815\ud55c\ub2e4.
+    const std::wstring defaultPath = TexturePath + L"Tilesets/tile.png";
+    LoadTileSet(defaultPath, 11, 7);
+    SetSelection(0, 0);
 }
 
 void TileSetManager::ImGUI()
 {
     ImGui::Begin("TileSetManager");
     {
-        // 스크롤 가능한 영역 (가로 + 세로 스크롤 적용)
-        ImGui::BeginChild("TileScrollRegion", ImVec2(700, 500), true, ImGuiWindowFlags_HorizontalScrollbar);
-
-        int count = 0;
-        for (UINT y = 0; y < tileYCount; y++)
+        if (!HasTileSet())
         {
-            for (UINT x = 0; x < tileXCount; x++)
-            {
-                float startX = texelTileSize.x * x;
-                float startY = texelTileSize.y * y;
-
-                ImGui::PushID(count);
-                if (ImGui::ImageButton("##TileButton", (ImTextureID)tileSRV.Get(), ImVec2(40, 40),
-                    ImVec2(startX, startY), ImVec2(startX + texelTileSize.x, startY + texelTileSize.y)))
-                {
-                    selectedStartUV = Vector2(startX, startY);
-                }
-                ImGui::PopID();
-
-                count++;
-
-                // 다음 타일이 가로 너비를 넘어가면 줄바꿈
-                if ((count % tileXCount) != 0)
-                    ImGui::SameLine();
-            }
+            ImGui::Text("\ud0c0\uc77c\uc138\ud2b8\uac00 \ub85c\ub4dc\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.");
         }
-
-        ImGui::EndChild(); // 스크롤 가능한 컨테이너 종료
+        else
+        {
+            ImGui::Text("\ud0c0\uc77c\uc138\ud2b8: %ls", tilePath.c_str());
+            ImGui::Separator();
+            DrawTileSelector();
+        }
     }
     ImGui::End();
 }
 
-void TileSetManager::ChangeTileMap(const std::wstring& imagePath, UINT xCount, UINT yCount)
+void TileSetManager::LoadTileSet(const std::wstring& atlasPath, UINT columns, UINT rows)
 {
-    tilePath = imagePath;
+    activeTileSet = std::make_shared<TileSet>(atlasPath, columns, rows);
+    tilePath = atlasPath;
+    this->columns = activeTileSet->GetColumns();
+    this->rows = activeTileSet->GetRows();
 
-    const auto& tex = std::make_unique<Texture2D>(tilePath);
-    tileSRV = tex->GetSRV();
-
-    tileXCount = xCount;
-    tileYCount = yCount;
-
-    texelTileSize = Vector2(1.0f / static_cast<float>(tileXCount), 1.0f / static_cast<float>(tileYCount));
+    tileUVSize = activeTileSet->GetTileUVSize();
+    selectedStartUV = Vector2::Zero;
 }
+
+void TileSetManager::ClearTileSet()
+{
+    activeTileSet.reset();
+    tilePath.clear();
+    columns = 0;
+    rows = 0;
+    tileUVSize = Vector2::Zero;
+    selectedStartUV = Vector2::Zero;
+}
+
+void TileSetManager::SetSelection(UINT column, UINT row)
+{
+    if (!activeTileSet)
+    {
+        return;
+    }
+
+    column = std::min(column, columns > 0 ? columns - 1 : 0);
+    row = std::min(row, rows > 0 ? rows - 1 : 0);
+
+    selectedStartUV = activeTileSet->CalculateStartUV(column, row);
+}
+
+void TileSetManager::DrawTileSelector()
+{
+    if (!activeTileSet)
+    {
+        return;
+    }
+
+    ID3D11ShaderResourceView* srv = activeTileSet->GetShaderResourceView();
+    if (!srv)
+    {
+        ImGui::Text("\uc0ac\uc6a9 \uac00\ub2a5\ud55c \ud0c0\uc77c\uc138\ud2b8 \uc774\ubbf8\uc9c0\uac00 \uc5c6\uc2b5\ub2c8\ub2e4.");
+        return;
+    }
+
+    // ImGui \ud558\uc774\ub4dc \ubc31\uc744 \uc774\uc6a9\ud558\uc5ec \ud0c0\uc77c \ucf64\ubcf4 \uadf8\ub798\ubc0d \uc720\ud615\uc744 \uad6c\ud604\ud55c\ub2e4.
+    ImGui::BeginChild("TileScrollRegion", ImVec2(700, 500), true, ImGuiWindowFlags_HorizontalScrollbar);
+
+    for (UINT rowIndex = 0; rowIndex < rows; ++rowIndex)
+    {
+        for (UINT columnIndex = 0; columnIndex < columns; ++columnIndex)
+        {
+            const Vector2 uvStart = activeTileSet->CalculateStartUV(columnIndex, rowIndex);
+            const Vector2 uvEnd = activeTileSet->CalculateEndUV(columnIndex, rowIndex);
+
+            ImGui::PushID(static_cast<int>(rowIndex * columns + columnIndex));
+            if (ImGui::ImageButton(
+                "##TileButton",
+                reinterpret_cast<ImTextureID>(srv),
+                ImVec2(40.0f, 40.0f),
+                ImVec2(uvStart.x, uvStart.y),
+                ImVec2(uvEnd.x, uvEnd.y)))
+            {
+                SetSelection(columnIndex, rowIndex);
+            }
+            ImGui::PopID();
+
+            if (columnIndex + 1 < columns)
+            {
+                ImGui::SameLine();
+            }
+        }
+    }
+
+    ImGui::EndChild();
+}
+

@@ -23,6 +23,8 @@ public:
     void SetTexture(const std::wstring& filePath);
     void SetSRV(ID3D11ShaderResourceView* shaderResourceView);
 
+    ID3D11ShaderResourceView* GetShaderResourceView() const { return _shaderResourceView.Get(); }
+
     void SetGeometry(const std::vector<VertexTexture>& vertices, const std::vector<UINT>& indices);
     void SetShapeFromPositions(
         const std::vector<DirectX::SimpleMath::Vector3>& positions,
