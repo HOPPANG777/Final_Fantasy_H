@@ -185,9 +185,6 @@
     <ClInclude Include="_Misc\TileSet.h">
       <Filter>_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="_Misc\TileSetManager.h">
-      <Filter>_Misc</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -321,9 +318,6 @@
       <Filter>_Misc</Filter>
     </ClCompile>
     <ClCompile Include="_Misc\TileSet.cpp">
-      <Filter>_Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="_Misc\TileSetManager.cpp">
       <Filter>_Misc</Filter>
     </ClCompile>
   </ItemGroup>
