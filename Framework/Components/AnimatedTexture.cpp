@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "AnimatedTexture.h"
 
-#include "../_Misc/Animator.h"
-
 AnimatedTexture::AnimatedTexture(
     const DirectX::SimpleMath::Vector3& position,
     const DirectX::SimpleMath::Vector3& scale,
@@ -85,17 +83,17 @@ void AnimatedTexture::UpdateFrameUVs(
         return;
     }
 
-    vertices[0].uv.x = framePosition.x;
-    vertices[0].uv.y = framePosition.y + frameSize.y;
+    vertices[0]._uv.x = framePosition.x;
+    vertices[0]._uv.y = framePosition.y + frameSize.y;
 
-    vertices[1].uv.x = framePosition.x;
-    vertices[1].uv.y = framePosition.y;
+    vertices[1]._uv.x = framePosition.x;
+    vertices[1]._uv.y = framePosition.y;
 
-    vertices[2].uv.x = framePosition.x + frameSize.x;
-    vertices[2].uv.y = framePosition.y + frameSize.y;
+    vertices[2]._uv.x = framePosition.x + frameSize.x;
+    vertices[2]._uv.y = framePosition.y + frameSize.y;
 
-    vertices[3].uv.x = framePosition.x + frameSize.x;
-    vertices[3].uv.y = framePosition.y;
+    vertices[3]._uv.x = framePosition.x + frameSize.x;
+    vertices[3]._uv.y = framePosition.y;
 
     CommitVertices();
 }

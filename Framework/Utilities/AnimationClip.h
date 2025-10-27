@@ -27,7 +27,7 @@ private:
     // 원본에서는 Raw Pointer였지만, 이제는 ComPtr
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv = nullptr;
 
-    DirectX::SimpleMath::Vector2 texelFrameSize = DirectHelper::ZeroVector2;
+    DirectX::SimpleMath::Vector2 texelFrameSize = Values::ZeroVector2;
     bool bReversed = false;
 
     // ★ 추가: 이 애니메이션의 재생 속도

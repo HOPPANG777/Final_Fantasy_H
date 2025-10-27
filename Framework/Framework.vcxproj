@@ -189,6 +189,7 @@
     <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Scenes\Scene_01.h" />
     <ClInclude Include="Objects\TestObject.h" />
+    <ClInclude Include="Utilities\AnimationClip.h" />
     <ClInclude Include="Utilities\DirectHelper.h" />
     <ClInclude Include="Components\Drawable.h" />
     <ClInclude Include="Utilities\FileStream.h" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Renders\VertexType.h" />
     <ClInclude Include="Systems\WindowManager.h" />
     <ClInclude Include="Utilities\ReadData.h" />
+    <ClInclude Include="Components\Animator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\AnimatedTexture.cpp" />
@@ -243,6 +245,7 @@
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Scenes\Scene_01.cpp" />
     <ClCompile Include="Objects\TestObject.cpp" />
+    <ClCompile Include="Utilities\AnimationClip.cpp" />
     <ClCompile Include="Utilities\DirectHelper.cpp" />
     <ClCompile Include="Components\Drawable.cpp" />
     <ClCompile Include="Utilities\FileStream.cpp" />
@@ -274,6 +277,7 @@
     <ClCompile Include="Components\TypingText.cpp" />
     <ClCompile Include="Renders\VertexType.cpp" />
     <ClCompile Include="Systems\WindowManager.cpp" />
+    <ClCompile Include="Components\Animator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Program\Framework.rc" />

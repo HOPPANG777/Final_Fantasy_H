@@ -125,7 +125,7 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 #include "Interfaces/IColorable.h"
 
 //Utilities
-//#include "Utilities/AnimationClip.h"
+#include "Utilities/AnimationClip.h"
 #include "Utilities/DirectHelper.h"
 #include "Utilities/FileStream.h"
 #include "Utilities/String.h"
@@ -165,7 +165,7 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 #include "Components/Component.h"
 #include "Components/Transform.h"
 #include "Components/RectTransform.h"
-//#include "Components/Animator.h"
+#include "Components/Animator.h"
 #include "Components/MoveComponent.h"
 #include "Components/Collider.h"
 #include "Components/BoxCollider.h"
@@ -177,6 +177,7 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 #include "Components/ColorFilledCircle.h"
 #include "Components/ColorLine.h"
 #include "Components/Texture.h"
+#include "Components/AnimatedTexture.h"
 #include "Components/Texts.h"
 #include "Components/TypingText.h"
 #include "Components/ShakingText.h"
