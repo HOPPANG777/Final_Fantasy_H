@@ -1,23 +1,23 @@
 #pragma once
 
-//   Ŭ  ؾ ϴ ̽Դϴ.
 class Scene
 {
 public:
-    virtual ~Scene() = default; //    ȣǴ  ҸԴϴ.
+	virtual ~Scene() = default;
 
-    virtual void Awake() = 0;        // Ʈ     Ǵ ʱ غ ܰԴϴ.
-    virtual void Start() = 0;        // Awake , ù   Ǵ ʱȭ  ۼմϴ.
-    virtual void Destroy() = 0;      //    ؾ  ҽ մϴ.
+	virtual void Awake() = 0;
+	virtual void Start() = 0;
+	virtual void Destroy() = 0;
 
-    virtual void FixedUpdate() = 0;  //      óؾ ϴ  ۼմϴ.
-    virtual void Update() = 0;       //  Ӹ ȣǴ Ϲ Ʈ Դϴ.
-    virtual void LateUpdate() = 0;   // Update  ó ʿ  ۼմϴ.
+	virtual void FixedUpdate() = 0;
+	virtual void Update() = 0;
+	virtual void LateUpdate() = 0;
 
-    virtual void Render() = 0;       //  ȭ  ׸  Դϴ.
-    virtual void PostRender() = 0;   //   ó ȿ ׿  óմϴ.
+	virtual void Render() = 0;
+	virtual void PostRender() = 0;
 
-    virtual void ImGUI() = 0;        // ׿ ImGui UI ϰų մϴ.
+	virtual void ImGUI() = 0;
 
-    virtual bool IsLoaded() const = 0; //  Ͱ ε ϷǾ θ ȯմϴ.
+	virtual bool IsLoaded() const = 0;
 };
+
