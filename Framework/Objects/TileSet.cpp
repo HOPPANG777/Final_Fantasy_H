@@ -75,8 +75,8 @@ void TileSet::SetSelection(UINT column, UINT row)
         return;
     }
 
-    column = std::min(column, columnCount > 0 ? columnCount - 1 : 0);
-    row = std::min(row, rowCount > 0 ? rowCount - 1 : 0);
+    column = min(column, columnCount > 0 ? columnCount - 1 : 0);
+    row = min(row, rowCount > 0 ? rowCount - 1 : 0);
 
     selectedStartUV = CalculateStartUV(column, row);
 }
