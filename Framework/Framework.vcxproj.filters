@@ -167,6 +167,15 @@
     <ClInclude Include="Components\ColorRect.h">
       <Filter>Components\Color\ColorRect</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\AnimationClip.h">
+      <Filter>Utilities\AnimationClip</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Animator.h">
+      <Filter>Components\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\MoveComponent.h">
+      <Filter>Components\Move</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -283,6 +292,15 @@
     </ClCompile>
     <ClCompile Include="Components\ColorRect.cpp">
       <Filter>Components\Color\ColorRect</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\AnimationClip.cpp">
+      <Filter>Utilities\AnimationClip</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Animator.cpp">
+      <Filter>Components\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\MoveComponent.cpp">
+      <Filter>Components\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +438,9 @@
     </Filter>
     <Filter Include="Components\Color\ColorLine">
       <UniqueIdentifier>{28be6e39-ae01-4c3f-8999-26c64a0de0c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Move">
+      <UniqueIdentifier>{b77763a1-8032-4026-aea1-2eb936226751}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
