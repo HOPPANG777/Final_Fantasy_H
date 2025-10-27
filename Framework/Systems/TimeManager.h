@@ -2,60 +2,73 @@
 
 class TimeManager
 {
-	DECLARE_SINGLETON(TimeManager);
+        DECLARE_SINGLETON(TimeManager);
 
 public:
-	void Update();
+        //  Ó¸ Ã°   Ñ´.
+        void Update();
 
-	float GetRealDeltaTime() const { return float(_deltaTime); }
-	float GetDeltaTime() const { return _scaledDeltaTime; }
-
-public:
-	UINT GetFPS() const { return _fps; }
-	double GetWorldTime() const { return _worldTime; }
-
-public:
-	void SetTimeScale(float scale) { _timeScale = scale; }
-	float GetTimeScale() const { return _timeScale; }
-
-	void CheckTime() const
-	{
-		std::cout << "FPS : " << _fps << ", DeltaTime : "
-			<< _scaledDeltaTime << ", WorldTime : " << _worldTime << '\n';
-	}
+        // Ã° Ó°   Å¸ Å¸() È¯Ñ´.
+        float GetRealDeltaTime() const { return float(_deltaTime); }
+        // Ã°  Ý¿ Å¸ Å¸() È¯Ñ´.
+        float GetDeltaTime() const { return _scaledDeltaTime; }
 
 public:
-	// UTC ½Ã°£ ¹ÝÈ¯
-	SYSTEMTIME GetUTCTime() const
-	{
-		SYSTEMTIME st;
-		::GetSystemTime(&st);  // ÇöÀç ·ÎÄÃ ½Ã°£À» st¿¡ ÀúÀå
-		return st;
-	}
+        // Ö±  FPS  È¯Ñ´.
+        UINT GetFPS() const { return _fps; }
+        //  Ûµ    Ã° È¯Ñ´.
+        double GetWorldTime() const { return _worldTime; }
 
-	// ÄÄÇ»ÅÍ ·ÎÄÃ ½Ã°£ ¹ÝÈ¯
-	SYSTEMTIME GetLocalPCTime() const
-	{
-		SYSTEMTIME st;
-		::GetLocalTime(&st);  // ÇöÀç ·ÎÄÃ ½Ã°£À» st¿¡ ÀúÀå
-		return st;
-	}
+public:
+        // Å¸Ó½  Ñ´. 1.0Ì¸ Ç½Ã° Ñ´.
+        void SetTimeScale(float scale) { _timeScale = scale; }
+        //  Å¸Ó½  È¯Ñ´.
+        float GetTimeScale() const { return _timeScale; }
+
+        //   Ã° (FPS, Å¸ Å¸,  Å¸) Ü¼Ö¿ Ñ´.
+        void CheckTime() const
+        {
+                std::cout << "FPS : " << _fps << ", DeltaTime : "
+                        << _scaledDeltaTime << ", WorldTime : " << _worldTime << '\n';
+        }
+
+public:
+        // UTC( Ç¥Ø½) SYSTEMTIME Ã¼ È¯Ñ´.
+        SYSTEMTIME GetUTCTime() const
+        {
+                SYSTEMTIME st;
+                ::GetSystemTime(&st);  //  UTC Ã° st Ñ´.
+                return st;
+        }
+
+        // PC  Ã° SYSTEMTIME Ã¼ È¯Ñ´.
+        SYSTEMTIME GetLocalPCTime() const
+        {
+                SYSTEMTIME st;
+                ::GetLocalTime(&st);  //   Ã° st Ñ´.
+                return st;
+        }
 
 private:
-	std::chrono::steady_clock::time_point _currentTime;
-	std::chrono::steady_clock::time_point _lastTime;
-	double _deltaTime = 0.0;
-	double _scaledDeltaTime = 0.0;
+        //  Å¿ Ç´  Ã°   Ã°.
+        std::chrono::steady_clock::time_point _currentTime;
+        std::chrono::steady_clock::time_point _lastTime;
+        // Ç½Ã° Å¸ Å¸() Å¸Ó½  Å¸ Å¸.
+        double _deltaTime = 0.0;
+        double _scaledDeltaTime = 0.0;
 
 private:
-	UINT _fps = 0;
-	double _worldTime = 0.0;
+        // Ê´    Ã¼  Ã°().
+        UINT _fps = 0;
+        double _worldTime = 0.0;
 
 private:
-	UINT _frameCount = 0;
-	double _fpsTimeElapsed = 0.0;
+        // FPS         Ã°.
+        UINT _frameCount = 0;
+        double _fpsTimeElapsed = 0.0;
 
 private:
-	float _scaleDeltaTime = 0.0f;
-	float _timeScale = 1.0f;		// Å¸ÀÓ½ºÄÉÀÏ
+        //  Å¸ Å¸Ó° Å¸Ó½ .
+        float _scaleDeltaTime = 0.0f;
+        float _timeScale = 1.0f;                // Å¸Ó½ âº» 1.0(Ç½Ã°).
 };

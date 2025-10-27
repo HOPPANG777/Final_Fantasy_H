@@ -4,28 +4,34 @@ constexpr size_t MAX_INPUT_KEY = 256;
 
 class KeyboardManager
 {
-	DECLARE_SINGLETON(KeyboardManager);
+        DECLARE_SINGLETON(KeyboardManager);
 
-	enum
-	{
-		KEY_INPUT_STATUS_NONE = 0,
-		KEY_INPUT_STATUS_DOWN,
-		KEY_INPUT_STATUS_UP,
-		KEY_INPUT_STATUS_PRESS
-	};
+        enum
+        {
+                KEY_INPUT_STATUS_NONE = 0,
+                KEY_INPUT_STATUS_DOWN,
+                KEY_INPUT_STATUS_UP,
+                KEY_INPUT_STATUS_PRESS
+        };
 
 public:
-	void Update();
+        //   Ű ¸ Ѵ.
+        void Update();
 
-	bool Down(const DWORD key) const { return keyMap[key] == KEY_INPUT_STATUS_DOWN; }
-	bool Up(const DWORD key) const { return keyMap[key] == KEY_INPUT_STATUS_UP; }
-	bool Press(const DWORD key) const { return keyMap[key] == KEY_INPUT_STATUS_PRESS; }
+        // Ű  ȴ θ ȯѴ.
+        bool Down(const DWORD key) const { return keyMap[key] == KEY_INPUT_STATUS_DOWN; }
+        // Ű   θ ȯѴ.
+        bool Up(const DWORD key) const { return keyMap[key] == KEY_INPUT_STATUS_UP; }
+        // Ű  · ǰ ִ θ ȯѴ.
+        bool Press(const DWORD key) const { return keyMap[key] == KEY_INPUT_STATUS_PRESS; }
 
 private:
-	std::array<unsigned char, MAX_INPUT_KEY> keyState = { 0 };
-	std::array<unsigned char, MAX_INPUT_KEY> keyOldState = { 0 };
-	std::array<unsigned char, MAX_INPUT_KEY> keyMap = { 0 };
+        // GetKeyboardState  ϴ   Ű .
+        std::array<unsigned char, MAX_INPUT_KEY> keyState = { 0 };
+        //   Ű .
+        std::array<unsigned char, MAX_INPUT_KEY> keyOldState = { 0 };
+        // Է ¸ Down/Up/Press   .
+        std::array<unsigned char, MAX_INPUT_KEY> keyMap = { 0 };
 
 };
-
 
