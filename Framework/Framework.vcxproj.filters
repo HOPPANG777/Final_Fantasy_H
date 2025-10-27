@@ -134,6 +134,9 @@
     <ClInclude Include="Components\Texture.h">
       <Filter>Components\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Components\AnimatedTexture.h">
+      <Filter>Components\Texture</Filter>
+    </ClInclude>
     <ClInclude Include="Utilities\ReadData.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="Components\Drawable.cpp">
       <Filter>Components\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AnimatedTexture.cpp">
+      <Filter>Components\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Components\BoxCollider.cpp">
       <Filter>Components\Collider</Filter>

@@ -8,7 +8,8 @@ public:
         const DirectX::SimpleMath::Vector3& scale,
         float rotation,
         const std::wstring& texturePath = L"",
-        bool useRectTransform = false
+        bool useRectTransform = false,
+        std::string componentName = "Texture"
     );
     ~Texture() override = default;
 
@@ -28,6 +29,10 @@ public:
         const std::vector<UINT>& indices
     );
     void SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& topology);
+
+protected:
+    std::vector<VertexTexture>& AccessVertices();
+    void CommitVertices();
 
 private:
     void InitializeGeometry();

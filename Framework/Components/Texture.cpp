@@ -3,15 +3,17 @@
 
 #include <algorithm>
 #include <cwctype>
+#include <cstring>
 
 Texture::Texture(
     const DirectX::SimpleMath::Vector3& position,
     const DirectX::SimpleMath::Vector3& scale,
     float rotation,
     const std::wstring& texturePath,
-    bool useRectTransform
+    bool useRectTransform,
+    std::string componentName
 )
-    : Drawable("Texture", position, scale, rotation, useRectTransform, ShaderPath + L"Texture.hlsl")
+    : Drawable(componentName, position, scale, rotation, useRectTransform, ShaderPath + L"Texture.hlsl")
 {
     InitializeGeometry();
     InitializeStates();
@@ -296,5 +298,25 @@ bool Texture::CreateTextureFromImage(const std::wstring& filePath)
     _shaderResourceView = shaderResourceView;
 
     return true;
+}
+
+std::vector<VertexTexture>& Texture::AccessVertices()
+{
+    return _vertices;
+}
+
+void Texture::CommitVertices()
+{
+    if (!_vertices.empty() && vertexBuffer && vertexBuffer->GetResource())
+    {
+        D3D11_MAPPED_SUBRESOURCE mappedResource = {};
+        ID3D11DeviceContext* context = GraphicsManager::Get()->GetDC();
+
+        HRESULT result = context->Map(vertexBuffer->GetResource(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+        CHECK(result);
+
+        std::memcpy(mappedResource.pData, _vertices.data(), sizeof(VertexTexture) * _vertices.size());
+        context->Unmap(vertexBuffer->GetResource(), 0);
+    }
 }
 
