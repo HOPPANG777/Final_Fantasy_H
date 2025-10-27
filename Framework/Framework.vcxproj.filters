@@ -176,6 +176,18 @@
     <ClInclude Include="Components\MoveComponent.h">
       <Filter>Components\Move</Filter>
     </ClInclude>
+    <ClInclude Include="_Misc\Tile.h">
+      <Filter>_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="_Misc\TileMap.h">
+      <Filter>_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="_Misc\TileSet.h">
+      <Filter>_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="_Misc\TileSetManager.h">
+      <Filter>_Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -301,6 +313,18 @@
     </ClCompile>
     <ClCompile Include="Components\MoveComponent.cpp">
       <Filter>Components\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="_Misc\Tile.cpp">
+      <Filter>_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="_Misc\TileMap.cpp">
+      <Filter>_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="_Misc\TileSet.cpp">
+      <Filter>_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="_Misc\TileSetManager.cpp">
+      <Filter>_Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -441,6 +465,9 @@
     </Filter>
     <Filter Include="Components\Move">
       <UniqueIdentifier>{b77763a1-8032-4026-aea1-2eb936226751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Misc">
+      <UniqueIdentifier>{c7d2345b-7b2c-42e6-a7c9-fab630887c9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
