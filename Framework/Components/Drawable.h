@@ -1,12 +1,8 @@
 #pragma once
 
-// Drawable   Ʈ  ϴ  Ŭ.
-// /ε ۿ ̴ ʱȭϰ Ʈ  óѴ.
-
 class Drawable : public Component
 {
 public:
-    //   ⺻ Ʈ, /̴ ʱȭ Ʈ Ѵ.
     Drawable(
         const std::string& name,
         const DirectX::SimpleMath::Vector3& position,
@@ -48,15 +44,12 @@ public:
     virtual ~Drawable() override = default;
 
 public:
-    // Transform ȭ   û óѴ.
     void Update() override;
-    // ̴ ۸ εϰ  DrawCall Ѵ.
     void Render() override;
 
-    void DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed = true); //   ο
+    void DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed = true);
 
 private:
-    // Transform  ž   ó
     void ApplyPendingTransform();
 
 protected:

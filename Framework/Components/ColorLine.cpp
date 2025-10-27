@@ -1,5 +1,3 @@
-// ColorLine δ  ؽ ʱȭϰ    Ѵ.
-
 #include "Framework.h"
 #include "ColorLine.h"
 
@@ -24,7 +22,6 @@ void ColorLine::Update()
 void ColorLine::Render()
 {
     Drawable::Render();
-    //  Ƽ    Ѵ.
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, false);
 }
 
@@ -51,7 +48,6 @@ void ColorLine::InitializeGeometry()
         vertex._color = _color;
     }
 
-    //  ۸      Ʈ  ְ Ѵ.
     vertexBuffer->Create(_vertices, D3D11_USAGE_DYNAMIC);
     inputLayout->Create(VertexColor::ieDescs.data(), VertexColor::ieDescs.size(), vertexShader->GetBlob());
 }
@@ -60,7 +56,6 @@ void ColorLine::UpdateVertexColors()
 {
     ID3D11DeviceContext* deviceContext = GraphicsManager::Get()->GetDC();
     D3D11_MAPPED_SUBRESOURCE mappedSubResource;
-    // ؽ ۸  ο  CPU  ִ´.
     HRESULT hr = deviceContext->Map(vertexBuffer->GetResource(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
     CHECK(hr);
 

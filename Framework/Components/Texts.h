@@ -1,7 +1,5 @@
 #pragma once
 
-// Texts Æ®  Ú¿ Ï´ Drawable  Å¬.
-// Û², ,   Ø½Æ® Ó¼ Ñ´.
 
 struct FontBrushDesc
 {
@@ -47,7 +45,6 @@ public:
     Texts(const std::string& name = "Texts") : Component(name) {}
     virtual ~Texts() = default;
 
-    // Ø½Æ® Ú¿  ç°¢ ×¸  âº» Ì½.
     virtual void RenderText
     (
         const std::wstring& text,
@@ -60,17 +57,13 @@ public:
         const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL
     );
 
-    virtual void Update() override {} // Ø½Æ® Ö´Ï¸Ì¼ Ê¿Ï¸ ÌµÑ´.
-    virtual void Render() override {} // Ø½Æ® DrawText È£  È´.
+    virtual void Update() override {} // ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ±¸ÇöÇÏ·Á¸é ¾÷µ¥ÀÌÆ® ¸Ş¼­µå »ç¿ë
+    virtual void Render() override {}
 
 public:
-    // Æ¯ Æ®  Ä¡ Úµ ó°¡µ Ñ´.
     void AttachToObject(GameObject* object);
-    //  Æ®  Ñ´.
     void Detach();
-        // true Ï¸ È­é¿¡ Ø½Æ® Ñ´.
 	void SetTextOut(const bool textOut) { this->textOut = textOut; }
-        //   Â¸ È®Ñ´.
 	bool GetTextOut() const { return textOut; }
 
 protected:
@@ -87,8 +80,8 @@ protected:
         const DWRITE_FONT_STRETCH& stretch
     );
 
-};
-    DirectX::SimpleMath::Vector3 offset = Values::ZeroVector3;  // ê°ì²´ ìœ„ì¹˜ì— ë”í•  ì˜¤í”„ì…‹
+    GameObject* attachedObject = nullptr; // ÅØ½ºÆ®°¡ µû¶ó´Ù´Ò °´Ã¼
+    DirectX::SimpleMath::Vector3 offset = Values::ZeroVector3;  // °´Ã¼ À§Ä¡¿¡ ´õÇÒ ¿ÀÇÁ¼Â
 
     bool textOut = false;
 

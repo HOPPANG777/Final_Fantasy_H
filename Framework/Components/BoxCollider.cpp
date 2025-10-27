@@ -1,6 +1,3 @@
-// BoxCollider Î´ Æ® Ä¡ Ú½ ß½ È­Ï°   Ñ´.
-// Collider  É¼    È­é¿¡ Ú½ Ç¥Ñ´.
-
 #include "Framework.h"
 #include "BoxCollider.h"
 
@@ -8,7 +5,7 @@ void BoxCollider::Update()
 {
     if (GetOwner())
     {
-        // ì†Œìœ  ê°ì²´ì˜ ìœ„ì¹˜ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì¤‘ì‹¬ì„ ì—…ë°ì´íŠ¸
+        // ¼ÒÀ¯ °´Ã¼ÀÇ À§Ä¡¸¦ ±â¹ÝÀ¸·Î Áß½ÉÀ» ¾÷µ¥ÀÌÆ®
         DirectX::SimpleMath::Vector3 ownerPosition = GetOwner()->GetComponent<Transform>("Transform")->GetPosition();
         center = ownerPosition;
         UpdateEdge();
@@ -19,14 +16,14 @@ void BoxCollider::Render()
 {
     if (!CollisionManager::Get()->GetColliderDebug()) return;
 
-    // colliderì˜ center(ì›”ë“œ ì¢Œí‘œ)
-    DirectX::SimpleMath::Vector3 center = GetCenter(); // ì˜ˆ: Transform ë“±ì—ì„œ ê°€ì ¸ì˜´
+    // colliderÀÇ center(¿ùµå ÁÂÇ¥)
+    DirectX::SimpleMath::Vector3 center = GetCenter(); // ¿¹: Transform µî¿¡¼­ °¡Á®¿È
     DirectX::SimpleMath::Vector3 cameraPos = CameraManager::Get()->GetPosition();
 
-    // í™”ë©´ ì¢Œí‘œë¡œ ë³€í™˜ (ì¹´ë©”ë¼ê°€ ì´ë™í•œ ë§Œí¼ ë¹¼ê¸°)
+    // È­¸é ÁÂÇ¥·Î º¯È¯ (Ä«¸Þ¶ó°¡ ÀÌµ¿ÇÑ ¸¸Å­ »©±â)
     DirectX::SimpleMath::Vector3 screenCenter = center - cameraPos;
 
-    // ê¸°ì¦ˆëª¨ ê·¸ë¦¬ê¸°
-    // size(ë°•ìŠ¤ í¬ê¸°)ëŠ” ê·¸ëŒ€ë¡œ, centerë§Œ screenCenterë¡œ
+    // ±âÁî¸ð ±×¸®±â
+    // size(¹Ú½º Å©±â)´Â ±×´ë·Î, center¸¸ screenCenter·Î
     GizmoManager::Get()->DrawBox(screenCenter, size, color, 1.0f);
 }
