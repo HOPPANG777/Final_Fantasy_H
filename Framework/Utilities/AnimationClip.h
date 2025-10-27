@@ -1,11 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
-#include <directxtk/SimpleMath.h>
-#include <wrl/client.h>
-
 struct ID3D11ShaderResourceView;
 
 class AnimationClip
