@@ -9,7 +9,7 @@ private:
     Vector2 startUV = Values::ZeroVec2;
     Vector2 endUV = Values::ZeroVec2;
 
-    ComPtr<ID3D11ShaderResourceView> srv;
+    ComPtr<ID3D11ShaderResourceView> srv; // D3D 府家胶绰 ComPtr肺 包府
 
     UINT index = -1;
 

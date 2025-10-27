@@ -1,3 +1,5 @@
+// ColorCircle δ  ؽ ϰ  Ʈ ׸.
+//  ϸ ؽ ۸   ݿѴ.
 
 #include "Framework.h"
 #include "ColorCircle.h"
@@ -18,9 +20,11 @@ ColorCircle::ColorCircle(
 {
     if (_segments < 3)
     {
+        // ּ 3 ̻̾  ¸   ִ.
         _segments = 3;
     }
     InitializeGeometry();
+    // ؽ Է ̾ƿ غѴ.
 }
 
 void ColorCircle::Update()
@@ -31,6 +35,7 @@ void ColorCircle::Update()
 void ColorCircle::Render()
 {
     Drawable::Render();
+    //  Ʈ   ܰ ׸.
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP, false);
 }
 
@@ -47,8 +52,10 @@ void ColorCircle::SetColor(const DirectX::SimpleMath::Color& color)
 
 void ColorCircle::InitializeGeometry()
 {
+    //   ù °  ϰ    Ѵ.
     _vertices.assign(_segments + 1, VertexColor());
 
+    //      ǥ ġѴ.
     const float segmentStep = DirectX::XM_2PI / static_cast<float>(_segments);
     for (size_t index = 0; index <= _segments; ++index)
     {
@@ -68,11 +75,13 @@ void ColorCircle::UpdateVertexColors()
 {
     ID3D11DeviceContext* deviceContext = GraphicsManager::Get()->GetDC();
     D3D11_MAPPED_SUBRESOURCE mappedSubResource;
+    //  ؽ ۸  CPU ͸ Ѵ.
     HRESULT hr = deviceContext->Map(vertexBuffer->GetResource(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
     CHECK(hr);
 
     for (VertexColor& vertex : _vertices)
     {
+        //     ؽ Ѵ.
         vertex._color = _color;
     }
 

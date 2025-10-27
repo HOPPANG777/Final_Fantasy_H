@@ -1,12 +1,12 @@
 #pragma once
 
-// Drawable is the base class for components that submit draw calls.
-// It manages GPU resources and handles the per-frame render invocation.
+// Drawable   Ʈ  ϴ  Ŭ.
+// /ε ۿ ̴ ʱȭϰ Ʈ  óѴ.
 
 class Drawable : public Component
 {
 public:
-    // Construct with initial transform data and the shader to use when drawing.
+    //   ⺻ Ʈ, /̴ ʱȭ Ʈ Ѵ.
     Drawable(
         const std::string& name,
         const DirectX::SimpleMath::Vector3& position,
@@ -48,15 +48,15 @@ public:
     virtual ~Drawable() override = default;
 
 public:
-    // Apply any pending transform changes before the frame begins.
+    // Transform ȭ   û óѴ.
     void Update() override;
-    // Issue the GPU draw call for the primitive.
+    // ̴ ۸ εϰ  DrawCall Ѵ.
     void Render() override;
 
-    void DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed = true);
+    void DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed = true); //   ο
 
 private:
-    // Push pending transform information into the GPU resources.
+    // Transform  ž   ó
     void ApplyPendingTransform();
 
 protected:

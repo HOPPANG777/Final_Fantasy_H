@@ -1,3 +1,4 @@
+// Texts δ ۲ ҽ غϰ ڿ ο ȣ Ѵ.
 
 #include "Framework.h"
 #include "Texts.h"
@@ -14,9 +15,12 @@ void Texts::RenderText
 	const DWRITE_FONT_STRETCH& stretch
 )
 {
+        //   귯ø    δ.
 	FontBrushDesc* brush = GetOrCreateBrush(color);
+        // ۲ð ũ յ ĳ    ּȭѴ.
 	FontTextDesc* textDesc = GetOrCreateTextFormat(font, size, weight, style, stretch);
 
+        //  Ʈ   ġ  簢 Ѵ.
 	RECT finalRect = CalculateRectFromObject(rect);
 
 	D2D1_RECT_F rectF =
@@ -27,6 +31,7 @@ void Texts::RenderText
 	static_cast<float>(gWinHeight - finalRect.top)
 	};
 
+        // Direct2D ؽƮ   ؽƮ ׸.
 	GraphicsManager::Get()->GetD2DC()->DrawTextW
 	(
 		text.c_str(),
@@ -36,6 +41,14 @@ void Texts::RenderText
 		brush->brush.Get()
 	);
 
+        //  CalculateRectFromObject ش Ʈ ġ ȰѴ.
+        // ̹   귯ð    ʴ´.
+        //   귯ø ǰ Բ ̳ʿ Ѵ.
+        //   ϸ   Ѵ.
+        //  ˵ ĳÿ   ȣ⿡ Ѵ.
+        //  簢 ϱ  ӽ .
+                // RectTransform ִٸ ش Rect  ״ Ѵ.
+                //  ⺻ Transform ġ offset  簢 ̵Ų.
 }
 }
 

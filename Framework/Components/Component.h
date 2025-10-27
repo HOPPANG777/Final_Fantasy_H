@@ -1,7 +1,7 @@
 #pragma once
 
-// Base class for every component that can be attached to a GameObject.
-// Derived classes override Update and Render to implement their behaviour.
+// Component   Ʈ    ̴.
+// ̸  ͸ ϰ Update/Render ̽ Ѵ.
 
 class GameObject;
 
@@ -19,13 +19,13 @@ public:
 	GameObject* GetOwner() const { return owner; }
 	std::string GetName() const { return name; }
 
-        // Assign the owning GameObject instance.
+        // GameObject   ڸ Ѵ.
 	void SetOwner(GameObject* obj) { owner = obj; }
 
 public:
-        // Called once per frame to update the component state.
+        // Ӻ   Ļ Ŭ Ѵ.
 	virtual void Update() = 0;
-        // Called every frame to render the component if required.
+        // ȭ  ʿ  Ļ Ŭ Ѵ.
 	virtual void Render() = 0;
 
 };

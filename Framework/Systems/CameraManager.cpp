@@ -5,7 +5,7 @@
 namespace
 {
     constexpr float kMaxAccelTime = 3.0f;
-    constexpr float kAccelDivisor = 5.0f;
+    constexpr float kAccelDivisor = 5.0f; // 원본 주석/로직 유지
     constexpr float kDefaultNear = 0.0f;
     constexpr float kDefaultFar = 1.0f;
 }
@@ -45,9 +45,9 @@ void CameraManager::UpdateView()
 {
     _view = DirectX::XMMatrixLookAtLH
     (
-        _position,
-        _position + DirectX::SimpleMath::Vector3(0, 0, 1),
-        DirectX::SimpleMath::Vector3(0, 1, 0)
+        _position,                   // 카메라 위치
+        _position + DirectX::SimpleMath::Vector3(0, 0, 1),// 바라보는 방향
+        DirectX::SimpleMath::Vector3(0, 1, 0)             // 업 벡터
     );
 
     _vpBuffer->SetView(_view);
@@ -55,6 +55,7 @@ void CameraManager::UpdateView()
 
 void CameraManager::Move()
 {
+    // 유효 타겟 우선순위: raw -> shared(weak)
     GameObject* targetPtr = _rawTarget ? _rawTarget : _target.lock().get();
 
     if (targetPtr != nullptr)
@@ -64,6 +65,7 @@ void CameraManager::Move()
         return;
     }
 
+    // 개발자 이동 모드
     if (KeyboardManager::Get()->Down(VK_F4))
     {
         _isMove = !_isMove;

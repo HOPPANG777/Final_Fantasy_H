@@ -7,23 +7,33 @@ CollisionManager::~CollisionManager() {}
 
 void CollisionManager::AddCollider(std::shared_ptr<Collider> collider)
 {
+    //    ˻ ݶ̴ Ͽ  ߰Ѵ.
     colliders.push_back(collider);
 }
 
 void CollisionManager::RemoveCollider(std::shared_ptr<Collider> collider)
 {
+    //  ̻ ʿ  ݶ̴ Ϳ Ѵ.
     colliders.erase(remove(colliders.begin(), colliders.end(), collider), colliders.end());
 }
 
 void CollisionManager::RemoveAllCollider()
 {
+    //  ȯ  ü ʱȭ ʿ   ݶ̴ .
     colliders.clear();
 }
 
 void CollisionManager::Update()
 {
+                //  ݶ̴ ο 浹 ̺Ʈ Ѵ.
+        //  带 Ѹ, GizmoManager 浹 ڽ ׷  ֵ Ѵ.
+        // ٽ ȣϸ   .
+    // GameObject Collider ̽ ϴ  Ʈ ´.
+    // CollisionManager ϵ  Collider Ѵ.
     {
+        // obj  Collider 浹ϴ ˻Ѵ.
         {
+                //   ߰ ʾҴٸ ߰Ѵ.
             const auto& colliderB = colliders[j];
 
             if (colliderA->IsColliding(colliderB.get()))

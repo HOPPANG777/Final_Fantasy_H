@@ -16,13 +16,13 @@ GraphicsManager::~GraphicsManager()
 void GraphicsManager::Init()
 {
     LoadFont();
-    RecreateDeviceAndSwapChain();
+    RecreateDeviceAndSwapChain(); // 통합 경로
     CreateDirectWrite();
 }
 
 void GraphicsManager::RecreateDeviceAndSwapChain()
 {
-    //  CreateDirect3D  
+    // 기존 CreateDirect3D 논리 포함
     UINT maxVRam = 0;
     for (UINT i = 0; i < _adapterInfos.size(); i++)
     {
@@ -31,6 +31,7 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
         if (vram > maxVRam) { _selectedAdapterIndex = (int)i; maxVRam = (UINT)vram; }
     }
 
+    // 출력해보기
     for (size_t i = 0; i < _adapterInfos.size(); i++)
     {
         std::wcout << L"GPU Name : " << _adapterInfos[i]->adapterDesc.Description << std::endl;
@@ -61,10 +62,10 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
     desc.SampleDesc.Count = 1;
     desc.SampleDesc.Quality = 0;
     desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    desc.BufferCount = 2;
+    desc.BufferCount = 2; // 더블 버퍼
     desc.OutputWindow = gHandle;
     desc.Windowed = TRUE;
-    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // 기존 유지(필요시 FLIP으로 변경 가능)
     desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
     std::vector<D3D_FEATURE_LEVEL> featureLevels
@@ -97,8 +98,10 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
     );
     CHECK(hr);
 
+    // D2D는 여기서 재구성
     CreateDirect2D();
 
+    // RTV/D2D 타깃/뷰포트 재설정
     RecreateTargetsFromSwapChain();
 }
 
@@ -145,6 +148,7 @@ void GraphicsManager::RecreateTargetsFromSwapChain()
 
 void GraphicsManager::CreateBackBuffer()
 {
+    // 호출 호환성 유지. 실제 작업은 RecreateTargetsFromSwapChain에서 수행.
     RecreateTargetsFromSwapChain();
 }
 
@@ -247,7 +251,7 @@ bool GraphicsManager::EnumerateAdapterOutput(AdapterInfo* adapterInfo)
     return true;
 }
 
-void GraphicsManager::CreateDirect3D() { /* 蘭: RecreateDeviceAndSwapChain */ }
+void GraphicsManager::CreateDirect3D() { /* 통합됨: RecreateDeviceAndSwapChain */ }
 
 void GraphicsManager::CreateDirect2D()
 {
@@ -287,6 +291,7 @@ void GraphicsManager::SetWindowManagerMode(WindowManagerMode mode)
     else if (_WindowManagerMode == WindowManagerMode::WINDOW_BORDERLESS)
     {
         _swapChain->SetFullscreenState(FALSE, nullptr);
+        // 보더리스는 윈도우 스타일/MoveWindowManager는 상위 레이어에서 처리
     }
     else // Exclusive
     {
@@ -309,6 +314,7 @@ void GraphicsManager::SetResolution(UINT width, UINT height)
     UINT top = (GetSystemMetrics(SM_CYSCREEN) - height) / 2 + rect.top;
     MoveWindow(gHandle, left, top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
 
+    // 스왑체인 리사이즈 → 공통 재생성
     HRESULT hr = _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
     CHECK(hr);
     RecreateTargetsFromSwapChain();

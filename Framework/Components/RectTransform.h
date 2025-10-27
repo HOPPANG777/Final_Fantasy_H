@@ -1,5 +1,7 @@
 #pragma once
 
+// RectTransform UI ǥ  ġ ũ  ϴ Ʈ.
+// θ-ڽ İ ǹ   ȯ Ѵ.
 
 class RectTransform : public Component
 {

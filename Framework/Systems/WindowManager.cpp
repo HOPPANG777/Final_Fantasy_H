@@ -2,14 +2,18 @@
 #include "WindowManager.h"
 #include "Program/Program.h"
 
+// Program ̱ ü ʱȭ.
 std::unique_ptr<Program> WindowManager::program = nullptr;
 
+// :  Ŭ ϰ â /ʱȭѴ.
 WindowManager::WindowManager(const WinDesc& initDesc)
         : desc(initDesc)
 {
+        //  Ŭ Ѵ.
         WORD wHr = MyRegisterClass(desc);
         assert(wHr != 0);
 
+        //  츦 Ѵ.
         desc.handle = CreateWindowExW
         (
                 WS_EX_APPWINDOW,
@@ -26,10 +30,12 @@ WindowManager::WindowManager(const WinDesc& initDesc)
                 nullptr
         );
 
+        // Ŭ̾Ʈ ũⰡ  ػ󵵿 ġϵ Ѵ.
         RECT rect = { 0, 0, LONG(desc.width), LONG(desc.height) };
 
         AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, 0);
 
+        // ȭ ߾ӿ â  ġ Ѵ.
         UINT centerLeft = (GetSystemMetrics(SM_CXSCREEN) - UINT(desc.width)) / 2 + rect.left;
         UINT centerTop = (GetSystemMetrics(SM_CYSCREEN) - UINT(desc.height)) / 2 + rect.top;
 
@@ -43,19 +49,23 @@ WindowManager::WindowManager(const WinDesc& initDesc)
                 true
         );
 
+        // â ȭ鿡 ǥϰ ޽ Ѵ.
         ShowWindow(desc.handle, SW_SHOWNORMAL);
 
         UpdateWindow(desc.handle);
 
+        // 콺 Ŀ ̵ Ѵ.
         ShowCursor(true);
 }
 
+// Ҹ:     Ѵ.
 WindowManager::~WindowManager()
 {
         DestroyWindow(desc.handle);
         UnregisterClassW(desc.appName.c_str(), desc.instance);
 }
 
+//  Ŭ Ͽ ޽ ó ϵ Ѵ.
 ATOM WindowManager::MyRegisterClass(const WinDesc& desc)
 {
         WNDCLASSEXW wcex;
@@ -77,6 +87,7 @@ ATOM WindowManager::MyRegisterClass(const WinDesc& desc)
         return RegisterClassExW(&wcex);
 }
 
+// ޽  鼭 Program νϽ Ѵ.
 WPARAM WindowManager::Run()
 {
         program = std::make_unique<Program>();
@@ -85,20 +96,26 @@ WPARAM WindowManager::Run()
 
         MSG msg = { 0 };
 
+        // ⺻ ޽ 
         while (true)
         {
                 if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
                 {
+                        // WM_QUIT ޽   Ѵ.
                         if (msg.message == WM_QUIT) break;
 
+                        // Ű  Է ޽  óѴ.
                         TranslateMessage(&msg);
 
+                        // 콺 Է  Ѵ.
                         MouseManager::Get()->MouseProc(msg.message, msg.wParam, msg.lParam);
 
+                        // ޽   ν Ѵ.
                         DispatchMessage(&msg);
                 }
                 else
                 {
+                        // ó ޽    Ѵ.
                         MainRender();
                 }
         }
@@ -106,6 +123,7 @@ WPARAM WindowManager::Run()
         return msg.wParam;
 }
 
+//   ȣǾ Է, Ʈ,  Ѵ.
 void WindowManager::MainRender()
 {
         KeyboardManager::Get()->Update();
@@ -126,6 +144,7 @@ void WindowManager::MainRender()
         GraphicsManager::Get()->End();
 }
 
+//  ν:   ޽ óѴ.
 LRESULT WindowManager::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
         switch (message)
@@ -139,6 +158,7 @@ LRESULT WindowManager::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM 
                 break;
         case WM_DESTROY:
         case WM_CLOSE:
+                //if (MessageBox(handle, L" Ͻðڽϱ?", L"WinAPI ", MB_OKCANCEL) == IDOK)
                 PostQuitMessage(0);
 
                 return 0;

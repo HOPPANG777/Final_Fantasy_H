@@ -1,5 +1,7 @@
 #pragma once
 
+// ColorLine Ʈ   մ ÷  ׸  Ѵ.
+//    ؽ   Ѵ.
 
 class ColorLine : public Drawable, public IColorable
 {
@@ -12,17 +14,19 @@ public:
         bool useRectTransform = false
     );
 
+    //  ġ    Ƿ ⺻ Update Ѵ.
     void Update() override;
+    //  Ƽ ϱ  DrawCall ȣѴ.
     void Render() override;
 
     DirectX::SimpleMath::Color GetColor() const override;
     void SetColor(const DirectX::SimpleMath::Color& color) override;
 
 private:
-    void InitializeGeometry();
-    void UpdateVertexColors();
+    void InitializeGeometry();    //   ϴ ⺻ ؽ 
+    void UpdateVertexColors();    // ؽ ۿ    
 
 private:
-    std::vector<VertexColor> _vertices;
-    DirectX::SimpleMath::Color _color;
+    std::vector<VertexColor> _vertices; //   Ǵ ؽ 
+    DirectX::SimpleMath::Color _color;    //  ü  
 };

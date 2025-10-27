@@ -8,11 +8,13 @@ GameObject::GameObject(const std::string& name, bool RectTransformType)
 
         if (RectTransformType)
         {
+                // UI Ʈ RectTransform ⺻ Ʈ ߰մϴ.
                 const std::shared_ptr<RectTransform>& rectTransform = std::make_shared<RectTransform>();
                 AddComponent(rectTransform);
         }
         else
         {
+                // Ϲ Ʈ Transform ⺻ Ʈ ߰մϴ.
                 const std::shared_ptr<Transform>& transform = std::make_shared<Transform>();
                 AddComponent(transform);
         }
@@ -29,6 +31,7 @@ GameObject::GameObject(
 {
         if (RectTransformType)
         {
+                // RectTransform  ʱ ǥ մϴ.
                 const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
                 if (rectTransform)
                 {
@@ -40,6 +43,7 @@ GameObject::GameObject(
         }
         else
         {
+                // Transform  ʱ ǥ մϴ.
                 const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
                 if (transform)
                 {
@@ -52,8 +56,9 @@ GameObject::GameObject(
 }
 
 GameObject::GameObject(const GameObject& other)
-        : GameObject(other.name, false)
+        : GameObject(other.name, false) // TODO: ʿ  RectTransformType 縦 մϴ.
 {
+        // TODO: Ʈ   ʿϸ ⿡ մϴ.
 }
 
 
@@ -82,6 +87,7 @@ std::shared_ptr<RectTransform> GameObject::GetRectTransform() const
 
 void GameObject::Update()
 {
+        // ϵ  Ʈ Update Լ  ȣմϴ.
         for (const std::pair<const std::string, std::shared_ptr<Component>>& element : components)
         {
                 const std::shared_ptr<Component>& compPtr = element.second;
@@ -91,6 +97,7 @@ void GameObject::Update()
 
         if (RectTransformType)
         {
+                // UI Ʈ RectTransform   ۿ ݿմϴ.
                 const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
                 if (rectTransform)
                 {
@@ -99,6 +106,7 @@ void GameObject::Update()
         }
         else
         {
+                // Ϲ Ʈ Transform   ۿ ݿմϴ.
                 const std::shared_ptr<Transform>& transform = GetComponent<Transform>("Transform");
                 if (transform)
                 {
@@ -106,6 +114,7 @@ void GameObject::Update()
                 }
         }
 
+        // Ȥö RectTransform ߰ Ѵٸ 켱 RectTransform Ӵϴ.
         const std::shared_ptr<RectTransform>& rectTransform = GetComponent<RectTransform>("RectTransform");
         if (rectTransform)
         {
@@ -123,8 +132,10 @@ void GameObject::Update()
 
 void GameObject::Render()
 {
+        //  ۸  ̴  0 εմϴ.
         worldBuffer->SetVSBuffer(0);
 
+        // ϵ  Ʈ Render Լ ȣմϴ.
         for (const auto& element : components)
         {
                 const std::shared_ptr<Component>& compPtr = element.second;

@@ -1,5 +1,7 @@
 #pragma once
 
+// TypingText Ÿڱ ȿ ڿ  ھ ϴ ؽƮ Ʈ.
+//  ӵ ݺ θ   Ѵ.
 
 class TypingText : public Texts
 {

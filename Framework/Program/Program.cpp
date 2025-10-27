@@ -2,6 +2,7 @@
 #include "Program.h"
 #include "Scenes/SceneList.h"
 
+// $(SolutionDir)Build\bin\$(ProjectName)\$(PlatformTarget)\$(Configuration)\ <- 이걸 프로젝트 설정 디버깅에 작업 디렉토리에 입력하시오
 
 float gWinWidth = WIN_DEFAULT_WIDTH;
 float gWinHeight = WIN_DEFAULT_HEIGHT;
@@ -13,7 +14,7 @@ void Program::Awake()
 
 	CameraManager::Get()->Init();
 
-	// Scene 
+	// Scene 세팅
 	{
 		SceneManager::Get()->AddScene("SplashScene", std::make_shared<Scene_01>());
 
@@ -52,14 +53,14 @@ void Program::ImGUI()
 
 int APIENTRY wWinMain
 (
-	_In_ HINSTANCE hInstance,
+	_In_ HINSTANCE hInstance,		// 윈도우 실행을 위한 고유값
 	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPWSTR    lpCmdLine,
+	_In_ LPWSTR    lpCmdLine,		// 커맨드 전달인자
 	_In_ int       nCmdShow
 )
 {
 	WinDesc desc;
-	desc.appName = L"Final Fantasy H";
+	desc.appName = L"Final Fantasy H"; // 창 이름
 	desc.instance = hInstance;
 	desc.handle = nullptr;
 	desc.width = gWinWidth;

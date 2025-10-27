@@ -3,13 +3,16 @@
 class RenderStates final
 {
 public:
+    // 정적 초기 디스크립터 구성
     static void Init();
 
+    // 기본 디스크립터 접근자
     static const D3D11_RASTERIZER_DESC& GetRasterizerDesc()         noexcept { return _rasterizerDesc; }
     static const D3D11_DEPTH_STENCIL_DESC& GetDepthStencilDesc()    noexcept { return _depthStencilDesc; }
     static const D3D11_SAMPLER_DESC& GetSamplerDesc()               noexcept { return _samplerDesc; }
     static const D3D11_BLEND_DESC& GetBlendDesc()                   noexcept { return _blendDesc; }
 
+    // 상태 객체 생성기: ComPtr 반환, 디스크립터 커스텀 가능
     static Microsoft::WRL::ComPtr<ID3D11RasterizerState>
         CreateRasterizer(ID3D11Device* device, const D3D11_RASTERIZER_DESC& desc);
 
@@ -22,6 +25,7 @@ public:
     static Microsoft::WRL::ComPtr<ID3D11BlendState>
         CreateBlend(ID3D11Device* device, const D3D11_BLEND_DESC& desc);
 
+    // 기본 디스크립터로 바로 생성
     static Microsoft::WRL::ComPtr<ID3D11RasterizerState>
         CreateDefaultRasterizer(ID3D11Device* device) { return CreateRasterizer(device, _rasterizerDesc); }
 

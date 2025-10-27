@@ -31,11 +31,14 @@ private:
 
     D3D11_MAPPED_SUBRESOURCE subResource;
 
+    // 2차원 타일 배열: rows x cols, row-major 순서
     vector<vector<shared_ptr<Tile>>> tiles;
     
+    // 전체 버텍스 및 인덱스 수
     UINT totalVertexCount = 0;
     UINT totalIndexCount = 0;
 
+    // Dirty 플래그: 타일 정보가 변경되었을 때만 버텍스 버퍼 업데이트
     bool needUpdateVB = true;
 
     bool editNow = false;
@@ -63,6 +66,7 @@ public:
     void Load(const string& path);
 
 public:
+    // 타일 하나를 반환 (행,열 계산)
     Tile* GetTile(Vector3 mPos);
 
 };

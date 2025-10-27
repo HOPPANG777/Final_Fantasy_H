@@ -1,5 +1,7 @@
 #pragma once
 
+// ColorCircle  ̷  ׸ Drawable Ʈ.
+//  ׸Ʈ      Ѵ.
 
 class ColorCircle : public Drawable, public IColorable
 {
@@ -13,18 +15,20 @@ public:
         bool useRectTransform = false
     );
 
+    // Drawable   θ Ŭ  Ѵ.
     void Update() override;
+    //  Ʈ ܰ ׸  Render  DrawCall Ѵ.
     void Render() override;
 
     DirectX::SimpleMath::Color GetColor() const override;
     void SetColor(const DirectX::SimpleMath::Color& color) override;
 
 private:
-    void InitializeGeometry();
-    void UpdateVertexColors();
+    void InitializeGeometry();    //  ؽ ε ʱȭ
+    void UpdateVertexColors();    // ؽ ۿ   
 
 private:
-    std::vector<VertexColor> _vertices;
-    size_t _segments = 0;
-    DirectX::SimpleMath::Color _color;
+    std::vector<VertexColor> _vertices; //    ؽ Ʈ
+    size_t _segments = 0;                //  ϴ ׸Ʈ 
+    DirectX::SimpleMath::Color _color;   //    
 };

@@ -1,3 +1,4 @@
+// ColorFilledCircle δ  ä ؽ     ۸ Ѵ.
 
 #include "Framework.h"
 #include "ColorFilledCircle.h"
@@ -18,6 +19,7 @@ ColorFilledCircle::ColorFilledCircle(
 {
     if (_segments < 3)
     {
+        // ﰢ    ּ ׸Ʈ  Ѵ.
         _segments = 3;
     }
 
@@ -32,6 +34,7 @@ void ColorFilledCircle::Update()
 void ColorFilledCircle::Render()
 {
     Drawable::Render();
+    // ﰢ Ʈ ä  ׸.
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
@@ -48,9 +51,11 @@ void ColorFilledCircle::SetColor(const DirectX::SimpleMath::Color& color)
 
 void ColorFilledCircle::InitializeGeometry()
 {
+    // ߽ ѷ  ϵ ؽ ʱȭѴ.
     _vertices.assign(_segments + 1, VertexColor());
     _vertices[0]._position = { 0.0f, 0.0f };
 
+    //  յϰ   ¸ .
     const float segmentStep = DirectX::XM_2PI / static_cast<float>(_segments);
     for (size_t index = 1; index <= _segments; ++index)
     {
@@ -63,6 +68,7 @@ void ColorFilledCircle::InitializeGeometry()
 
     for (VertexColor& vertex : _vertices)
     {
+        //  ؽ   ϵ Ѵ.
         vertex._color = _color;
     }
 
@@ -84,6 +90,7 @@ void ColorFilledCircle::UpdateVertexColors()
 {
     ID3D11DeviceContext* deviceContext = GraphicsManager::Get()->GetDC();
     D3D11_MAPPED_SUBRESOURCE mappedSubResource;
+    //  ؽ ۸ ؼ   ƮѴ.
     HRESULT hr = deviceContext->Map(vertexBuffer->GetResource(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
     CHECK(hr);
 

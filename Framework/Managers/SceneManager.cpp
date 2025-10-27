@@ -14,18 +14,22 @@ SceneManager::~SceneManager()
 	sceneList.clear();
 }
 
+        // ̹ ε ̸ 
         if (isLoading)
         {
+                // ε ư ߿ ߺ û ʴ´.
                 return;
         }
 	{
                 if (currentScene)
                 {
+                        //    ҽ Ѵ.
                         currentScene->Destroy();
                         CameraManager::Get()->Reset();
                 }
                 currentScene = nextScene;
                 currentScene->Awake();
+                //   ÿ ε  ǳʶٰ ٷ Start ȣѴ.
                 currentScene->Start();
                 nextScene = nullptr;
                 sceneChangeRequested = false;
@@ -33,25 +37,32 @@ SceneManager::~SceneManager()
 	const auto& it = sceneList.find(sceneName);
         if (currentScene)
         {
+                //  ȯ , ī޶   ʱȭ  ¿ Ѵ.
                 currentScene->Destroy();
                 CameraManager::Get()->Reset();
         }
                 if (loadingScene != nullptr)
                 {
+                        //   
                         if (currentScene != nullptr)
                         {
+                                // ε  ÿ    Ѵ.
                                 currentScene->Destroy();
                                 CameraManager::Get()->Reset();
                         }
 
                 else
                 {
+                        // ε  쿣  ȯ
                         if (currentScene != nullptr)
                         {
+                                //  ȯ ÿ ϰ   ģ.
                                 currentScene->Destroy();
                                 CameraManager::Get()->Reset();
                         }
 		}
+                // ε     Ѵ.
+            //   Ʈ  Ϲ Ʈ  ó  ȣѴ.
 		currentScene = nextScene;
 		currentScene->Awake();
 		currentScene->Start();
@@ -90,6 +101,7 @@ void SceneManager::SetSplashScene(const std::string& sceneName)
 
 void SceneManager::StartGame(const std::string& titleSceneName)
 {
+	// ★ 게임을 처음 시작할 때 로딩씬 없이 “스플래시 씬”부터 보여주고,
 	//   스플래시 씬이 끝나면 titleSceneName(타이틀 씬)을 LoadScene() 방식으로 전환
 	//   이때 LoadScene("타이틀")을 호출하면 그때부터는 로딩씬이 쓰일 수도 있음.
 
@@ -101,6 +113,7 @@ void SceneManager::StartGame(const std::string& titleSceneName)
 	}
 
 	// isFirstLaunch가 true이면 로딩 과정을 스킵하는 로직을
+	// “LoadScene”에서 참고할 수 있도록 해도 되고,
 	// 혹은 여기서 그냥 currentScene을 바로 스플래시로 세팅해도 됩니다.
 	isFirstLaunch = true;
 
@@ -115,6 +128,7 @@ void SceneManager::StartGame(const std::string& titleSceneName)
 	currentScene = splashScene;
 	currentScene->Awake();
 
+	// “스플래시 -> 타이틀” 전환은 SplashScene 내부 로직(예: 일정 시간 후)에서
 	// SceneManager::LoadScene(titleSceneName)을 호출해 처리한다고 가정
 }
 

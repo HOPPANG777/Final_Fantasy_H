@@ -47,6 +47,7 @@ public:
 	ID3D11DeviceContext* GetSDeviceContext() const { return deviceContext.Get(); }
 
 private:
+	// 유니크 포인터 같은 애
 	ComPtr<ID3D11Device> device;
 	ComPtr<ID3D11DeviceContext> deviceContext;
 	ComPtr<IDXGISwapChain> swapChain;
@@ -56,6 +57,7 @@ private:
 	ComPtr<ID3D11PixelShader> pixelShader;
 	ComPtr<ID3D11InputLayout> inputLayout;
 
+	//자원 : 버퍼, 텍스쳐
 	ComPtr <ID3D11Buffer> vertexBuffer;
 	ComPtr<ID3D11Buffer> indexBuffer;
 	ComPtr<ID3D11Texture2D> canvasTexture;

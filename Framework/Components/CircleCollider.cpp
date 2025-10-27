@@ -1,3 +1,4 @@
+// CircleCollider δ  Ʈ ġ ߽ ϰ, ʿ   ǥø ׸.
 
 #include "Framework.h"
 #include "CircleCollider.h"
@@ -6,6 +7,7 @@ void CircleCollider::Update()
 {
     if (GetOwner())
     {
+        // Transform Ʈ ġ ״  浹 ߽ .
         DirectX::SimpleMath::Vector3 ownerPosition = GetOwner()->GetComponent<Transform>("Transform")->GetPosition();
         center = ownerPosition;
     }
@@ -15,6 +17,9 @@ void CircleCollider::Render()
 {
     if (!CollisionManager::Get()->GetColliderDebug()) return;
 
+    //  ǥ ߽    ǥÿ Ѵ.
+    // ī޶ ġ  ȭ ǥ ȯѴ.
+    //  ȭ ǥ    ׸.
     // 화면 좌표로 변환 (카메라가 이동한 만큼 빼기)
     DirectX::SimpleMath::Vector3 screenCenter = center - cameraPos;
 

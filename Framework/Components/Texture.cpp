@@ -1,3 +1,4 @@
+// Texture δ ؽó ε ؽ/ε  , ̴ ڿ ε Ѵ.
 
 #include "Framework.h"
 #include "Texture.h"
@@ -16,7 +17,9 @@ Texture::Texture(
 )
     : Drawable(componentName, position, scale, rotation, useRectTransform, ShaderPath + L"Texture.hlsl")
 {
+    // ⺻ 簢 ؽ ε غѴ.
     InitializeGeometry();
+    // Ͷ//÷ ¸ ʱȭѴ.
     InitializeStates();
 
     if (!texturePath.empty())
@@ -24,6 +27,7 @@ Texture::Texture(
         CreateTextureFromImage(texturePath);
     }
 
+    // ȼ ̴   ϱ   ۸ .
     _colorBuffer = std::make_unique<ColorBuffer>();
 }
 
@@ -36,38 +40,45 @@ void Texture::Render()
 {
     __super::Render();
 
+    //  DrawCall  ʿ ¸  Ѵ.
     ID3D11DeviceContext* context = GraphicsManager::Get()->GetDC();
 
     if (_colorBuffer)
     {
+        //  ۸ ȼ ̴ Կ εѴ.
         _colorBuffer->SetPSBuffer(2);
     }
 
     if (_samplerLinear)
     {
+        // ؽó ø   ÷ Ѵ.
         ID3D11SamplerState* sampler = _samplerLinear.Get();
         context->PSSetSamplers(0, 1, &sampler);
     }
 
     if (_shaderResourceView)
     {
+        //  ӿ  ؽó ȼ ̴ Ѵ.
         ID3D11ShaderResourceView* resource = _shaderResourceView.Get();
         context->PSSetShaderResources(0, 1, &resource);
     }
     else
     {
+        // ؽó   ε SRV Ѵ.
         ID3D11ShaderResourceView* nullResource = nullptr;
         context->PSSetShaderResources(0, 1, &nullResource);
     }
 
     if (_rasterizerState)
     {
+        // ܰ/  ϱ  Ͷ ¸ Ѵ.
         context->RSSetState(_rasterizerState.Get());
     }
 
     if (_blendStateAlpha)
     {
         const float blendFactor[4] = { 0.f, 0.f, 0.f, 0.f };
+        //   Ȱȭ  ؽó Ѵ.
         context->OMSetBlendState(_blendStateAlpha.Get(), blendFactor, 0xFFFFFFFF);
     }
 
@@ -75,6 +86,7 @@ void Texture::Render()
 
     // Restore blend state to default after drawing.
     const float defaultBlend[4] = { 0.f, 0.f, 0.f, 0.f };
+    // ο Ŀ ⺻  · Ѵ.
     context->OMSetBlendState(nullptr, defaultBlend, 0xFFFFFFFF);
 }
 
@@ -98,6 +110,7 @@ void Texture::SetColor(const DirectX::SimpleMath::Color& color)
 
 void Texture::SetTexture(const std::wstring& filePath)
 {
+    //  ΰ   ؽó Ѵ.
     if (filePath.empty())
     {
         _texture.Reset();
@@ -133,11 +146,13 @@ void Texture::SetShapeFromPositions(
     const std::vector<DirectX::SimpleMath::Vector3>& positions,
     const std::vector<UINT>& indices)
 {
+    // ּ   ̻ ġ ־ ο     ִ.
     if (positions.empty())
     {
         return;
     }
 
+    // UV    ּ/ִ  ã´.
     DirectX::SimpleMath::Vector3 minPosition = positions.front();
     DirectX::SimpleMath::Vector3 maxPosition = positions.front();
 
@@ -147,14 +162,17 @@ void Texture::SetShapeFromPositions(
         maxPosition = DirectX::SimpleMath::Vector3::Max(maxPosition, position);
     }
 
+    // ʺ ̸ ̿ ȭ UV ǥ .
     const float width = maxPosition.x - minPosition.x;
     const float height = maxPosition.y - minPosition.y;
 
+    // Է  ŭ ؽ 迭 ҴѴ.
     _vertices.resize(positions.size());
     for (size_t index = 0; index < positions.size(); ++index)
     {
         const DirectX::SimpleMath::Vector3& position = positions[index];
 
+        // ⺻ UV ߾Ӱ ʱȭϰ ũ  ̿ Ѵ.
         float u = 0.5f;
         float v = 0.5f;
 
@@ -183,6 +201,7 @@ void Texture::SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& topology)
 }
 
 void Texture::InitializeGeometry()
+    // ȭ 簢 ؽ ε ʱȭѴ.
 {
     _vertices =
     {

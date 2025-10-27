@@ -1,3 +1,4 @@
+// TypingText δ  ð  ǥ   ø ִϸ̼ ¸ Ѵ.
 
 #include "Framework.h"
 #include "TypingText.h"
