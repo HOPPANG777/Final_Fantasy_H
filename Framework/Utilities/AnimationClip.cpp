@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "AnimationClip.h"
 
-#include "../_Misc/Texture2D.h"
-
 AnimationClip::AnimationClip(
     const std::wstring& clipName,
     Texture2D* sourceTexture,

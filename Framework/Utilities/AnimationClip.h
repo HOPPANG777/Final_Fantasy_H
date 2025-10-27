@@ -1,13 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
-#include <wrl/client.h>
-#include <directxtk/SimpleMath.h>
-
-class Texture2D;
-
 class AnimationClip
 {
 public:
