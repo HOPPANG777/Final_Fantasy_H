@@ -1,7 +1,5 @@
 #pragma once
 
-// Texture Ʈ 2D ؽó ȭ鿡 ϱ  Drawable Ļ Ŭ.
-// ؽó ڿ UV ǥ ϸ ܺ SRV ü Ѵ.
 
 class Texture : public Drawable, public IColorable
 {
@@ -16,37 +14,33 @@ public:
     );
     ~Texture() override = default;
 
-    // Drawable ⺻ Ʈ ܿ ߰  .
     void Update() override;
-    // ؽó ¸ ̴ ε  DrawCall Ѵ.
     void Render() override;
 
 public:
     DirectX::SimpleMath::Color GetColor() const override;
     void SetColor(const DirectX::SimpleMath::Color& color) override;
 
-    //  γ ܺ ҽ ̿ ؽó üѴ.
     void SetTexture(const std::wstring& filePath);
-    // ܺο  ShaderResourceView    ִ.
     void SetSRV(ID3D11ShaderResourceView* shaderResourceView);
 
-    void SetGeometry(const std::vector<VertexTexture>& vertices, const std::vector<UINT>& indices); //     
+    void SetGeometry(const std::vector<VertexTexture>& vertices, const std::vector<UINT>& indices);
     void SetShapeFromPositions(
         const std::vector<DirectX::SimpleMath::Vector3>& positions,
         const std::vector<UINT>& indices
-    ); // ġ ͸ ̿ UV ڵ 
-    void SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& topology); //   
+    );
+    void SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& topology);
 
 protected:
-    std::vector<VertexTexture>& AccessVertices(); //  ؽ ͸   
-    void CommitVertices();                  //  ؽ ͸ GPU ۿ ݿ
+    std::vector<VertexTexture>& AccessVertices();
+    void CommitVertices();
 
 private:
-    void InitializeGeometry();            // ⺻ 簢   
-    void InitializeStates();             // Ͷ, , ÷  ʱȭ
-    void UpdateVertexBuffer();           // ؽ ۸ ϰų 
-    void UpdateIndexBuffer();            // ε ۸ ϰų 
-    bool CreateTextureFromImage(const std::wstring& filePath); // ̹  ε ؽó 
+    void InitializeGeometry();
+    void InitializeStates();
+    void UpdateVertexBuffer();
+    void UpdateIndexBuffer();
+    bool CreateTextureFromImage(const std::wstring& filePath);
 
 private:
     std::vector<VertexTexture> _vertices;

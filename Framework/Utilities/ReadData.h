@@ -1,11 +1,8 @@
 //--------------------------------------------------------------------------------------
 // File: ReadData.h
-//
 // Helper for loading binary data files from disk
-//
 // For Windows desktop apps, it looks for files in the same folder as the running EXE if
 // it can't find them in the CWD
-//
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 //-------------------------------------------------------------------------------------

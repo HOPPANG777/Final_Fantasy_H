@@ -15,12 +15,10 @@
 
 void TestObject::Update()
 {
-        // GameObject ⺻  ״ մϴ.
         __super::Update();
 }
 
 void TestObject::Render()
 {
-        // GameObject غ  ƾ մϴ.
         __super::Render();
 }

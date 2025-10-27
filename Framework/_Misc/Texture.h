@@ -78,7 +78,6 @@ namespace SYC
 
 		Color SamplePoint(const Vector2& uv)
 		{
-			//x와 y를 구하고 이를 통해 i와 j를 구하라 그 이후 wrap이나  clamp를 써서 색을 구하면 된다
 			//const Vector2 xy = Vector2(uv.x * width - 0.5f, uv.y * height - 0.5f);
 			const Vector2 xy = uv * Vector2(float(width), float(height)) - Vector2(0.5f);
 			const int i = int(round(xy.x));

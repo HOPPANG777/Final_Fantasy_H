@@ -103,7 +103,7 @@ void RenderStates::BuildSamplerDesc() noexcept
     _samplerDesc.MipLODBias = 0.0f;
     _samplerDesc.MaxAnisotropy = 1;
     _samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-    _samplerDesc.MinLOD = 0.0f;   // FLT_MIN 대신 0.0f 권장
+    _samplerDesc.MinLOD = 0.0f;   // FLT_MIN  0.0f 
     _samplerDesc.MaxLOD = FLT_MAX;
 }
 
@@ -114,7 +114,7 @@ void RenderStates::BuildBlendDesc() noexcept
     _blendDesc.IndependentBlendEnable = FALSE;
 
     auto& rt0 = _blendDesc.RenderTarget[0];
-    rt0.BlendEnable = FALSE; // 기본 비블렌딩
+    rt0.BlendEnable = FALSE;
     rt0.SrcBlend = D3D11_BLEND_SRC_ALPHA;
     rt0.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
     rt0.BlendOp = D3D11_BLEND_OP_ADD;

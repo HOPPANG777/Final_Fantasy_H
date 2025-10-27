@@ -1,14 +1,10 @@
 #include "Framework.h"
 #include "Path.h"
 
-// ÆÄÀÏ Á¸Àç ¿©ºÎ
 bool Path::ExistFile(std::wstring path)
 {
-	// ÆÄÀÏÀÌ³ª Æú´õÀÇ ¼Ó¼ºÀ» ¾Ë¾Æº¸´Â ÇÔ¼ö DWORD¸¦ ¹İÈ¯
-	// ½ÇÆĞÇÏ¸é INVALID_FILE_ATTRIBUTES¸¦ ¹İÈ¯
 	DWORD fileValue = GetFileAttributes(path.c_str());
 
-	// ÆÄÀÏÀÌ Á¸ÀçÇÒ°æ¿ì True ¾øÀ»°æ¿ì False
 	return fileValue != INVALID_FILE_ATTRIBUTES;
 }
 
@@ -17,13 +13,12 @@ bool Path::ExistFile(std::string path)
 	return ExistFile(String::ToWstring(path));
 }
 
-// Æú´õ Á¸Àç ¿©ºÎ
 bool Path::ExistDirectory(std::wstring path)
 {
 	DWORD attribute = GetFileAttributes(path.c_str());
 
 	BOOL temp = (attribute != INVALID_FILE_ATTRIBUTES &&
-		attribute & FILE_ATTRIBUTE_DIRECTORY);	// ÀÌ Á¶°Ç¹®ÀÌ ÂüÀÌ¸é °Ë»ç ÁßÀÎ Ç×¸ñÀÌ Æú´õ
+		attribute & FILE_ATTRIBUTE_DIRECTORY);
 
 	return temp == TRUE;
 }
@@ -33,7 +28,6 @@ bool Path::ExistDirectory(std::string path)
 	return ExistDirectory(String::ToWstring(path));
 }
 
-// º´ÇÕ
 std::string Path::Combine(std::string path1, std::string path2)
 {
 	return path1 + path2;
@@ -62,7 +56,6 @@ std::wstring Path::Combine(std::vector<std::wstring> paths)
 	return temp;
 }
 
-// ÀÔ·ÂµÈ °æ·Î¿¡¼­ Æú´õ ÀÌ¸§À» ¹İÈ¯
 std::string Path::GetDirectoryName(std::string path)
 {
 	String::Replace(&path, "\\", "/");
@@ -79,7 +72,6 @@ std::wstring Path::GetDirectoryName(std::wstring path)
 	return path.substr(0, index + 1);
 }
 
-// ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ¹İÈ¯
 std::string Path::GetExtension(std::string path)
 {
 	String::Replace(&path, "\\", "/");
@@ -96,7 +88,6 @@ std::wstring Path::GetExtension(std::wstring path)
 	return path.substr(index + 1, path.length());;
 }
 
-// ÆÄÀÏ ÀÌ¸§°ú È®ÀåÀÚ¸¦ ¹İÈ¯
 std::string Path::GetFileName(std::string path)
 {
 	String::Replace(&path, "\\", "/");
@@ -113,7 +104,6 @@ std::wstring Path::GetFileName(std::wstring path)
 	return path.substr(index + 1, path.length());
 }
 
-// ÆÄÀÏ ÀÌ¸§¸¸ ¹İÈ¯
 std::string Path::GetFileNameWithoutExtension(std::string path)
 {
 	std::string fileName = GetFileName(path);
@@ -130,14 +120,12 @@ std::wstring Path::GetFileNameWithoutExtension(std::wstring path)
 	return fileName.substr(0, index);
 }
 
-// Æ¯Á¤ È®ÀåÀÚ ÆÄÀÏÀÇ ÇÊÅÍ
 const WCHAR* Path::ImageFilter = L"Image\0*.png;*.bmp;*.jpg";
 const WCHAR* Path::ShaderFilter = L"HLSL file\0*.hlsl";
 const WCHAR* Path::TextFilter = L"Text file\0*.txt";
 const WCHAR* Path::TileFilter = L"Tile file\0*.png;*.bmp;*.jpg;*.json;*.data";
 const WCHAR* Path::TMapFilter = L"TMap file\0*.tmap";
 
-// ÆÄÀÏ ¼±ÅÃ ´ëÈ­ »óÀÚ¸¦ ¿­¾î »ç¿ëÀÚ°¡ ÆÄÀÏÀ» ¼±ÅÃÇÏµµ·Ï ÇØÁÜ
 void Path::OpenFileDialog(std::wstring defaultFileName, const WCHAR* fileTypeFilter, const std::wstring defaultFolder, const std::function<void(std::wstring)> callback, HWND parentWindowHandle)
 {
 	WCHAR name[255];
@@ -148,36 +136,36 @@ void Path::OpenFileDialog(std::wstring defaultFileName, const WCHAR* fileTypeFil
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = parentWindowHandle;			// ºÎ¸ğÃ¢ ÇÚµé
-	ofn.lpstrFilter = fileTypeFilter;			// ÆÄÀÏ À¯Çü ÇÊÅÍ
-	ofn.lpstrFile = name;						// ÆÄÀÏ ÀÌ¸§
-	ofn.lpstrTitle = L"ºÒ·¯¿À±â";				// ´ëÈ­ »óÀÚ Á¦¸ñ
-	ofn.nMaxFile = 255;							// ÆÄÀÏ ÀÌ¸§ ÃÖ´ë Å©±â
-	ofn.lpstrInitialDir = tempFolder.c_str();	// ±âº» Æú´õ °æ·Î
-	ofn.Flags = OFN_NOCHANGEDIR;				// ´ëÈ­ »óÀÚ ¿É¼Ç
+	ofn.hwndOwner = parentWindowHandle;
+	ofn.lpstrFilter = fileTypeFilter;
+	ofn.lpstrFile = name;
+	ofn.lpstrTitle = L"Ò·";
+	ofn.nMaxFile = 255;
+	ofn.lpstrInitialDir = tempFolder.c_str();
+	ofn.Flags = OFN_NOCHANGEDIR;
 
-	if (GetOpenFileName(&ofn) == TRUE)			// ´ëÈ­ »óÀÚ ¿­°í »ç¿ëÀÚ°¡ ÆÄÀÏÀ» ¼±ÅÃÇÏ¸é
+	if (GetOpenFileName(&ofn) == TRUE)
 	{
-		if (callback != NULL)					// Äİ¹é ÇÔ¼ö°¡ ÁöÁ¤µÇ¾î ÀÖÀ¸¸é
+		if (callback != NULL)
 		{
-			std::wstring loadName = name;			// ¼±ÅÃµÈ ÆÄÀÏÀÇ °æ·Î¸¦ ÀúÀå
-			String::Replace(&loadName, L"\\", L"/"); // °æ·Î¿¡¼­ ¿ª½½·¡½Ã¸¦ ½½·¡½Ã·Î º¯È¯
+			std::wstring loadName = name;
+			String::Replace(&loadName, L"\\", L"/");
 
-			callback(loadName);					// Äİ¹é ÇÔ¼ö È£Ãâ
+			callback(loadName);
 		}
 	}
 }
 
 /*
 typedef struct tagOFN {
-  DWORD         lStructSize;		//±¸Á¶Ã¼ÀÇ Å©±âÁöÁ¤, ¹öÀüÈ®ÀÎÀ» À§ÇØ »ç¿ëµÊ
-  HWND          hwndOwner;			//ÇÚµéÀÇ ÁÖÀÎÀ» ÁöÁ¤, ÁÖÀÎÀÌ µÉ À©µµ¿ì°¡ ¾øÀ»°æ¿ì NULL
-  HINSTANCE     hInstance;			//ÀÎ½ºÅÏ½º ÇÚµéÀ» ÁöÁ¤
-  LPCTSTR       lpstrFilter;		//ÆÄÀÏ Çü½ÄµéÀ» ±¸ºĞÇØÁÙ ÇÊÅÍµéÀ» ÁöÁ¤ ¿©·¯°³ÀÇ ÇÊÅÍ¸¦ µ¿½Ã¿¡ ÁöÁ¤°¡´É
-  LPTSTR        lpstrCustomFilter;	//»ç¿ëÀÚ°¡ ¸¸µç Ä¿½ºÅÒ ÇÊÅÍ¸¦ ÁöÁ¤
-  DWORD         nMaxCustFilter;		//Ä¿½ºÅÒ ÇÊÅÍÀÇ ¹öÆÛÀÇ ±æÀÌ¸¦ ÁöÁ¤ ÃÖ¼Ò 40ÀÚ
-  DWORD         nFilterIndex;		//ÇÊÅÍµéÀÇ ¸ñ·ÏÁß »ç¿ëÇÒ ÇÊÅÍÀÇ ÀÎµ¦½º¸¦ ÁöÁ¤
-  LPTSTR        lpstrFile;			//ÆÄÀÏÀÌ¸§ ÁöÁ¤¿¡ Ã¹¹øÂ°·Î ³ªÅ¸³¯ ÆÄÀÏ¸íÀ» ÁöÁ¤, ÇÊ¿ä¾øÀ»½Ã NULL
+  DWORD         lStructSize;
+  HWND          hwndOwner;
+  HINSTANCE     hInstance;
+  LPCTSTR       lpstrFilter;
+  LPTSTR        lpstrCustomFilter;
+  DWORD         nMaxCustFilter;
+  DWORD         nFilterIndex;
+  LPTSTR        lpstrFile;
   DWORD         nMaxFile;
   LPTSTR        lpstrFileTitle;
   DWORD         nMaxFileTitle;
@@ -199,7 +187,6 @@ typedef struct tagOFN {
 */
 
 
-// ÆÄÀÏ ´ëÈ­ »óÀÚ¸¦ ¿­¾î »ç¿ëÀÚ°¡ ÆÄÀÏÀ» ÀúÀåÇÏµµ·Ï ÇÔ
 void Path::SaveFileDialog(std::wstring defaultFileName, const WCHAR* fileTypeFilter, const std::wstring defaultFolder, const std::function<void(std::wstring)> callback, HWND parentWindowHandle)
 {
 	WCHAR name[255];
@@ -213,7 +200,7 @@ void Path::SaveFileDialog(std::wstring defaultFileName, const WCHAR* fileTypeFil
 	ofn.hwndOwner = parentWindowHandle;
 	ofn.lpstrFilter = fileTypeFilter;
 	ofn.lpstrFile = name;
-	ofn.lpstrTitle = L"ÀúÀåÇÏ±â";
+	ofn.lpstrTitle = L"Ï±";
 	ofn.nMaxFile = 255;
 	ofn.lpstrInitialDir = tempFolder.c_str();
 	ofn.Flags = OFN_NOCHANGEDIR;
@@ -230,7 +217,6 @@ void Path::SaveFileDialog(std::wstring defaultFileName, const WCHAR* fileTypeFil
 	}
 }
 
-// ÁöÁ¤µÈ Æú´õ¿¡¼­ Æ¯Á¤ À¯ÇüÀÇ ÆÄÀÏµéÀ» Ã£¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
 void Path::GetFiles(std::vector<std::string>* files, std::string path, std::string filter, bool bFindSubFolder)
 {
 	std::vector<std::wstring> wFiles;
@@ -245,49 +231,37 @@ void Path::GetFiles(std::vector<std::string>* files, std::string path, std::stri
 
 //path : ../Temp/
 //filter : *.txt
-// ÁöÁ¤µÈ Æú´õ¿¡¼­ Æ¯Á¤ ÆÄÀÏµéÀ» Ã£¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
-void Path::GetFiles(std::vector<std::wstring>* files, std::wstring path, std::wstring filter, bool bFindSubFolder/*ÇÏÀ§Æú´õ °Ë»ö ¿É¼Ç*/)
+void Path::GetFiles(std::vector<std::wstring>* files, std::wstring path, std::wstring filter, bool bFindSubFolder/* Ë» É¼*/)
 {
-	std::wstring file = path + filter; // °Ë»öÇÒ ÆÄÀÏÀÇ °æ·Î¿Í ÇÊÅÍ¸¦ °áÇÕÇÏ¿© °Ë»öÇÒ ÆÄÀÏÀÇ ÀüÃ¼ °æ·Î »ı¼º
+	std::wstring file = path + filter;
 
 	WIN32_FIND_DATA findData;
-	HANDLE handle = FindFirstFile(file.c_str(), &findData);	// Ã¹ ¹øÂ° ÆÄÀÏ °Ë»ö
-	if (handle != INVALID_HANDLE_VALUE)	// ÆÄÀÏÀÌ ¹ß°ßµÇ¸é
+	HANDLE handle = FindFirstFile(file.c_str(), &findData);
+	if (handle != INVALID_HANDLE_VALUE)
 	{
 		do
 		{
-			// ¹ß°ßµÈ ÆÄÀÏÀÌ µğ·ºÅä¸®ÀÎ °æ¿ì
 			if (findData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
 			{
-				// ÇÏÀ§ Æú´õ °Ë»ö ¿É¼Ç È°¼ºÈ­ & ¹ß°ßµÈ µğ·ºÅä¸®°¡ '.'À¸·Î ½ÃÀÛÇÏÁö ¾Ê´Â °æ¿ì
 				if (bFindSubFolder == true && findData.cFileName[0] != '.')
 				{
-					// ¹ß°ßµÈ µğ·ºÅä¸®ÀÇ ÀüÃ¼ °æ·Î ¼³Á¤
 					std::wstring folder = path + std::wstring(findData.cFileName) + L"/";
-					// Àç±ÍÀûÀ¸·Î ÇÏÀ§ Æú´õ¿¡¼­ ÆÄÀÏÀ» °Ë»ö
 					GetFiles(files, folder, filter, bFindSubFolder);
 				}
 			}
-			else // ¹ß°ßµÈ ÆÄÀÏÀÌ µğ·ºÅä¸®°¡ ¾Æ´Ñ °æ¿ì
+			else
 			{
-				// ¹ß°ßµÈ ÆÄÀÏÀÇ ÀüÃ¼ °æ·Î »ı¼º
 				std::wstring fileName = path + std::wstring(findData.cFileName);
-				// º¤ÅÍ¿¡ ¹ß°ßµÈ ÆÄÀÏÀÇ ÀüÃ¼ °æ·Î¸¦ Ãß°¡
 				files->push_back(fileName);
 			}
-		} while (FindNextFile(handle, &findData)); // ´ÙÀ½ ÆÄÀÏ °Ë»ö
-		// ÆÄÀÏ °Ë»ö Á¾·á
+		} while (FindNextFile(handle, &findData));
 		FindClose(handle);
 	}
 }
 
-// ÁÖ¾îÁø °æ·Î¿¡ Æú´õ°¡ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì »ı¼ºÇÏ´Â ÇÔ¼ö
-// ÁÖ¾îÁø °æ·ÎÀÇ Æú´õ¸¸ »ı¼º
 void Path::CreateFolder(std::wstring path)
 {
-	// ÁÖ¾îÁø °æ·Î¿¡ Æú´õ°¡ ¾øÀ» °æ¿ì
 	if (ExistDirectory(path) == false)
-		// Æú´õ »ı¼º
 		CreateDirectory(path.c_str(), NULL);
 }
 
@@ -296,8 +270,6 @@ void Path::CreateFolder(std::string path)
 	CreateFolder(String::ToWstring(path));
 }
 
-// Æú´õ°¡ ¾øÀ» °æ¿ì Æú´õ¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö
-// ÁÖ¾îÁø °æ·ÎÀÇ ¸ğµç ÇÏÀ§ Æú´õ¸¦ »ı¼º
 void Path::CreateFolders(std::wstring path)
 {
 	String::Replace(&path, L"\\", L"/");

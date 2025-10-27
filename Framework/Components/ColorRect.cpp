@@ -1,4 +1,3 @@
-// ColorRect δ 簢 ؽ ϰ    ؽ ͸ Ѵ.
 
 #include "Framework.h"
 #include "ColorRect.h"
@@ -61,7 +60,6 @@ void ColorRect::UpdateVertexColors()
 {
     ID3D11DeviceContext* deviceContext = GraphicsManager::Get()->GetDC();
     D3D11_MAPPED_SUBRESOURCE mappedSubResource;
-    //    ؽ ۸ Ѵ.
     HRESULT hr = deviceContext->Map(vertexBuffer->GetResource(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
     CHECK(hr);
 

@@ -1,7 +1,5 @@
 #pragma once
 
-// Texts Ʈ  ڿ ϴ Drawable  Ŭ.
-// ۲, ,   ؽƮ Ӽ Ѵ.
 
 struct FontBrushDesc
 {
@@ -47,7 +45,6 @@ public:
     Texts(const std::string& name = "Texts") : Component(name) {}
     virtual ~Texts() = default;
 
-    // ؽƮ ڿ  簢 ׸  ⺻ ̽.
     virtual void RenderText
     (
         const std::wstring& text,
@@ -60,17 +57,13 @@ public:
         const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL
     );
 
-    virtual void Update() override {} // ؽƮ ִϸ̼ ʿϸ ̵Ѵ.
-    virtual void Render() override {} // ؽƮ DrawText ȣ  ȴ.
+    virtual void Update() override {}
+    virtual void Render() override {}
 
 public:
-    // Ư Ʈ  ġ ڵ 󰡵 Ѵ.
     void AttachToObject(GameObject* object);
-    //  Ʈ  Ѵ.
     void Detach();
-        // true ϸ ȭ鿡 ؽƮ Ѵ.
 	void SetTextOut(const bool textOut) { this->textOut = textOut; }
-        //   ¸ ȮѴ.
 	bool GetTextOut() const { return textOut; }
 
 protected:

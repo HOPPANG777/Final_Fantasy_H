@@ -1,6 +1,5 @@
 #pragma once
 
-// C++의 struct는 기본 접근 제어가 public이라는 차이점이 C의 struct와의 유일한 차이점이다
 struct VertexColor
 {
 	DirectX::SimpleMath::Vector2 _position;

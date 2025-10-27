@@ -1,7 +1,5 @@
 #pragma once
 
-// Transform ġ, ȸ, ũ  ϴ ⺻ Ʈ.
-//    ٸ Ʈ   ֵ Ѵ.
 
 class Transform : public Component
 {
@@ -10,7 +8,6 @@ public:
 	virtual ~Transform() override = default;
 
 public:
-        // Component ֱ⿡    Ѵ.
 	void Update() override;
 	void Render() override;
 
@@ -29,7 +26,7 @@ public:
 	void SetRotation(float degrees);
 
 public:
-        DirectX::SimpleMath::Vector3 scale = Values::ZeroVector3; //   
+        DirectX::SimpleMath::Vector3 scale = Values::ZeroVector3;
 	void Move(const DirectX::SimpleMath::Vector3& speed);
 	void Scale(const DirectX::SimpleMath::Vector3& scale);
 	void Rotate(float degrees);
