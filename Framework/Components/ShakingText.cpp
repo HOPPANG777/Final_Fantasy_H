@@ -1,4 +1,3 @@
-// ShakingText δ     ؽƮ 簢 .
 
 #include "Framework.h"
 #include "ShakingText.h"
@@ -13,12 +12,10 @@ void ShakingText::RenderText(
     const DWRITE_FONT_STYLE& style, 
     const DWRITE_FONT_STRETCH& stretch)
 {
-    //      ġ  Ѵ.
     RECT newRect = rect;
     newRect.left += RandomOffset();
     newRect.top += RandomOffset();
 
-    //  Texts  Լ ȣ  ڿ Ѵ.
     Texts::RenderText(text, newRect, size, color, font, weight, style, stretch);
 }
 

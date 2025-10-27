@@ -1,16 +1,13 @@
 #include "Framework.h"
 #include "MouseManager.h"
 
-// : ʱȭ Լ ȣ 콺 ¸ غѴ.
 MouseManager::MouseManager()
 {
         Init();
 }
 
-// Ҹ:   ۾ ʿ .
 MouseManager::~MouseManager() {}
 
-//  Ŭ ð  ⺻  ʱȭѴ.
 void MouseManager::Init()
 {
         ZeroMemory(startDblClk, sizeof(DWORD) * MAX_INPUT_MOUSE);
@@ -22,11 +19,9 @@ void MouseManager::Init()
         for (int i = 1; i < MAX_INPUT_MOUSE; i++) startDblClk[i] = startDblClk[0];
 
         DWORD tLine = 0;
-        // ü   ũ   ´.
         SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &tLine, 0);
 }
 
-// 콺 ư, ġ,  ¸ Ѵ.
 void MouseManager::Update()
 {
         buttonStatus[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
@@ -58,7 +53,6 @@ void MouseManager::Update()
         wheelStatus.x = float(point.x);
         wheelStatus.y = float(point.y);
 
-        //  Ӱ   ġ ̸ Ѵ.
         wheelMoveValue = wheelStatus - wheelOldStatus;
 
         DWORD tButtonStatus = GetTickCount();
@@ -95,19 +89,16 @@ void MouseManager::Update()
         }//for(i)
 
 
-        //   ¸  · Ʈ
         for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
         {
                 buttonOldStatus[i] = buttonStatus[i];
         }
 }
 
-//  ޽κ 콺 ǥ  ̵ Ѵ.
 LRESULT MouseManager::MouseProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
         if (message == WM_LBUTTONDOWN || message == WM_MOUSEMOVE)
         {
-                //  ǥ  콺 ġ Ѵ.
                 mousePos.x = (float)LOWORD(lParam);
                 mousePos.y = (float)(Values::GetWinHeight() - HIWORD(lParam));
         }

@@ -1,5 +1,3 @@
-// BoxCollider δ Ʈ ġ ڽ ߽ ȭϰ   Ѵ.
-// Collider  ɼ    ȭ鿡 ڽ ǥѴ.
 
 #include "Framework.h"
 #include "BoxCollider.h"

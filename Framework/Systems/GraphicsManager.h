@@ -44,9 +44,9 @@ public:
     void GUI();
 
 public:
-    void SetFullScreen(bool fullscreen);                 // 기존 유지(익스클루시브 토글)
-    void SetWindowManagerMode(WindowManagerMode mode);                 // 보더리스/윈도우 전환
-    void SetResolution(UINT width, UINT height);         // 런타임 리사이즈
+    void SetFullScreen(bool fullscreen);
+    void SetWindowManagerMode(WindowManagerMode mode);
+    void SetResolution(UINT width, UINT height);
     void SetVSync(bool on) { _bVsync = on; }
 
 public:
@@ -62,14 +62,12 @@ private:
     bool EnumerateAdapterOutput(AdapterInfo* adapterInfo);
 
 private:
-    // 생성 단계 분리
     void CreateDirect3D();
     void CreateDirect2D();
     void CreateDirectWrite();
 
 public:
-    // 공통 재생성 경로
-    void RecreateDeviceAndSwapChain();   // 어댑터 선택 + 디바이스 + 스왑체인
+    void RecreateDeviceAndSwapChain();
     void RecreateTargetsFromSwapChain(); // RTV + D2D Target + Viewport
 
 private:

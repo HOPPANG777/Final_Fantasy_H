@@ -1,7 +1,5 @@
 #pragma once
 
-// ColorFilledCircle ä  ¸ ׸ Drawable Ʈ.
-// ߽ɰ   ﰢ  ؽ Ѵ.
 
 class ColorFilledCircle : public Drawable, public IColorable
 {
@@ -15,21 +13,19 @@ public:
         bool useRectTransform = false
     );
 
-    // Drawable ⺻  ܿ ߰  .
     void Update() override;
-    // ä  ϱ  DrawCall Ѵ.
     void Render() override;
 
     DirectX::SimpleMath::Color GetColor() const override;
     void SetColor(const DirectX::SimpleMath::Color& color) override;
 
 private:
-    void InitializeGeometry();    // ﰢ  · ä  ؽ 
-    void UpdateVertexColors();    //  ٲ  ؽ ÷ 
+    void InitializeGeometry();
+    void UpdateVertexColors();
 
 private:
-    std::vector<VertexColor> _vertices; // ä  ϴ ؽ 
+    std::vector<VertexColor> _vertices;
     std::vector<UINT> _indices;
     size_t _segments = 0;
-    DirectX::SimpleMath::Color _color;   //  ä 
+    DirectX::SimpleMath::Color _color;
 };

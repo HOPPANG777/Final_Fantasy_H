@@ -23,12 +23,10 @@ public:
     void SetPosition(const DirectX::SimpleMath::Vector3& position) noexcept { _position = position; }
 
 public:
-    // 선호: shared_ptr 기반
     void SetTarget(const std::shared_ptr<GameObject>& target) noexcept { _target = target; }
     void RemoveTarget() noexcept { _target.reset(); }
 
 public:
-    // 하위호환: 기존 raw 포인터 API 유지
     void SetTarget(GameObject* target) noexcept { _rawTarget = target; }
     GameObject* GetTarget() const noexcept { return _rawTarget ? _rawTarget : _target.lock().get(); }
 
@@ -45,7 +43,6 @@ private:
     DirectX::SimpleMath::Vector3 _position = Values::ZeroVector3;
 
 private:
-    // 타겟은 weak_ptr 우선. 기존 코드 호환을 위해 raw 포인터도 병행 유지.
     std::weak_ptr<GameObject> _target;
     GameObject* _rawTarget = nullptr;
 
