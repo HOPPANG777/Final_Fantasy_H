@@ -170,6 +170,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\AnimatedTexture.h" />
     <ClInclude Include="Components\CircleCollider.h" />
     <ClInclude Include="Components\ColorCircle.h" />
     <ClInclude Include="Components\ColorFilledCircle.h" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Utilities\ReadData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\AnimatedTexture.cpp" />
     <ClCompile Include="Components\CircleCollider.cpp" />
     <ClCompile Include="Components\ColorCircle.cpp" />
     <ClCompile Include="Components\ColorFilledCircle.cpp" />
