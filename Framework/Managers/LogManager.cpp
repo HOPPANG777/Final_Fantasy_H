@@ -13,119 +13,134 @@ LogManager::~LogManager()
 
 void LogManager::Pre_Log()
 {
-	std::cout << "--------------------------------------------------------------------------" << std::endl;
+        std::cout << "--------------------------------------------------------------------------" << std::endl;
 
-	time_t now1 = time(nullptr);
-	tm tm_1;
+        time_t now1 = time(nullptr);
+        tm tm_1;
 
-	localtime_s(&tm_1, &now1);
+        localtime_s(&tm_1, &now1);
 
-	Log_Count++;
+        Log_Count++;
 
-	int Hour_Temp = (tm_1.tm_hour > 12) ? (tm_1.tm_hour - 12) : tm_1.tm_hour;
+        // 12ð ǥ ڸ ߱  , , ʸ ڿ Ѵ.
+        int Hour_Temp = (tm_1.tm_hour > 12) ? (tm_1.tm_hour - 12) : tm_1.tm_hour;
 
-	std::string HHour = (Hour_Temp > 9) ? std::to_string(Hour_Temp) : "0" + std::to_string(Hour_Temp);
-	std::string MMin = (tm_1.tm_min > 9) ? std::to_string(tm_1.tm_min) : "0" + std::to_string(tm_1.tm_min);
-	std::string SSec = (tm_1.tm_sec > 9) ? std::to_string(tm_1.tm_sec) : "0" + std::to_string(tm_1.tm_sec);
+        std::string HHour = (Hour_Temp > 9) ? std::to_string(Hour_Temp) : "0" + std::to_string(Hour_Temp);
+        std::string MMin = (tm_1.tm_min > 9) ? std::to_string(tm_1.tm_min) : "0" + std::to_string(tm_1.tm_min);
+        std::string SSec = (tm_1.tm_sec > 9) ? std::to_string(tm_1.tm_sec) : "0" + std::to_string(tm_1.tm_sec);
 
-	std::cout << "[" << HHour << ":" << MMin << ":" << SSec << "] - " << "(" << Log_Count << ")" << std::endl;
+        //  α  : [::] - (ȣ Ƚ)
+        std::cout << "[" << HHour << ":" << MMin << ":" << SSec << "] - " << "(" << Log_Count << ")" << std::endl;
 }
 
 void LogManager::Log()
 {
-	Pre_Log();
+        // ⺻ ڿ α.  ޽ ϱ  ׻ Pre_Log()  Ѵ.
+        Pre_Log();
 
-	std::cout << "Hello~" << std::endl;
+        std::cout << "Hello~" << std::endl;
 }
 
 void LogManager::Log(int p_Value)
 {
-	Pre_Log();
+        //   Ѵ.
+        Pre_Log();
 
-	std::cout << p_Value << std::endl;
+        std::cout << p_Value << std::endl;
 }
 
 void LogManager::Log(float p_Value)
 {
-	Pre_Log();
+        // float  ⺻ Ʈ  .
+        Pre_Log();
 
-	std::cout << p_Value << std::endl;
+        std::cout << p_Value << std::endl;
 }
 
 void LogManager::Log(double p_Value)
 {
-	Pre_Log();
+        // double  ϰ óѴ.
+        Pre_Log();
 
-	std::cout << p_Value << std::endl;
+        std::cout << p_Value << std::endl;
 }
 
 void LogManager::Log(bool p_Value)
 {
-	Pre_Log();
+        // bool True/False ڿ ȯؼ ش.
+        Pre_Log();
 
-	std::cout << (p_Value ? "True" : "False") << std::endl;
+        std::cout << (p_Value ? "True" : "False") << std::endl;
 }
 
 void LogManager::Log(std::wstring p_Value)
 {
-	Pre_Log();
+        // wide ڿ ӽ÷ UTF-8 ȯ ǥ ¿ Ѵ.
+        Pre_Log();
 
-	std::cout << std::string(p_Value.begin(), p_Value.end()) << std::endl;
+        std::cout << std::string(p_Value.begin(), p_Value.end()) << std::endl;
 }
 
 void LogManager::Log(std::string p_Value)
 {
-	Pre_Log();
+        // Ϲ ڿ .
+        Pre_Log();
 
-	std::cout << p_Value << std::endl;
+        std::cout << p_Value << std::endl;
 }
 
 void LogManager::Log(char p_Value)
 {
-	Pre_Log();
+        //  ڵ Ʈ ״ .
+        Pre_Log();
 
-	std::cout << p_Value << std::endl;
+        std::cout << p_Value << std::endl;
 }
 
 void LogManager::Log(wchar_t p_Value)
 {
-	Pre_Log();
+        // wchar_t ϳ ڿ ȯ  .
+        Pre_Log();
 
-	std::wstring Temp(&p_Value);
+        std::wstring Temp(&p_Value);
 
-	std::cout << std::string(Temp.begin(), Temp.end()) << std::endl;
+        std::cout << std::string(Temp.begin(), Temp.end()) << std::endl;
 }
 
 void LogManager::Log(wchar_t& p_Value)
 {
-	Pre_Log();
+        //     óѴ.
+        Pre_Log();
 
-	std::wstring Temp(&p_Value);
+        std::wstring Temp(&p_Value);
 
-	std::cout << std::string(Temp.begin(), Temp.end()) << std::endl;
+        std::cout << std::string(Temp.begin(), Temp.end()) << std::endl;
 }
 
 void LogManager::Log(wchar_t p_Value[])
 {
-	Pre_Log();
+        // wchar_t 迭 ü ڿ ȯ.
+        Pre_Log();
 
-	std::wstring Temp(p_Value);
+        std::wstring Temp(p_Value);
 
-	std::cout << std::string(Temp.begin(), Temp.end()) << std::endl;
+        std::cout << std::string(Temp.begin(), Temp.end()) << std::endl;
 }
 
 void LogManager::Log(char& p_Value)
 {
-	Pre_Log();
+        // char  ּҰ ϵ Ǿ ִ.
+        Pre_Log();
 
-	std::cout << &p_Value << std::endl;
+        std::cout << &p_Value << std::endl;
 }
 
 void LogManager::Log(char p_Value[])
 {
-	Pre_Log();
+        // char 迭 ڿ .
+        Pre_Log();
 
-	std::cout << p_Value << std::endl;
+        std::cout << p_Value << std::endl;
 }
 
 //void LogManager::Log(uint p_Value)
