@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "Animator.h"
 
-#include "Utilities/AnimationClip.h"
-
 Animator::Animator(const std::string& componentName)
     : Component(componentName)
 {

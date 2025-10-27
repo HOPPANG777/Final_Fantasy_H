@@ -1,14 +1,5 @@
 #pragma once
 
-#include "Component.h"
-
-#include <memory>
-#include <string>
-#include <unordered_map>
-
-#include <wrl/client.h>
-#include <directxtk/SimpleMath.h>
-
 class AnimationClip;
 
 class Animator : public Component

@@ -11,8 +11,7 @@ AnimationClip::AnimationClip(
     const DirectX::SimpleMath::Vector2& startPos,
     const DirectX::SimpleMath::Vector2& endPos,
     bool reversed)
-    : _name(clipName),
-      _reversed(reversed)
+    : _name(clipName), _reversed(reversed)
 {
     if (sourceTexture == nullptr)
     {
