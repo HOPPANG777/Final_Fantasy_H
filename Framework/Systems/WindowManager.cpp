@@ -2,166 +2,153 @@
 #include "WindowManager.h"
 #include "Program/Program.h"
 
-// Program Ì± Ã¼ Ê±È­.
 std::unique_ptr<Program> WindowManager::program = nullptr;
 
-// :  Å¬ Ï° Ã¢ /Ê±È­Ñ´.
 WindowManager::WindowManager(const WinDesc& initDesc)
-        : desc(initDesc)
+	: desc(initDesc)
 {
-        //  Å¬ Ñ´.
-        WORD wHr = MyRegisterClass(desc);
-        assert(wHr != 0);
+	WORD wHr = MyRegisterClass(desc);
+	assert(wHr != 0);
 
-        //  ì¸¦ Ñ´.
-        desc.handle = CreateWindowExW
-        (
-                WS_EX_APPWINDOW,
-                desc.appName.c_str(),
-                desc.appName.c_str(),
-                WS_OVERLAPPEDWINDOW,
-                CW_USEDEFAULT,
-                CW_USEDEFAULT,
-                CW_USEDEFAULT,
-                CW_USEDEFAULT,
-                nullptr,
-                HMENU(nullptr),
-                desc.instance,
-                nullptr
-        );
+	desc.handle = CreateWindowExW
+	(
+		WS_EX_APPWINDOW,
+		desc.appName.c_str(),
+		desc.appName.c_str(),
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		nullptr,
+		HMENU(nullptr),
+		desc.instance,
+		nullptr
+	);
 
-        // Å¬Ì¾Æ® Å©â°¡  Ø»óµµ¿ Ä¡Ïµ Ñ´.
-        RECT rect = { 0, 0, LONG(desc.width), LONG(desc.height) };
+	RECT rect = { 0, 0, LONG(desc.width), LONG(desc.height) };
 
-        AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, 0);
+	AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, 0);
 
-        // È­ ß¾Ó¿ Ã¢  Ä¡ Ñ´.
-        UINT centerLeft = (GetSystemMetrics(SM_CXSCREEN) - UINT(desc.width)) / 2 + rect.left;
-        UINT centerTop = (GetSystemMetrics(SM_CYSCREEN) - UINT(desc.height)) / 2 + rect.top;
+	UINT centerLeft = (GetSystemMetrics(SM_CXSCREEN) - UINT(desc.width)) / 2 + rect.left;
+	UINT centerTop = (GetSystemMetrics(SM_CYSCREEN) - UINT(desc.height)) / 2 + rect.top;
 
-        MoveWindow
-        (
-                desc.handle,
-                centerLeft,
-                centerTop,
-                rect.right - rect.left,
-                rect.bottom - rect.top,
-                true
-        );
+	MoveWindow
+	(
+		desc.handle,
+		centerLeft,
+		centerTop,
+		rect.right - rect.left,
+		rect.bottom - rect.top,
+		true
+	);
 
-        // Ã¢ È­é¿¡ Ç¥Ï° Þ½ Ñ´.
-        ShowWindow(desc.handle, SW_SHOWNORMAL);
+	ShowWindow(desc.handle, SW_SHOWNORMAL);
 
-        UpdateWindow(desc.handle);
+	UpdateWindow(desc.handle);
 
-        // ì½º Ä¿ Ìµ Ñ´.
-        ShowCursor(true);
+	ShowCursor(true);
 }
 
-// Ò¸:     Ñ´.
 WindowManager::~WindowManager()
 {
-        DestroyWindow(desc.handle);
-        UnregisterClassW(desc.appName.c_str(), desc.instance);
+	DestroyWindow(desc.handle);
+	UnregisterClassW(desc.appName.c_str(), desc.instance);
 }
 
-//  Å¬ Ï¿ Þ½ Ã³ Ïµ Ñ´.
 ATOM WindowManager::MyRegisterClass(const WinDesc& desc)
 {
-        WNDCLASSEXW wcex;
+	WNDCLASSEXW wcex;
 
-        wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.cbSize = sizeof(WNDCLASSEX);
 
-        wcex.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | CS_OWNDC;
-        wcex.lpfnWndProc = &WndProc;
-        wcex.cbClsExtra = 0;
-        wcex.cbWndExtra = 0;
-        wcex.hInstance = desc.instance;
-        wcex.hIcon = desc.icon;
-        wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-        wcex.hbrBackground = HBRUSH(GetStockObject(WHITE_BRUSH));
-        wcex.lpszMenuName = nullptr;
-        wcex.lpszClassName = desc.appName.c_str();
-        wcex.hIconSm = wcex.hIcon;
+	wcex.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | CS_OWNDC;
+	wcex.lpfnWndProc = &WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = desc.instance;
+	wcex.hIcon = desc.icon;
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = HBRUSH(GetStockObject(WHITE_BRUSH));
+	wcex.lpszMenuName = nullptr;
+	wcex.lpszClassName = desc.appName.c_str();
+	wcex.hIconSm = wcex.hIcon;
 
-        return RegisterClassExW(&wcex);
+	return RegisterClassExW(&wcex);
 }
 
-// Þ½  é¼­ Program Î½Ï½ Ñ´.
 WPARAM WindowManager::Run()
 {
-        program = std::make_unique<Program>();
-        program->Awake();
-        program->Start();
+	program = std::make_unique<Program>();
+	program->Awake();
+	program->Start();
 
-        MSG msg = { 0 };
+	MSG msg = { 0 };
 
-        // âº» Þ½ 
-        while (true)
-        {
-                if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-                {
-                        // WM_QUIT Þ½   Ñ´.
-                        if (msg.message == WM_QUIT) break;
+	// ±âº» ¸Þ½ÃÁö ·çÇÁÀÔ´Ï´Ù:
+	while (true)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			// ¸Þ½ÃÁö Á¾·á ÇÔ¼ö ¹ÝÈ¯½Ã while¹® Å»Ãâ
+			if (msg.message == WM_QUIT) break;
 
-                        // Å°  Ô· Þ½  Ã³Ñ´.
-                        TranslateMessage(&msg);
+			// ¸Þ¼¼Áö º¯¿ª
+			TranslateMessage(&msg);
 
-                        // ì½º Ô·  Ñ´.
-                        MouseManager::Get()->MouseProc(msg.message, msg.wParam, msg.lParam);
+			// ¸¶¿ì½º ÇÁ·Î½ÃÀú
+			MouseManager::Get()->MouseProc(msg.message, msg.wParam, msg.lParam);
 
-                        // Þ½   Î½ Ñ´.
-                        DispatchMessage(&msg);
-                }
-                else
-                {
-                        // Ã³ Þ½    Ñ´.
-                        MainRender();
-                }
-        }
+			// ¸Þ½ÃÁö Ã³¸®ÇÔ¼ö·Î Àü´Þ
+			DispatchMessage(&msg);
+		}
+		else
+		{
+			// ¾÷µ¥ÀÌÆ®¿Í ·»´õ
+			MainRender();
+		}
+	}
 
-        return msg.wParam;
+	return msg.wParam;
 }
 
-//   È£Ç¾ Ô·, Æ®,  Ñ´.
 void WindowManager::MainRender()
 {
-        KeyboardManager::Get()->Update();
-        MouseManager::Get()->Update();
-        TimeManager::Get()->Update();
-        ImGuiManager::Get()->Update();
+	KeyboardManager::Get()->Update();
+	MouseManager::Get()->Update();
+	TimeManager::Get()->Update();
+	ImGuiManager::Get()->Update();
 
-        program->Update();
+	program->Update();
 
-        GraphicsManager::Get()->Begin();
-        {
-                program->Render();
-                program->PostRender();
+	GraphicsManager::Get()->Begin();
+	{
+		program->Render();
+		program->PostRender();
 
-                program->ImGUI();
-                ImGuiManager::Get()->Render();
-        }
-        GraphicsManager::Get()->End();
+		program->ImGUI();
+		ImGuiManager::Get()->Render();
+	}
+	GraphicsManager::Get()->End();
 }
 
-//  Î½:   Þ½ Ã³Ñ´.
 LRESULT WindowManager::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
-        switch (message)
-        {
-        case WM_CREATE:
-                gHandle = handle;
-                break;
-        case WM_SIZE:
-                gWinWidth = float(GET_X_LPARAM(lParam));
-                gWinHeight = float(GET_Y_LPARAM(lParam));
-                break;
-        case WM_DESTROY:
-        case WM_CLOSE:
-                //if (MessageBox(handle, L" Ï½Ã°Ú½Ï±?", L"WinAPI ", MB_OKCANCEL) == IDOK)
-                PostQuitMessage(0);
+	switch (message)
+	{
+	case WM_CREATE:
+		gHandle = handle;
+		break;
+	case WM_SIZE:
+		gWinWidth = float(GET_X_LPARAM(lParam));
+		gWinHeight = float(GET_Y_LPARAM(lParam));
+		break;
+	case WM_DESTROY:
+	case WM_CLOSE:
+		//if (MessageBox(handle, L"Á¤¸» Á¾·áÇÏ½Ã°Ú½À´Ï±î?", L"WinAPI Á¾·á", MB_OKCANCEL) == IDOK)
+		PostQuitMessage(0);
 
-                return 0;
-        }
-        return DefWindowProc(handle, message, wParam, lParam);
+		return 0;
+	}
+	return DefWindowProc(handle, message, wParam, lParam);
 }

@@ -1,124 +1,116 @@
 #include "Framework.h"
 #include "MouseManager.h"
 
-// : Ê±È­ Ô¼ È£ ì½º Â¸ ØºÑ´.
 MouseManager::MouseManager()
 {
-        Init();
+	Init();
 }
 
-// Ò¸:   Û¾ Ê¿ .
 MouseManager::~MouseManager() {}
 
-//  Å¬ Ã°  âº»  Ê±È­Ñ´.
 void MouseManager::Init()
 {
-        ZeroMemory(startDblClk, sizeof(DWORD) * MAX_INPUT_MOUSE);
-        ZeroMemory(buttonCount, sizeof(int) * MAX_INPUT_MOUSE);
+	ZeroMemory(startDblClk, sizeof(DWORD) * MAX_INPUT_MOUSE);
+	ZeroMemory(buttonCount, sizeof(int) * MAX_INPUT_MOUSE);
 
-        timeDblClk = GetDoubleClickTime();
-        startDblClk[0] = GetTickCount();
+	timeDblClk = GetDoubleClickTime();
+	startDblClk[0] = GetTickCount();
 
-        for (int i = 1; i < MAX_INPUT_MOUSE; i++) startDblClk[i] = startDblClk[0];
+	for (int i = 1; i < MAX_INPUT_MOUSE; i++) startDblClk[i] = startDblClk[0];
 
-        DWORD tLine = 0;
-        // î¿µÃ¼   Å©   Â´.
-        SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &tLine, 0);
+	DWORD tLine = 0;
+	SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &tLine, 0);
 }
 
-// ì½º Æ°, Ä¡,  Â¸ Ñ´.
 void MouseManager::Update()
 {
-        buttonStatus[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
-        buttonStatus[1] = GetAsyncKeyState(VK_RBUTTON) & 0x8000 ? 1 : 0;
-        buttonStatus[2] = GetAsyncKeyState(VK_MBUTTON) & 0x8000 ? 1 : 0;
+	buttonStatus[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
+	buttonStatus[1] = GetAsyncKeyState(VK_RBUTTON) & 0x8000 ? 1 : 0;
+	buttonStatus[2] = GetAsyncKeyState(VK_MBUTTON) & 0x8000 ? 1 : 0;
 
-        for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
-        {
-                int tOldStatus = buttonOldStatus[i];
-                int tStatus = buttonStatus[i];
+	for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
+	{
+		int tOldStatus = buttonOldStatus[i];
+		int tStatus = buttonStatus[i];
 
-                if (tOldStatus == 0 && tStatus == 1)
-                        buttonMap[i] = BUTTON_INPUT_STATUS_DOWN;
-                else if (tOldStatus == 1 && tStatus == 0)
-                        buttonMap[i] = BUTTON_INPUT_STATUS_UP;
-                else if (tOldStatus == 1 && tStatus == 1)
-                        buttonMap[i] = BUTTON_INPUT_STATUS_PRESS;
-                else
-                        buttonMap[i] = BUTTON_INPUT_STATUS_NONE;
-        }
+		if (tOldStatus == 0 && tStatus == 1)
+			buttonMap[i] = BUTTON_INPUT_STATUS_DOWN;
+		else if (tOldStatus == 1 && tStatus == 0)
+			buttonMap[i] = BUTTON_INPUT_STATUS_UP;
+		else if (tOldStatus == 1 && tStatus == 1)
+			buttonMap[i] = BUTTON_INPUT_STATUS_PRESS;
+		else
+			buttonMap[i] = BUTTON_INPUT_STATUS_NONE;
+	}
 
-        POINT point;
-        GetCursorPos(&point);
-        ScreenToClient(handle, &point);
+	POINT point;
+	GetCursorPos(&point);
+	ScreenToClient(handle, &point);
 
-        wheelOldStatus.x = wheelStatus.x;
-        wheelOldStatus.y = wheelStatus.y;
+	wheelOldStatus.x = wheelStatus.x;
+	wheelOldStatus.y = wheelStatus.y;
 
-        wheelStatus.x = float(point.x);
-        wheelStatus.y = float(point.y);
+	wheelStatus.x = float(point.x);
+	wheelStatus.y = float(point.y);
 
-        //  Ó°   Ä¡ Ì¸ Ñ´.
-        wheelMoveValue = wheelStatus - wheelOldStatus;
+	wheelMoveValue = wheelStatus - wheelOldStatus;
 
-        DWORD tButtonStatus = GetTickCount();
-        for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
-        {
-                if (buttonMap[i] == BUTTON_INPUT_STATUS_DOWN)
-                {
-                        if (buttonCount[i] == 1)
-                        {
-                                if ((tButtonStatus - startDblClk[i]) >= timeDblClk)
-                                        buttonCount[i] = 0;
-                        }
-                        buttonCount[i]++;
+	DWORD tButtonStatus = GetTickCount();
+	for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
+	{
+		if (buttonMap[i] == BUTTON_INPUT_STATUS_DOWN)
+		{
+			if (buttonCount[i] == 1)
+			{
+				if ((tButtonStatus - startDblClk[i]) >= timeDblClk)
+					buttonCount[i] = 0;
+			}
+			buttonCount[i]++;
 
-                        if (buttonCount[i] == 1)
-                                startDblClk[i] = tButtonStatus;
-                }
+			if (buttonCount[i] == 1)
+				startDblClk[i] = tButtonStatus;
+		}
 
-                if (buttonMap[i] == BUTTON_INPUT_STATUS_UP)
-                {
-                        if (buttonCount[i] == 1)
-                        {
-                                if ((tButtonStatus - startDblClk[i]) >= timeDblClk)
-                                        buttonCount[i] = 0;
-                        }
-                        else if (buttonCount[i] == 2)
-                        {
-                                if ((tButtonStatus - startDblClk[i]) <= timeDblClk)
-                                        buttonMap[i] = BUTTON_INPUT_STATUS_DBLCLK;
+		if (buttonMap[i] == BUTTON_INPUT_STATUS_UP)
+		{
+			if (buttonCount[i] == 1)
+			{
+				if ((tButtonStatus - startDblClk[i]) >= timeDblClk)
+					buttonCount[i] = 0;
+			}
+			else if (buttonCount[i] == 2)
+			{
+				if ((tButtonStatus - startDblClk[i]) <= timeDblClk)
+					buttonMap[i] = BUTTON_INPUT_STATUS_DBLCLK;
 
-                                buttonCount[i] = 0;
-                        }
-                }//if
-        }//for(i)
+				buttonCount[i] = 0;
+			}
+		}//if
+	}//for(i)
 
 
-        //   Â¸  Â· Æ®
-        for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
-        {
-                buttonOldStatus[i] = buttonStatus[i];
-        }
+	// ¸¶Áö¸·¿¡ ÀÌÀü »óÅÂ¸¦ ÇöÀç »óÅÂ·Î ¾÷µ¥ÀÌÆ®
+	for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
+	{
+		buttonOldStatus[i] = buttonStatus[i];
+	}
 }
 
-//  Þ½Îº ì½º Ç¥  Ìµ Ñ´.
 LRESULT MouseManager::MouseProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-        if (message == WM_LBUTTONDOWN || message == WM_MOUSEMOVE)
-        {
-                //  Ç¥  ì½º Ä¡ Ñ´.
-                mousePos.x = (float)LOWORD(lParam);
-                mousePos.y = (float)(Values::GetWinHeight() - HIWORD(lParam));
-        }
+	if (message == WM_LBUTTONDOWN || message == WM_MOUSEMOVE)
+	{
+		mousePos.x = (float)LOWORD(lParam);
+		mousePos.y = (float)(Values::GetWinHeight() - HIWORD(lParam));
+	}
 
-        if (message == WM_MOUSEWHEEL)
-        {
-                short tWheelValue = (short)HIWORD(wParam);
+	if (message == WM_MOUSEWHEEL)
+	{
+		short tWheelValue = (short)HIWORD(wParam);
 
-                wheelOldStatus.z = wheelStatus.z;
-                wheelStatus.z += (float)tWheelValue;
-        }
+		wheelOldStatus.z = wheelStatus.z;
+		wheelStatus.z += (float)tWheelValue;
+	}
 
-        return TRUE;
+	return TRUE;
 }

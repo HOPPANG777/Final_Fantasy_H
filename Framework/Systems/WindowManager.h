@@ -1,49 +1,42 @@
 #pragma once
 
-//   à¿¡ Ê¿   Ã¼.
 struct WinDesc
 {
-        std::wstring appName = L"";
-        HINSTANCE instance = nullptr;
-        HWND handle = nullptr;
-        UINT width = 0;
-        UINT height = 0;
-        HICON icon = nullptr;
+	std::wstring appName = L"";
+	HINSTANCE instance = nullptr;
+	HWND handle = nullptr;
+	UINT width = 0;
+	UINT height = 0;
+	HICON icon = nullptr;
 };
 
 class WindowManager
 {
 public:
-        // : Ã¢ Ï°  ì¸¦ Ñ´.
-        WindowManager(const WinDesc& initDesc);
-        // Ò¸:  Ïµ Å¬ Ñ´.
-        ~WindowManager();
+	WindowManager(const WinDesc& initDesc);
+	~WindowManager();
 
-        //  Å¬ Ñ´.   0 È¯Ñ´.
-        ATOM MyRegisterClass(const WinDesc& desc);
+	ATOM MyRegisterClass(const WinDesc& desc);
 
-        // Þ½  é¼­ Î±×· Ñ´.
-        WPARAM Run();
+	WPARAM Run();
 
-        // Ô·Â°     Æ¾ Ã³Ñ´.
-        void MainRender();
+	void MainRender();
 
 private:
-        static LRESULT CALLBACK WndProc
-        (
-                // WindowManager Ï´  Úµ
-                HWND handle,
-                // Þ½ Å¥ Þµ Þ½ Úµ
-                UINT message,
-                //  ß° (Å°  )
-                WPARAM wParam,
-                //  Ç´ Ç¥   Î° Å°
-                LPARAM lParam
-        );
+	static LRESULT CALLBACK WndProc
+	(
+		// WindowManager handle 
+		HWND handle,
+		//Message Queue¿¡¼­ ¹ÞÀº ¸Þ½ÃÁö
+		UINT message,
+		// ¿öµå ÆÄ¶ó¹ÌÅÍ(Á¤¼ö°ª)
+		WPARAM wParam,
+		//·Õ ÆÄ¶ó¹ÌÅÍ(Æ÷ÀÎÅÍ)
+		LPARAM lParam
+	);
 
-        WinDesc desc;
+	WinDesc desc;
 
-        //    Ï´ Program Î½Ï½.
-        static std::unique_ptr<class Program> program;
+	static std::unique_ptr<class Program> program;
 };
 
