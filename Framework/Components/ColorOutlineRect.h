@@ -1,5 +1,8 @@
 #pragma once
 
+// ColorOutlineRect ܰ ִ 簢 ׸ Drawable Ʈ.
+//      Ʈ ͸ Ѵ.
+
 class ColorOutlineRect : public Drawable, public IColorable
 {
 public:
@@ -11,17 +14,19 @@ public:
         bool useRectTransform = false
     );
 
+    // 簢 ܰ Transform ϹǷ ⺻ Update ȣѴ.
     void Update() override;
+    //  Ʈ  ܰ ׸  DrawCall Ѵ.
     void Render() override;
 
     DirectX::SimpleMath::Color GetColor() const override;
     void SetColor(const DirectX::SimpleMath::Color& color) override;
 
 private:
-    void InitializeGeometry();
-    void UpdateVertexColors();
+    void InitializeGeometry();    // 簢    ʱȭ
+    void UpdateVertexColors();    // ׵θ    ؽ 
 
 private:
-    std::vector<VertexColor> _vertices;
-    DirectX::SimpleMath::Color _color;
+    std::vector<VertexColor> _vertices; // 簢 ܰ ̷ ؽ 
+    DirectX::SimpleMath::Color _color;   // ܰ 
 };

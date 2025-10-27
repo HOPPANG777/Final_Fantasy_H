@@ -1,3 +1,6 @@
+// Animator δ  Ŭ ð  Ű ʿ  ĳѴ.
+// ȭ ð Ͽ ApplyCurrentFrame  ε Ѵ.
+
 #include "Framework.h"
 #include "Animator.h"
 
@@ -8,27 +11,33 @@ Animator::Animator(const std::string& componentName)
 
 void Animator::Update()
 {
+    //   Ŭ   ʿ䰡 .
     if (_currentClip == nullptr)
     {
         return;
     }
 
+    //  ¿ ̹ ƴٸ  ̻  ʴ´.
     if (_finished && !_loop)
     {
         return;
     }
 
+    //  ӵ 0̸ Ͻ  · Ѵ.
     if (_playbackSpeed == 0.0f)
     {
         return;
     }
 
+    //  Ŭ   ȮѴ.
+    //   0̸ ʱȭ  Ѵ.
     const UINT frameCount = _currentClip->GetFrameCount();
     if (frameCount == 0)
     {
         return;
     }
 
+    //  Ӵ  ð    ü  ð Ѵ.
     const float clipDuration = _animationTime * static_cast<float>(frameCount);
     if (clipDuration <= 0.0f)
     {
@@ -36,8 +45,10 @@ void Animator::Update()
     }
 
     const float deltaTime = TimeManager::Get()->GetDeltaTime();
+    //  ð ȭ 0~1  ð ȯѴ.
     _normalizedTime += (_playbackSpeed * deltaTime) / clipDuration;
 
+    //     ߴ Ȯϰ óѴ.
     if (_playbackSpeed > 0.0f && _normalizedTime >= 1.0f)
     {
         if (_loop)
@@ -52,6 +63,7 @@ void Animator::Update()
             _playbackSpeed = 0.0f;
         }
     }
+    //      ߴ ȮѴ.
     else if (_playbackSpeed < 0.0f && _normalizedTime <= 0.0f)
     {
         if (_loop)
@@ -67,6 +79,7 @@ void Animator::Update()
         }
     }
 
+    // ȭ ð   ʵ Ѵ.
     if (_normalizedTime < 0.0f)
     {
         _normalizedTime = 0.0f;
@@ -76,6 +89,7 @@ void Animator::Update()
         _normalizedTime = 1.0f;
     }
 
+    //  ȭ ð    Ѵ.
     ApplyCurrentFrame();
 }
 
@@ -85,6 +99,7 @@ void Animator::Render()
 
 void Animator::AddAnimClip(const std::shared_ptr<AnimationClip>& animClip)
 {
+    // null Ͱ ޵Ǹ Ѵ.
     if (!animClip)
     {
         return;
@@ -95,11 +110,13 @@ void Animator::AddAnimClip(const std::shared_ptr<AnimationClip>& animClip)
 
 void Animator::SetCurrentAnimClip(const std::wstring& clipName)
 {
+    // ̹  Ŭ  ̸ ʱȭ ʴ´.
     if (_currentClip && _currentClip->GetName() == clipName)
     {
         return;
     }
 
+    // ϵ Ŭ Ͽ ̸ ˻Ѵ.
     const auto clipIt = _animationClips.find(clipName);
     if (clipIt == _animationClips.end())
     {
@@ -107,12 +124,14 @@ void Animator::SetCurrentAnimClip(const std::wstring& clipName)
         return;
     }
 
+    // ˻ ϸ  Ŭ üѴ.
     _currentClip = clipIt->second;
 
     _normalizedTime = 0.0f;
     _finished = false;
     _playbackSpeed = 1.0f;
 
+    //   ʿ Ŭ̸ ʱ ¿   ´.
     if (_currentClip->IsReversed())
     {
         _normalizedTime = 1.0f;
@@ -129,11 +148,13 @@ DirectX::SimpleMath::Vector2 Animator::GetCurrentFrame() const
 
 DirectX::SimpleMath::Vector2 Animator::GetTexelFrameSize() const
 {
+    //  Ŭ   ȿ  ȯѴ.
     if (_currentClip)
     {
         return _currentClip->GetFrameSize();
     }
 
+    // Ŭ  ⺻ ȯѴ.
     return DirectX::SimpleMath::Vector2(0.0f, 0.0f);
 }
 
@@ -144,6 +165,7 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Animator::GetCurrentSRV() const
         return _currentClip->GetShaderResourceView();
     }
 
+    // Ŭ  ؽó ҽ .
     return nullptr;
 }
 
@@ -165,6 +187,7 @@ std::wstring Animator::GetCurrentClipName() const
 void Animator::SetLoop(bool loop)
 {
     _loop = loop;
+    //  °   ¸ ʱȭѴ.
 
     if (_loop)
     {
@@ -174,12 +197,14 @@ void Animator::SetLoop(bool loop)
 
 bool Animator::IsFinished() const
 {
+    // ⺻δ ο   ¸ ȯѴ.
     return _finished;
 }
 
 void Animator::SetPlaybackSpeed(float speed)
 {
     _playbackSpeed = speed;
+    // ӵ ٽ 0 ƴ  Ǹ  ÷׸ Ѵ.
 
     if (_playbackSpeed != 0.0f)
     {
@@ -189,6 +214,7 @@ void Animator::SetPlaybackSpeed(float speed)
 
 void Animator::SetNormalizedTime(float normalizedTime)
 {
+    // ܺο  ȭ ð   Ѵ.
     _normalizedTime = normalizedTime;
 
     if (_normalizedTime < 0.0f)
@@ -212,6 +238,7 @@ float Animator::GetNormalizedTime() const
 
 bool Animator::IsAnimationFinished() const
 {
+    //  Ŭ  ڵ  · Ѵ.
     if (_currentClip == nullptr)
     {
         return true;
@@ -247,9 +274,11 @@ void Animator::ApplyCurrentFrame()
         return;
     }
 
+    // ȭ ð   ε ȯѴ.
     const float rawIndex = _normalizedTime * static_cast<float>(frameCount - 1);
     UINT frameIndex = static_cast<UINT>(rawIndex + 0.5f);
 
+    // 迭   ʵ   Ѵ.
     if (frameIndex >= frameCount)
     {
         frameIndex = frameCount - 1;

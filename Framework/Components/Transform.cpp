@@ -1,9 +1,11 @@
+// Transform Î´ -È¸-Ìµ  Ï°   Ìµ Ã³Ñ´.
+
 #include "Framework.h"
 #include "Transform.h"
 
 void Transform::Update()
 {
-    // S, R, T Çà·Ä °è»ê
+    // S, R, T í–‰ë ¬ ê³„ì‚°
     DirectX::SimpleMath::Matrix S = DirectX::XMMatrixScalingFromVector(scale);
     DirectX::SimpleMath::Matrix R = DirectX::XMMatrixRotationZ(rotation);
     DirectX::SimpleMath::Matrix T = DirectX::XMMatrixTranslationFromVector(position);
@@ -13,8 +15,8 @@ void Transform::Update()
 
 void Transform::Render()
 {
-    // TransformÀº ½Ã°¢ÀûÀ¸·Î ±×¸± ¿ä¼Ò°¡ ¾øÀ¸¹Ç·Î º¸Åë ºñ¿ó´Ï´Ù.
-    // (ÇÊ¿ä ½Ã, µğ¹ö±×¿ë ±âÁî¸ğ µîÀ¸·Î È®Àå °¡´É)
+    // Transformì€ ì‹œê°ì ìœ¼ë¡œ ê·¸ë¦´ ìš”ì†Œê°€ ì—†ìœ¼ë¯€ë¡œ ë³´í†µ ë¹„ì›ë‹ˆë‹¤.
+    // (í•„ìš” ì‹œ, ë””ë²„ê·¸ìš© ê¸°ì¦ˆëª¨ ë“±ìœ¼ë¡œ í™•ì¥ ê°€ëŠ¥)
 }
 
 DirectX::SimpleMath::Vector3 Transform::GetPosition() const
@@ -29,7 +31,7 @@ DirectX::SimpleMath::Vector3 Transform::GetScale() const
 
 float Transform::GetRotation() const
 {
-    // ³»ºÎ´Â ¶óµğ¾ÈÀÌÁö¸¸, ¿ÜºÎ¿£ °¢µµ(µµ)·Î ¹İÈ¯
+    // ë‚´ë¶€ëŠ” ë¼ë””ì•ˆì´ì§€ë§Œ, ì™¸ë¶€ì—” ê°ë„(ë„)ë¡œ ë°˜í™˜
     return DirectX::XMConvertToDegrees(rotation);
 }
 
