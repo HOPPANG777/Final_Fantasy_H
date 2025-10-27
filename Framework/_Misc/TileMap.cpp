@@ -5,11 +5,11 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <utility>
 
 #include "Tile.h"
 #include "TileSet.h"
-#include "TileSetManager.h"
 #include "Systems/MouseManager.h"
 #include "Systems/CameraManager.h"
 
@@ -19,11 +19,11 @@ TileMap::TileMap(
     UINT width,
     UINT height,
     UINT spacing,
-    std::shared_ptr<TileSetManager> tileSetManager,
+    std::shared_ptr<TileSet> tileSet,
     MouseManager& mouseManager,
     CameraManager& cameraManager,
     bool editMode)
-    : tileSetManager(std::move(tileSetManager))
+    : tileSet(tileSet ? std::move(tileSet) : std::make_shared<TileSet>())
     , mouseManager(mouseManager)
     , cameraManager(cameraManager)
     , width(width)
@@ -31,6 +31,7 @@ TileMap::TileMap(
     , spacing(spacing)
     , editMode(editMode)
 {
+    cachedTileSetVersion = this->tileSet ? this->tileSet->GetVersion() : 0;
     GenerateTileMap();
 }
 
@@ -71,9 +72,9 @@ void TileMap::Render()
 
 void TileMap::ImGUI()
 {
-    if (tileSetManager)
+    if (tileSet)
     {
-        tileSetManager->ImGUI();
+        tileSet->ImGUI();
     }
 }
 
@@ -82,8 +83,8 @@ void TileMap::GenerateTileMap()
     tiles.clear();
     tiles.resize(height);
 
-    auto activeTileSet = tileSetManager ? tileSetManager->GetActiveTileSet() : nullptr;
-    cachedTileSet = activeTileSet;
+    auto activeTileSet = tileSet;
+    cachedTileSetVersion = activeTileSet ? activeTileSet->GetVersion() : 0;
 
     UINT index = 0;
     for (UINT rowIndex = 0; rowIndex < height; ++rowIndex)
@@ -96,7 +97,6 @@ void TileMap::GenerateTileMap()
                 static_cast<float>(rowIndex * spacing),
                 0.0f);
 
-            // \uac01 \uce35\uc758 \ud0c0\uc77c\uc740 GameObject \uae30\ubc18\uc73c\ub85c \uc0dd\uc131\ud558\uc5ec \ud3ec\ud2b8 \uc7ac\uc0dd\uc131\uc744 \uc81c\uac70\ud558\uba70 \uadf8\ub798\ud53d \ucef4\ud3ec\ub10c\ud2b8\ub97c \uc9c0\uc6d0\ud55c\ub2e4.
             auto tile = std::make_shared<Tile>(position, static_cast<float>(spacing), activeTileSet, index++);
             tiles[rowIndex][columnIndex] = tile;
         }
@@ -106,7 +106,7 @@ void TileMap::GenerateTileMap()
 void TileMap::ResizeMap(UINT newWidth, UINT newHeight)
 {
     std::vector<std::vector<std::shared_ptr<Tile>>> newTiles(newHeight);
-    auto activeTileSet = tileSetManager ? tileSetManager->GetActiveTileSet() : nullptr;
+    auto activeTileSet = tileSet;
 
     UINT index = 0;
     for (UINT rowIndex = 0; rowIndex < newHeight; ++rowIndex)
@@ -127,7 +127,6 @@ void TileMap::ResizeMap(UINT newWidth, UINT newHeight)
                     static_cast<float>(rowIndex * spacing),
                     0.0f);
 
-                // \uc0c8\ub85c\uc6b4 \ud06c\uae30\uc5d0 \ub9de\uac8c \ubd88\uc694\ud55c \ud0c0\uc77c\uc744 \ucd94\uac00\ud558\uba70 \uae30\uc874 \ub370\uc774\ud130\ub97c \uacf5\uc720\ud55c\ub2e4.
                 tile = std::make_shared<Tile>(position, static_cast<float>(spacing), activeTileSet, index);
             }
 
@@ -144,7 +143,7 @@ void TileMap::ResizeMap(UINT newWidth, UINT newHeight)
     width = newWidth;
     height = newHeight;
 
-    cachedTileSet = tileSetManager ? tileSetManager->GetActiveTileSet() : nullptr;
+    cachedTileSetVersion = activeTileSet ? activeTileSet->GetVersion() : 0;
 }
 
 void TileMap::Save(const std::string& path)
@@ -156,14 +155,13 @@ void TileMap::Save(const std::string& path)
         return;
     }
 
-    // \ud14d\uc2a4\ucc98\uc640 \ud0c0\uc77c \uc815\ubcf4, \uae0d\ubc14\uaf2c UV \ub370\uc774\ud130\ub97c \ud30c\uc77c\ub85c \uc800\uc7a5\ud574 \ub2e4\uc74c \ubc84\c804\uacfc \uacf5\uc720\ud558\ub3c4\ub85d \ud55c\ub2e4.
     fout << width << ' ' << height << ' ' << spacing << '\n';
 
-    std::shared_ptr<TileSet> tileSet = tileSetManager ? tileSetManager->GetActiveTileSet() : nullptr;
-    if (tileSet)
+    std::shared_ptr<TileSet> activeTileSet = tileSet;
+    if (activeTileSet && activeTileSet->IsValid())
     {
-        std::string imagePath(tileSet->GetAtlasPath().begin(), tileSet->GetAtlasPath().end());
-        fout << imagePath << ' ' << tileSet->GetColumns() << ' ' << tileSet->GetRows() << '\n';
+        std::string imagePath(activeTileSet->GetAtlasPath().begin(), activeTileSet->GetAtlasPath().end());
+        fout << imagePath << ' ' << activeTileSet->GetColumns() << ' ' << activeTileSet->GetRows() << '\n';
     }
     else
     {
@@ -196,7 +194,6 @@ void TileMap::Load(const std::string& path)
         return;
     }
 
-    // \uc800\uc7a5\ub41c \ud30c\uc77c\uc5d0\uc11c \ud0c0\uc77c \ub9f5 \uc815\ubcf4\ub97c \ud30c\uc2f1\ud558\uc5ec \uc7ac\uad6c\uc131\ud55c\ub2e4.
     fin >> width >> height >> spacing;
 
     std::string imagePath;
@@ -204,16 +201,16 @@ void TileMap::Load(const std::string& path)
     UINT rows = 0;
     fin >> imagePath >> columns >> rows;
 
-    if (tileSetManager)
+    if (tileSet)
     {
         if (imagePath != "none")
         {
             std::wstring atlasPath(imagePath.begin(), imagePath.end());
-            tileSetManager->LoadTileSet(atlasPath, columns, rows);
+            tileSet->Load(atlasPath, columns, rows);
         }
         else
         {
-            tileSetManager->ClearTileSet();
+            tileSet->Clear();
         }
     }
 
@@ -275,19 +272,17 @@ Tile* TileMap::GetTile(const Vector3& worldPosition)
 
 void TileMap::SynchronizeTileSet()
 {
-    if (!tileSetManager)
+    if (!tileSet)
     {
         return;
     }
 
-    std::shared_ptr<TileSet> activeTileSet = tileSetManager->GetActiveTileSet();
-    std::shared_ptr<TileSet> cached = cachedTileSet.lock();
+    const uint64_t currentVersion = tileSet->GetVersion();
 
-    if (activeTileSet != cached)
+    if (currentVersion != cachedTileSetVersion)
     {
-        // \ucd5c\uc2e0 \ud0c0\uc77c\uc138\ud2b8 \uc815\ubcf4\uc640 \ub9e4\ud551\ub418\ub294 \ubaa8\ub4e0 \ud0c0\uc77c \ub370\uc774\ud130\ub97c \ud558\ub098\uc758 \uc5f0\uc0b0\uc73c\ub85c \ub2e4\uc2dc \uac31\uc2e0\ud55c\ub2e4.
-        ApplyTileSetToAllTiles(activeTileSet);
-        cachedTileSet = activeTileSet;
+        ApplyTileSetToAllTiles(tileSet);
+        cachedTileSetVersion = currentVersion;
     }
 }
 
@@ -307,17 +302,12 @@ void TileMap::ApplyTileSetToAllTiles(const std::shared_ptr<TileSet>& tileSet)
 
 void TileMap::UpdateEditing()
 {
-    if (!tileSetManager)
+    if (!tileSet || !tileSet->IsValid())
     {
         return;
     }
 
-    const std::shared_ptr<TileSet> tileSet = tileSetManager->GetActiveTileSet();
-    if (!tileSet)
-    {
-        return;
-    }
-
+    const std::shared_ptr<TileSet> activeTileSet = tileSet;
     Vector3 mousePosition = mouseManager.GetMousePos();
     mousePosition += cameraManager.GetPosition();
 
@@ -329,11 +319,10 @@ void TileMap::UpdateEditing()
 
     if (mouseManager.Press(0))
     {
-        // \uba38\uc2a4 \ud074\ub9ad\uc744 \ud1b5\ud574 \uc120\ud0dd\ub41c UV\ub97c \uc2a4\ud06c\ub9bd\ud2b8\uc5d0 \uae30\ubc18\ud558\uc5ec \ud0c0\uc77c\uc5d0 \uc801\uc6a9\ud55c\ub2e4.
-        const Vector2 startUV = tileSetManager->GetSelectedStartUV();
-        const Vector2 endUV = tileSetManager->GetSelectedEndUV();
+        const Vector2 startUV = activeTileSet->GetSelectedStartUV();
+        const Vector2 endUV = activeTileSet->GetSelectedEndUV();
 
-        tile->SetTileSet(tileSet);
+        tile->SetTileSet(activeTileSet);
         tile->SetUV(startUV, endUV);
     }
 }

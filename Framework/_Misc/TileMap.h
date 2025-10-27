@@ -3,11 +3,11 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <cstdint>
 #include <directxtk/SimpleMath.h>
 
 class Tile;
 class TileSet;
-class TileSetManager;
 class MouseManager;
 class CameraManager;
 
@@ -19,7 +19,7 @@ public:
         UINT width,
         UINT height,
         UINT spacing,
-        std::shared_ptr<TileSetManager> tileSetManager,
+        std::shared_ptr<TileSet> tileSet,
         MouseManager& mouseManager,
         CameraManager& cameraManager,
         bool editMode = false
@@ -48,8 +48,8 @@ private:
 private:
     std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
 
-    std::shared_ptr<TileSetManager> tileSetManager;
-    std::weak_ptr<TileSet> cachedTileSet;
+    std::shared_ptr<TileSet> tileSet;
+    uint64_t cachedTileSetVersion = 0;
 
     MouseManager& mouseManager;
     CameraManager& cameraManager;
