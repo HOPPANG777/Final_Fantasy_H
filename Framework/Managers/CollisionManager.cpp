@@ -7,33 +7,27 @@ CollisionManager::~CollisionManager() {}
 
 void CollisionManager::AddCollider(std::shared_ptr<Collider> collider)
 {
-    //    Ë» İ¶Ì´ Ï¿  ß°Ñ´.
     colliders.push_back(collider);
 }
 
 void CollisionManager::RemoveCollider(std::shared_ptr<Collider> collider)
 {
-    //  Ì» Ê¿  İ¶Ì´ Í¿ Ñ´.
     colliders.erase(remove(colliders.begin(), colliders.end(), collider), colliders.end());
 }
 
 void CollisionManager::RemoveAllCollider()
 {
-    //  È¯  Ã¼ Ê±È­ Ê¿   İ¶Ì´ .
     colliders.clear();
 }
 
 void CollisionManager::Update()
 {
-                //  İ¶Ì´ Î¿ æµ¹ ÌºÆ® Ñ´.
-        //  å¸¦ Ñ¸, GizmoManager æµ¹ Ú½ ×·  Öµ Ñ´.
-        // Ù½ È£Ï¸   .
-    // GameObject Collider Ì½ Ï´  Æ® Â´.
-    // CollisionManager Ïµ  Collider Ñ´.
+    // ¸ğµç Äİ¶óÀÌ´õ¿¡ ´ëÇØ Ãæµ¹ °Ë»ç
+    for (size_t i = 0; i < colliders.size(); ++i)
     {
-        // obj  Collider æµ¹Ï´ Ë»Ñ´.
+        for (size_t j = i + 1; j < colliders.size(); ++j)
         {
-                //   ß° Ê¾Ò´Ù¸ ß°Ñ´.
+            const auto& colliderA = colliders[i];
             const auto& colliderB = colliders[j];
 
             if (colliderA->IsColliding(colliderB.get()))
@@ -62,27 +56,27 @@ std::vector<GameObject*> CollisionManager::GetCollidingObjects(GameObject* obj) 
     std::vector<GameObject*> result;
     if (!obj) return result;
 
-    // GameObjectì—ì„œ Collider ì¸í„°í˜ì´ìŠ¤ë¥¼ êµ¬í˜„í•˜ëŠ” ëª¨ë“  ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+    // GameObject¿¡¼­ Collider ÀÎÅÍÆäÀÌ½º¸¦ ±¸ÇöÇÏ´Â ¸ğµç ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿É´Ï´Ù.
     std::vector<Collider*> myColliders = obj->GetAllComponentsByInterface<Collider>();
     if (myColliders.empty()) return result;
 
-    // CollisionManagerì— ë“±ë¡ëœ ëª¨ë“  Colliderì™€ ë¹„êµí•©ë‹ˆë‹¤.
+    // CollisionManager¿¡ µî·ÏµÈ ¸ğµç Collider¿Í ºñ±³ÇÕ´Ï´Ù.
     for (const auto& otherCollider : colliders)
     {
-        // ìê¸° ìì‹ ì€ ì œì™¸
+        // ÀÚ±â ÀÚ½ÅÀº Á¦¿Ü
         if (otherCollider->GetOwner() == obj) continue;
 
-        // objì˜ ëª¨ë“  Colliderì™€ ì¶©ëŒí•˜ëŠ”ì§€ ê²€ì‚¬í•©ë‹ˆë‹¤.
+        // objÀÇ ¸ğµç Collider¿Í Ãæµ¹ÇÏ´ÂÁö °Ë»çÇÕ´Ï´Ù.
         for (Collider* myCol : myColliders)
         {
             if (myCol->IsColliding(otherCollider.get()))
             {
-                // ê²°ê³¼ì— ì•„ì§ ì¶”ê°€ë˜ì§€ ì•Šì•˜ë‹¤ë©´ ì¶”ê°€í•©ë‹ˆë‹¤.
+                // °á°ú¿¡ ¾ÆÁ÷ Ãß°¡µÇÁö ¾Ê¾Ò´Ù¸é Ãß°¡ÇÕ´Ï´Ù.
                 if (find(result.begin(), result.end(), otherCollider->GetOwner()) == result.end())
                 {
                     result.push_back(otherCollider->GetOwner());
                 }
-                break; // í•œ Colliderì—ì„œ ì¶©ëŒì´ ë°œê²¬ë˜ë©´ ë‹¤ë¥¸ ColliderëŠ” ê²€ì‚¬í•  í•„ìš” ì—†ìŒ.
+                break; // ÇÑ Collider¿¡¼­ Ãæµ¹ÀÌ ¹ß°ßµÇ¸é ´Ù¸¥ Collider´Â °Ë»çÇÒ ÇÊ¿ä ¾øÀ½.
             }
         }
     }

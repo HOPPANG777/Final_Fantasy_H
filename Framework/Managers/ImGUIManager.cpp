@@ -3,8 +3,8 @@
 
 LRESULT ImGuiManager::MsgProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
-        // ImGui ޽ ó  true ȯϿ Win32 ޽  ߰ ó ´.
-        return ImGui_ImplWin32_WndProcHandler(handle, message, wParam, lParam);
+	// ImGui�� �޽����� ó���� ���
+	return ImGui_ImplWin32_WndProcHandler(handle, message, wParam, lParam);
 }
 
 ImGuiManager::ImGuiManager() 
@@ -21,51 +21,45 @@ ImGuiManager::~ImGuiManager()
 
 void ImGuiManager::Init()
 {
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
 
-        ImGuiIO& io = ImGui::GetIO();
-        // Ű ̼, ŷ, Ƽ Ʈ    ȰȭѴ.
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-        // ӿũ Win32/DX11 ġ  ̿ 鿣带 ʱȭѴ.
-        ImGui_ImplWin32_Init(gHandle);
-        ImGui_ImplDX11_Init(GraphicsManager::Get()->GetDevice(), GraphicsManager::Get()->GetDC());
+	ImGui_ImplWin32_Init(gHandle);
+	ImGui_ImplDX11_Init(GraphicsManager::Get()->GetDevice(), GraphicsManager::Get()->GetDC());
 
-        ImGui::StyleColorsDark();
-        //ApplyStyle();
+	ImGui::StyleColorsDark();
+	//ApplyStyle();
 }
 
 void ImGuiManager::Resize()
 {
-        // DirectX11 ҽ        ִ.
-        ImGui_ImplDX11_InvalidateDeviceObjects();
-        ImGui_ImplDX11_CreateDeviceObjects();
+	ImGui_ImplDX11_InvalidateDeviceObjects();
+	ImGui_ImplDX11_CreateDeviceObjects();
 }
 
 void ImGuiManager::Update()
 {
-        // 鿣忡   ϰ,  ImGui  Ѵ.
-        ImGui_ImplDX11_NewFrame();
-        ImGui_ImplWin32_NewFrame();
-        ImGui::NewFrame();
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 }
 
 void ImGuiManager::Render()
 {
-        // UI   ׷ DrawData Ѵ.
-        ImGui::Render();
-        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-        ImGuiIO& io = ImGui::GetIO();
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-                // Ƽ Ʈ ɼ     ÷   Ѵ.
-                ImGui::UpdatePlatformWindows();
-                ImGui::RenderPlatformWindowsDefault();
-        }
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+	}
 }
 
 void ImGuiManager::ApplyStyle()
