@@ -229,9 +229,9 @@
     <ClInclude Include="Systems\WindowManager.h" />
     <ClInclude Include="Utilities\ReadData.h" />
     <ClInclude Include="Components\Animator.h" />
-    <ClInclude Include="_Misc\Tile.h" />
-    <ClInclude Include="_Misc\TileMap.h" />
-    <ClInclude Include="_Misc\TileSet.h" />
+    <ClInclude Include="Objects\Tile.h" />
+    <ClInclude Include="Components\TileMap.h" />
+    <ClInclude Include="Objects\TileSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\AnimatedTexture.cpp" />
@@ -281,9 +281,9 @@
     <ClCompile Include="Renders\VertexType.cpp" />
     <ClCompile Include="Systems\WindowManager.cpp" />
     <ClCompile Include="Components\Animator.cpp" />
-    <ClCompile Include="_Misc\Tile.cpp" />
-    <ClCompile Include="_Misc\TileMap.cpp" />
-    <ClCompile Include="_Misc\TileSet.cpp" />
+    <ClCompile Include="Objects\Tile.cpp" />
+    <ClCompile Include="Components\TileMap.cpp" />
+    <ClCompile Include="Objects\TileSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Program\Framework.rc" />

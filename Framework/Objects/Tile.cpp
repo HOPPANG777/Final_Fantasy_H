@@ -1,8 +1,5 @@
 #include "Framework.h"
 #include "Tile.h"
-#include "TileSet.h"
-
-#include "Components/Texture.h"
 
 using namespace DirectX::SimpleMath;
 

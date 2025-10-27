@@ -1,10 +1,6 @@
 #include "Framework.h"
 #include "TileSet.h"
 
-#include <algorithm>
-
-#include "Components/Texture.h"
-
 using namespace DirectX::SimpleMath;
 
 TileSet::TileSet()

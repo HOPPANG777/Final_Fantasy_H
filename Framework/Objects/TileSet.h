@@ -1,10 +1,5 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <cstdint>
-#include <directxtk/SimpleMath.h>
-
 class Texture;
 
 // \ud0c0\uc77c \uc138\ud2b8\ub294 \ud30c\uc77c \ubc30\uce58 \uc815\ubcf4\ub97c \uad00\ub9ac\ud558\uace0 ImGui\ub97c \ud1b5\ud574 \ud0c0\uc77c \uc120\ud0dd \uae30\ub2a5\uc744 \uc81c\uacf5\ud55c\ub2e4.

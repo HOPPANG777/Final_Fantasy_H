@@ -1,18 +1,6 @@
 #include "Framework.h"
 #include "TileMap.h"
 
-#include <algorithm>
-#include <cmath>
-#include <fstream>
-#include <iostream>
-#include <memory>
-#include <utility>
-
-#include "Tile.h"
-#include "TileSet.h"
-#include "Systems/MouseManager.h"
-#include "Systems/CameraManager.h"
-
 using namespace DirectX::SimpleMath;
 
 TileMap::TileMap(

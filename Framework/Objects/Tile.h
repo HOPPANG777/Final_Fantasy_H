@@ -1,11 +1,5 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <directxtk/SimpleMath.h>
-
-#include "Objects/GameObject.h"
-
 class Texture;
 class TileSet;
 
