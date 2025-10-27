@@ -12,7 +12,7 @@ void Scene_01::Awake()
 			Values::GetCenter(),
 			DirectX::SimpleMath::Vector3(Values::GetWinWidth(), Values::GetWinHeight(), 0),
 			0.0f,
-			TexturePath + L"Mirko3.jpg"
+			TexturePath + L"Mirko4.webp"
 		)
 	);
 
