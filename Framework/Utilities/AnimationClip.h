@@ -1,11 +1,19 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
+#include <directxtk/SimpleMath.h>
+#include <wrl/client.h>
+
+struct ID3D11ShaderResourceView;
+
 class AnimationClip
 {
 public:
     AnimationClip(
         const std::wstring& clipName,
-        Texture2D* sourceTexture,
+        const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
         UINT columns,
         UINT rows,
         const DirectX::SimpleMath::Vector2& startPos,

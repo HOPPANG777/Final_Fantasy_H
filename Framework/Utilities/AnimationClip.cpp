@@ -3,23 +3,34 @@
 
 AnimationClip::AnimationClip(
     const std::wstring& clipName,
-    Texture2D* sourceTexture,
+    const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
     UINT columns,
     UINT rows,
     const DirectX::SimpleMath::Vector2& startPos,
     const DirectX::SimpleMath::Vector2& endPos,
     bool reversed)
-    : _name(clipName), _reversed(reversed)
+    : _name(clipName), _shaderResourceView(shaderResourceView), _reversed(reversed)
 {
-    if (sourceTexture == nullptr)
+    if (_shaderResourceView == nullptr)
     {
         return;
     }
 
-    _shaderResourceView = sourceTexture->GetSRV();
+    Microsoft::WRL::ComPtr<ID3D11Resource> resource;
+    _shaderResourceView->GetResource(&resource);
 
-    const float textureWidth = sourceTexture->GetWidth();
-    const float textureHeight = sourceTexture->GetHeight();
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> texture2D;
+    const HRESULT conversionResult = resource.As(&texture2D);
+    if (FAILED(conversionResult) || texture2D == nullptr)
+    {
+        return;
+    }
+
+    D3D11_TEXTURE2D_DESC textureDesc = {};
+    texture2D->GetDesc(&textureDesc);
+
+    const float textureWidth = static_cast<float>(textureDesc.Width);
+    const float textureHeight = static_cast<float>(textureDesc.Height);
 
     if (textureWidth <= 0.0f || textureHeight <= 0.0f)
     {
