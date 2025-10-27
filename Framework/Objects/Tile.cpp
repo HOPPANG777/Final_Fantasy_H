@@ -65,8 +65,8 @@ void Tile::SetUV(const Vector2& start, const Vector2& end)
 
 void Tile::ClearUV()
 {
-    startUV = Vector2::Zero;
-    endUV = Vector2::Zero;
+    startUV = Values::ZeroVector2;
+    endUV = Values::ZeroVector2;
     hasUV = false;
 
     ApplyUVToTexture();
@@ -99,7 +99,7 @@ Vector3 Tile::GetPosition() const
         return center - Vector3(tileSize * 0.5f, tileSize * 0.5f, 0.0f);
     }
 
-    return Vector3::Zero;
+    return Values::ZeroVector3;
 }
 
 void Tile::SetPosition(const Vector3& position)

@@ -46,8 +46,8 @@ private:
 private:
     std::shared_ptr<Texture> textureComponent;
 
-    DirectX::SimpleMath::Vector2 startUV = DirectX::SimpleMath::Vector2::Zero;
-    DirectX::SimpleMath::Vector2 endUV = DirectX::SimpleMath::Vector2::Zero;
+    DirectX::SimpleMath::Vector2 startUV = Values::ZeroVector2;
+    DirectX::SimpleMath::Vector2 endUV = Values::ZeroVector2;
 
     float tileSize = 0.0f;
     UINT index = 0;

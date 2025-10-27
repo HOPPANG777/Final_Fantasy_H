@@ -50,8 +50,8 @@ void TileSet::Clear()
     path.clear();
     columnCount = 0;
     rowCount = 0;
-    tileUVSize = Vector2::Zero;
-    selectedStartUV = Vector2::Zero;
+    tileUVSize = Values::ZeroVector2;
+    selectedStartUV = Values::ZeroVector2;
     ++version;
 }
 
@@ -95,7 +95,7 @@ void TileSet::InitializeTexture()
 {
     if (!textureComponent)
     {
-        textureComponent = std::make_shared<Texture>(Vector3::Zero, Vector3::One, 0.0f, path);
+        textureComponent = std::make_shared<Texture>(Values::ZeroVector3, Values::OneVector3, 0.0f, path);
     }
     else
     {

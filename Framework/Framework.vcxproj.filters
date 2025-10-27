@@ -176,14 +176,14 @@
     <ClInclude Include="Components\MoveComponent.h">
       <Filter>Components\Move</Filter>
     </ClInclude>
-    <ClInclude Include="_Misc\Tile.h">
-      <Filter>_Misc</Filter>
+    <ClInclude Include="Components\TileMap.h">
+      <Filter>Components\TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="_Misc\TileMap.h">
-      <Filter>_Misc</Filter>
+    <ClInclude Include="Objects\TileSet.h">
+      <Filter>Objects\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="_Misc\TileSet.h">
-      <Filter>_Misc</Filter>
+    <ClInclude Include="Objects\Tile.h">
+      <Filter>Objects\Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,9 +193,6 @@
     </ClCompile>
     <ClCompile Include="Renders\RenderStates.cpp">
       <Filter>Renders</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\GameObject.cpp">
-      <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Components\Transform.cpp">
       <Filter>Components\Transforms</Filter>
@@ -311,14 +308,14 @@
     <ClCompile Include="Components\MoveComponent.cpp">
       <Filter>Components\Move</Filter>
     </ClCompile>
-    <ClCompile Include="_Misc\Tile.cpp">
-      <Filter>_Misc</Filter>
+    <ClCompile Include="Components\TileMap.cpp">
+      <Filter>Components\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="_Misc\TileMap.cpp">
-      <Filter>_Misc</Filter>
+    <ClCompile Include="Objects\TileSet.cpp">
+      <Filter>Objects\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="_Misc\TileSet.cpp">
-      <Filter>_Misc</Filter>
+    <ClCompile Include="Objects\Tile.cpp">
+      <Filter>Objects\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -460,8 +457,11 @@
     <Filter Include="Components\Move">
       <UniqueIdentifier>{b77763a1-8032-4026-aea1-2eb936226751}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Misc">
-      <UniqueIdentifier>{c7d2345b-7b2c-42e6-a7c9-fab630887c9e}</UniqueIdentifier>
+    <Filter Include="Components\TileMap">
+      <UniqueIdentifier>{860023f6-19c6-4a07-baef-f9d022962064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Tile">
+      <UniqueIdentifier>{e7b69426-6b9d-4189-84e1-aa020bc96194}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

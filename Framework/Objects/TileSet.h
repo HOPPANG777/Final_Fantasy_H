@@ -45,8 +45,8 @@ private:
     std::wstring path;
     UINT columnCount = 1;
     UINT rowCount = 1;
-    DirectX::SimpleMath::Vector2 tileUVSize = DirectX::SimpleMath::Vector2::One;
-    DirectX::SimpleMath::Vector2 selectedStartUV = DirectX::SimpleMath::Vector2::Zero;
+    DirectX::SimpleMath::Vector2 tileUVSize = Values::OneVector2;
+    DirectX::SimpleMath::Vector2 selectedStartUV = Values::ZeroVector2;
     uint64_t version = 0;
 };
 

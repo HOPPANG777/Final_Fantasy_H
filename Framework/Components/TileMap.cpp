@@ -165,8 +165,8 @@ void TileMap::Save(const std::string& path)
 
             fout << (isActive ? 1 : 0) << ' ';
 
-            const Vector2 start = tile ? tile->GetStartUV() : Vector2::Zero;
-            const Vector2 end = tile ? tile->GetEndUV() : Vector2::Zero;
+            const Vector2 start = tile ? tile->GetStartUV() : Values::ZeroVector2;
+            const Vector2 end = tile ? tile->GetEndUV() : Values::ZeroVector2;
 
             fout << start.x << ' ' << start.y << ' ' << end.x << ' ' << end.y << '\n';
         }
