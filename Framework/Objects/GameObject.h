@@ -3,123 +3,136 @@
 class GameObject
 {
 public:
-	// ±âº» »ý¼ºÀÚ (Object ÀÌ¸§¸¸ ÁöÁ¤)
-	GameObject(
-		const std::string& name,
-		bool RectTransformType = false			// false = Transform, true = RectTransform
-	);
+        // Æ® âº»  Ï´ Ô´Ï´.
+        // name:  Í¿ Äº Ï´ Ì¸Ô´Ï´.
+        // RectTransformType: true UI RectTransform, false 3D Transform Ï´.
+        GameObject(
+                const std::string& name,
+                bool RectTransformType = false                  // false = Transform, true = RectTransform
+        );
 
-	// À§Ä¡/½ºÄÉÀÏ/È¸ÀüÀ» ÃÊ±â¿¡ ÁöÁ¤ÇÏ´Â »ý¼ºÀÚ
-	GameObject(
-		const std::string& name,
-		const DirectX::SimpleMath::Vector3& initPos,
-		const DirectX::SimpleMath::Vector3& initScale,
-		float initRotation,
-		bool RectTransformType = false
-	);
+        // Ê± Ä¡, Å©, È¸   Ï´ Ô´Ï´.
+        // RectTransformType   Transform Ç´ RectTransform Æ® ØºÕ´Ï´.
+        GameObject(
+                const std::string& name,
+                const DirectX::SimpleMath::Vector3& initPos,
+                const DirectX::SimpleMath::Vector3& initScale,
+                float initRotation,
+                bool RectTransformType = false
+        );
 
-	// º¹»ç »ý¼º/´ëÀÔ ¿¬»êÀÚ
-	GameObject(const GameObject& other);
-	GameObject& operator=(const GameObject& other)
-	{
-		if (this != &other)
-		{
-			name = other.name;
-			// ÇÊ¿äÇÑ °æ¿ì components¸¦ º¹Á¦
-		}
-		return *this;
-	}
+        //  ç¸¦  Êµ    Ô´Ï´.
+        GameObject(const GameObject& other);
+        GameObject& operator=(const GameObject& other)
+        {
+                if (this != &other)
+                {
+                        name = other.name;
+                        // TODO: Ê¿  Æ®  Úµå¸¦ ß°Õ´Ï´.
+                }
+                return *this;
+        }
 
-	virtual ~GameObject() = default;
-
-public:
-	virtual void Update();
-	virtual void Render();
-
-public:
-	void AddComponent(const std::shared_ptr<Component>& component);
-	void RemoveComponent(const std::string& compName);
-
-	template<typename T>
-	std::shared_ptr<T> GetComponent(const std::string& compName) const
-	{
-		if (!components.count(compName)) return nullptr;
-
-		return std::dynamic_pointer_cast<T>(components.at(compName));
-	}
+        virtual ~GameObject() = default;
 
 public:
-	std::string GetName() const { return name; }
-	void SetName(const std::string& newName) { name = newName; }
+        //  Æ® Æ®  È£Ï´ âº» Ô´Ï´.
+        virtual void Update();
+        //  Æ®  Ã»Ï´ âº» Ô´Ï´.
+        virtual void Render();
 
 public:
-	std::shared_ptr<Transform> GetTransform() const;
-	std::shared_ptr<RectTransform> GetRectTransform() const;
+        // Î¿ Æ® Ï° Æ® Ú· Õ´Ï´.
+        void AddComponent(const std::shared_ptr<Component>& component);
+        // Ì¸  Ïµ Æ® Õ´Ï´.
+        void RemoveComponent(const std::string& compName);
+
+        template<typename T>
+        std::shared_ptr<T> GetComponent(const std::string& compName) const
+        {
+                if (!components.count(compName)) return nullptr;
+
+                return std::dynamic_pointer_cast<T>(components.at(compName));
+        }
 
 public:
-	template<typename T>
-	T* FindComponentByInterface() const
-	{
-		try
-		{
-			// ÄÁÅ×ÀÌ³Ê°¡ ºñ¾îÀÖ´ÂÁö ¸ÕÀú È®ÀÎ
-			if (components.empty())
-			{
-				return nullptr;
-			}
+        std::string GetName() const { return name; }
+        void SetName(const std::string& newName) { name = newName; }
 
-			// componentsÀÇ Å¸ÀÔ: std::unordered_map<std::string, std::unique_ptr<Component>>
-			for (const auto& pair : components)
-			{
-				T* comp = dynamic_cast<T*>(pair.second.get());
-				if (comp != nullptr)
-				{
-					return comp;
-				}
-			}
-		}
-		catch (const std::exception& e)
-		{
-			std::cerr << "[FindComponentByInterface] ¿¹¿Ü ¹ß»ý: " << e.what() << std::endl;
-			// ÇÊ¿äÇÑ °æ¿ì Ãß°¡ÀûÀÎ º¹±¸ ¶Ç´Â ·Î±× Ã³¸®
-		}
-		return nullptr;
-	}
+public:
+        // Transform è¿­ Æ® Ï° È¯Õ´Ï´.
+        std::shared_ptr<Transform> GetTransform() const;
+        std::shared_ptr<RectTransform> GetRectTransform() const;
 
-	template<typename T>
-	std::vector<T*> GetAllComponentsByInterface() const
-	{
-		std::vector<T*> result;
-		try
-		{
-			if (components.empty())
-			{
-				return result;
-			}
+public:
+        // Ì½  Æ¯ Å¸ Æ® Ã£Ï´.
+        template<typename T>
+        T* FindComponentByInterface() const
+        {
+                try
+                {
+                        // Ïµ Æ®  nullptr È¯Õ´Ï´.
+                        if (components.empty())
+                        {
+                                return nullptr;
+                        }
 
-			// componentsÀÇ Å¸ÀÔ: std::unordered_map<std::string, std::unique_ptr<Component>>
-			for (const auto& pair : components)
-			{
-				T* comp = dynamic_cast<T*>(pair.second.get());
-				if (comp != nullptr)
-				{
-					result.push_back(comp);
-				}
-			}
-		}
-		catch (const std::exception& e)
-		{
-			std::cerr << "[GetAllComponentsByInterface] ¿¹¿Ü ¹ß»ý: " << e.what() << std::endl;
-		}
-		return result;
-	}
+                        // components Ú·: std::map<std::string, std::shared_ptr<Component>>
+                        for (const auto& pair : components)
+                        {
+                                T* comp = dynamic_cast<T*>(pair.second.get());
+                                if (comp != nullptr)
+                                {
+                                        return comp;
+                                }
+                        }
+                }
+                catch (const std::exception& e)
+                {
+                        std::cerr << "[FindComponentByInterface]  ß»: " << e.what() << std::endl;
+                        // Ê¿Ï´Ù¸ â¿¡ Î± Ã³   ß°Õ´Ï´.
+                }
+                return nullptr;
+        }
+
+        // Æ¯ Ì½   Æ®  È¯Õ´Ï´.
+        template<typename T>
+        std::vector<T*> GetAllComponentsByInterface() const
+        {
+                std::vector<T*> result;
+                try
+                {
+                        if (components.empty())
+                        {
+                                return result;
+                        }
+
+                        // components Ú·: std::map<std::string, std::shared_ptr<Component>>
+                        for (const auto& pair : components)
+                        {
+                                T* comp = dynamic_cast<T*>(pair.second.get());
+                                if (comp != nullptr)
+                                {
+                                        result.push_back(comp);
+                                }
+                        }
+                }
+                catch (const std::exception& e)
+                {
+                        std::cerr << "[GetAllComponentsByInterface]  ß»: " << e.what() << std::endl;
+                }
+                return result;
+        }
 
 protected:
-	std::string name;
-	std::map<std::string, std::shared_ptr<Component>> components;
+        // Æ® Äº Ì¸Ô´Ï´.
+        std::string name;
+        // Ïµ Æ® Ì¸ Ï´ Ì³Ô´Ï´.
+        std::map<std::string, std::shared_ptr<Component>> components;
 
-	std::unique_ptr<WorldBuffer> worldBuffer;
+        // Ì´    Í¸ Õ´Ï´.
+        std::unique_ptr<WorldBuffer> worldBuffer;
 
-	bool RectTransformType = false;
+        // true RectTransform Ï´ UI Æ® Ç¹Õ´Ï´.
+        bool RectTransformType = false;
 };
-
