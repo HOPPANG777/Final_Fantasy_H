@@ -1,35 +1,49 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
+#include <wrl/client.h>
+#include <directxtk/SimpleMath.h>
+
+class Texture2D;
+
 class AnimationClip
 {
 public:
-    friend class Animator;
-
-    // AnimationClip 생성자
-    // SRV는 Texture2D로부터 얻어오고, 계산된 UV 프레임들을 저장
-    AnimationClip
-    (
+    AnimationClip(
         const std::wstring& clipName,
-        Texture2D* srcTex,
-        UINT columns,    // 가로 프레임 수
-        UINT rows,       // 세로 프레임 수
-        DirectX::SimpleMath::Vector2 startPos,
-        DirectX::SimpleMath::Vector2 endPos,
-        bool bReversed = false
-        //float playRate = 1.0f / 15.0f  // ★ 디폴트 1/15초로 설정
+        Texture2D* sourceTexture,
+        UINT columns,
+        UINT rows,
+        const DirectX::SimpleMath::Vector2& startPos,
+        const DirectX::SimpleMath::Vector2& endPos,
+        bool reversed = false
+    );
+
+    const std::wstring& GetName() const;
+    UINT GetFrameCount() const;
+    bool IsReversed() const;
+    const DirectX::SimpleMath::Vector2& GetFrameSize() const;
+    const std::vector<DirectX::SimpleMath::Vector2>& GetFrames() const;
+    DirectX::SimpleMath::Vector2 GetFrame(size_t frameIndex) const;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetShaderResourceView() const;
+
+private:
+    void BuildKeyFrames(
+        UINT columns,
+        UINT rows,
+        const DirectX::SimpleMath::Vector2& startPos,
+        const DirectX::SimpleMath::Vector2& endPos,
+        float textureWidth,
+        float textureHeight
     );
 
 private:
-    std::wstring clipName = L"";
-    std::vector<DirectX::SimpleMath::Vector2> keyFrames;          // 각 프레임의 UV(텍셀) 좌표
-    UINT frameCount = 0;
-
-    // 원본에서는 Raw Pointer였지만, 이제는 ComPtr
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv = nullptr;
-
-    DirectX::SimpleMath::Vector2 texelFrameSize = Values::ZeroVector2;
-    bool bReversed = false;
-
-    // ★ 추가: 이 애니메이션의 재생 속도
-    //float playRate = 0.0f;   // 기본 1/15초 (15FPS)
+    std::wstring _name;
+    std::vector<DirectX::SimpleMath::Vector2> _keyFrames;
+    UINT _frameCount = 0;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _shaderResourceView;
+    DirectX::SimpleMath::Vector2 _texelFrameSize = DirectX::SimpleMath::Vector2(0.0f, 0.0f);
+    bool _reversed = false;
 };

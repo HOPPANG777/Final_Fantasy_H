@@ -1,205 +1,262 @@
-// Animator.cpp
 #include "Framework.h"
 #include "Animator.h"
 
+#include "Utilities/AnimationClip.h"
+
+Animator::Animator(const std::string& componentName)
+    : Component(componentName)
+{
+}
+
 void Animator::Update()
 {
-    // 재생할 클립이 없거나, 한 번만 재생 후 완료된 상태면 리턴
-    if (!currentClip || (bFinished && !bLoop))
+    if (_currentClip == nullptr)
     {
         return;
     }
 
-    // ▶ 1) playbackSpeed == 0 이면 정지 상태이므로 아무것도 하지 않음
-    if (playbackSpeed == 0.0f)
+    if (_finished && !_loop)
     {
         return;
     }
 
-    // ▶ 2) normalizedTime 업데이트
-    float dt = TimeManager::Get()->GetDeltaTime();
-
-    if (currentClip->frameCount > 0 && animationTime > 0.0f)
+    if (_playbackSpeed == 0.0f)
     {
-        float clipDuration = animationTime * static_cast<float>(currentClip->frameCount);
+        return;
+    }
 
-        normalizedTime += (playbackSpeed * dt) / clipDuration;
+    const UINT frameCount = _currentClip->GetFrameCount();
+    if (frameCount == 0)
+    {
+        return;
+    }
 
-        // ▶ std::clamp 대신 수동 클램프
-        if (normalizedTime < 0.0f)
+    const float clipDuration = _animationTime * static_cast<float>(frameCount);
+    if (clipDuration <= 0.0f)
+    {
+        return;
+    }
+
+    const float deltaTime = TimeManager::Get()->GetDeltaTime();
+    _normalizedTime += (_playbackSpeed * deltaTime) / clipDuration;
+
+    if (_playbackSpeed > 0.0f && _normalizedTime >= 1.0f)
+    {
+        if (_loop)
         {
-            normalizedTime = 0.0f;
+            _normalizedTime = 0.0f;
+            _finished = false;
         }
-        else if (normalizedTime > 1.0f)
+        else
         {
-            normalizedTime = 1.0f;
+            _normalizedTime = 1.0f;
+            _finished = true;
+            _playbackSpeed = 0.0f;
+        }
+    }
+    else if (_playbackSpeed < 0.0f && _normalizedTime <= 0.0f)
+    {
+        if (_loop)
+        {
+            _normalizedTime = 1.0f;
+            _finished = false;
+        }
+        else
+        {
+            _normalizedTime = 0.0f;
+            _finished = true;
+            _playbackSpeed = 0.0f;
         }
     }
 
-    // ▶ 3) normalizedTime에 따라 currentFrameIndex 계산
-    if (currentClip->frameCount > 0)
+    if (_normalizedTime < 0.0f)
     {
-        float rawIndex = normalizedTime * static_cast<float>(currentClip->frameCount - 1);
-        currentFrameIndex = static_cast<UINT>(rawIndex + 0.5f);
-
-        if (currentFrameIndex >= currentClip->frameCount)
-        {
-            currentFrameIndex = currentClip->frameCount - 1;
-        }
+        _normalizedTime = 0.0f;
+    }
+    else if (_normalizedTime > 1.0f)
+    {
+        _normalizedTime = 1.0f;
     }
 
-    // ▶ 4) bLoop / bFinished 처리
-    if (playbackSpeed > 0.0f)
-    {
-        if (normalizedTime >= 1.0f)
-        {
-            if (bLoop)
-            {
-                normalizedTime = 0.0f;
-                currentFrameIndex = 0;
-            }
-            else
-            {
-                currentFrameIndex = currentClip->frameCount - 1;
-                bFinished = true;
-                playbackSpeed = 0.0f;
-            }
-        }
-    }
-    else if (playbackSpeed < 0.0f)
-    {
-        if (normalizedTime <= 0.0f)
-        {
-            if (bLoop)
-            {
-                normalizedTime = 1.0f;
-                currentFrameIndex = currentClip->frameCount - 1;
-            }
-            else
-            {
-                currentFrameIndex = 0;
-                bFinished = true;
-                playbackSpeed = 0.0f;
-            }
-        }
-    }
-
-    // ▶ 5) 실제 렌더러에게 currentFrame을 넘김
-    currentFrame = currentClip->keyFrames[currentFrameIndex];
+    ApplyCurrentFrame();
 }
 
 void Animator::Render()
 {
-    // 특별히 렌더할 게 없지만, 디버그용 코드가 필요하면 여기에 작성
 }
 
 void Animator::AddAnimClip(const std::shared_ptr<AnimationClip>& animClip)
 {
-    animClips[animClip->clipName] = animClip;
-}
-
-bool Animator::CheckExist(const std::wstring& clipName) const
-{
-    return (animClips.find(clipName) != animClips.end());
-}
-
-void Animator::SetCurrentAnimClip(const std::wstring& clipName)
-{
-    // 이미 같은 클립이면 무시
-    if (currentClip && currentClip->clipName == clipName)
+    if (!animClip)
     {
         return;
     }
 
-    if (CheckExist(clipName))
+    _animationClips[animClip->GetName()] = animClip;
+}
+
+void Animator::SetCurrentAnimClip(const std::wstring& clipName)
+{
+    if (_currentClip && _currentClip->GetName() == clipName)
     {
-        currentClip = animClips.at(clipName);
-
-        // 기존 frameTime 초기화 (이제 normalizedTime 기반으로 변경되므로 큰 의미 없음)
-        frameTime = 0.0f;
-        normalizedTime = 0.0f;
-        bFinished = false;
-        playbackSpeed = 1.0f;    // 기본 정방향 1배속
-
-        if (currentClip->bReversed)
-        {
-            // 만약 클립 자체가 bReversed=true인 경우 역방향 기본 시작
-            normalizedTime = 1.0f;
-            playbackSpeed = -1.0f;
-            currentFrameIndex = currentClip->frameCount - 1;
-        }
-        else
-        {
-            currentFrameIndex = 0;
-        }
-
-        currentFrame = currentClip->keyFrames[currentFrameIndex];
+        return;
     }
-    else
+
+    const auto clipIt = _animationClips.find(clipName);
+    if (clipIt == _animationClips.end())
     {
         assert(false && "Animator::SetCurrentAnimClip: Clip not found");
+        return;
+    }
+
+    _currentClip = clipIt->second;
+
+    _normalizedTime = 0.0f;
+    _finished = false;
+    _playbackSpeed = 1.0f;
+
+    if (_currentClip->IsReversed())
+    {
+        _normalizedTime = 1.0f;
+        _playbackSpeed = -1.0f;
+    }
+
+    ApplyCurrentFrame();
+}
+
+DirectX::SimpleMath::Vector2 Animator::GetCurrentFrame() const
+{
+    return _currentFrame;
+}
+
+DirectX::SimpleMath::Vector2 Animator::GetTexelFrameSize() const
+{
+    if (_currentClip)
+    {
+        return _currentClip->GetFrameSize();
+    }
+
+    return DirectX::SimpleMath::Vector2(0.0f, 0.0f);
+}
+
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Animator::GetCurrentSRV() const
+{
+    if (_currentClip)
+    {
+        return _currentClip->GetShaderResourceView();
+    }
+
+    return nullptr;
+}
+
+void Animator::SetAnimationTime(float animationTime)
+{
+    _animationTime = animationTime;
+}
+
+std::wstring Animator::GetCurrentClipName() const
+{
+    if (_currentClip)
+    {
+        return _currentClip->GetName();
+    }
+
+    return L"";
+}
+
+void Animator::SetLoop(bool loop)
+{
+    _loop = loop;
+
+    if (_loop)
+    {
+        _finished = false;
     }
 }
 
-// ▶ 새로 추가: 재생 속도를 설정
+bool Animator::IsFinished() const
+{
+    return _finished;
+}
+
 void Animator::SetPlaybackSpeed(float speed)
 {
-    playbackSpeed = speed;
+    _playbackSpeed = speed;
+
+    if (_playbackSpeed != 0.0f)
+    {
+        _finished = false;
+    }
 }
 
-// ▶ 새로 추가: normalizedTime 설정
-void Animator::SetNormalizedTime(float t)
+void Animator::SetNormalizedTime(float normalizedTime)
 {
-    // ▶ 수동 클램프로 0.0f ~ 1.0f 범위 유지
-    if (t < 0.0f)
+    _normalizedTime = normalizedTime;
+
+    if (_normalizedTime < 0.0f)
     {
-        normalizedTime = 0.0f;
+        _normalizedTime = 0.0f;
     }
-    else if (t > 1.0f)
+    else if (_normalizedTime > 1.0f)
     {
-        normalizedTime = 1.0f;
-    }
-    else
-    {
-        normalizedTime = t;
+        _normalizedTime = 1.0f;
     }
 
-    if (currentClip && currentClip->frameCount > 0)
-    {
-        float rawIndex = normalizedTime * static_cast<float>(currentClip->frameCount - 1);
-        currentFrameIndex = static_cast<UINT>(rawIndex + 0.5f);
+    _finished = false;
 
-        if (currentFrameIndex >= currentClip->frameCount)
-        {
-            currentFrameIndex = currentClip->frameCount - 1;
-        }
-
-        currentFrame = currentClip->keyFrames[currentFrameIndex];
-    }
+    ApplyCurrentFrame();
 }
 
 float Animator::GetNormalizedTime() const
 {
-    return normalizedTime;
+    return _normalizedTime;
 }
 
-// ▶ 새로 추가: 재생 속도에 따라 끝/처음에 도달했는지 확인
 bool Animator::IsAnimationFinished() const
 {
-    if (!currentClip)
+    if (_currentClip == nullptr)
     {
         return true;
     }
 
-    if (playbackSpeed > 0.0f)
+    if (_playbackSpeed > 0.0f)
     {
-        return (normalizedTime >= 1.0f);
-    }
-    else if (playbackSpeed < 0.0f)
-    {
-        return (normalizedTime <= 0.0f);
+        return (_normalizedTime >= 1.0f);
     }
 
-    // playbackSpeed == 0.0f → 이미 정지된 상태라면 bFinished 값을 리턴
-    return bFinished;
+    if (_playbackSpeed < 0.0f)
+    {
+        return (_normalizedTime <= 0.0f);
+    }
+
+    return _finished;
+}
+
+void Animator::ApplyCurrentFrame()
+{
+    if (_currentClip == nullptr)
+    {
+        _currentFrameIndex = 0;
+        _currentFrame = DirectX::SimpleMath::Vector2(0.0f, 0.0f);
+        return;
+    }
+
+    const UINT frameCount = _currentClip->GetFrameCount();
+    if (frameCount == 0)
+    {
+        _currentFrameIndex = 0;
+        _currentFrame = DirectX::SimpleMath::Vector2(0.0f, 0.0f);
+        return;
+    }
+
+    const float rawIndex = _normalizedTime * static_cast<float>(frameCount - 1);
+    UINT frameIndex = static_cast<UINT>(rawIndex + 0.5f);
+
+    if (frameIndex >= frameCount)
+    {
+        frameIndex = frameCount - 1;
+    }
+
+    _currentFrameIndex = frameIndex;
+    _currentFrame = _currentClip->GetFrame(static_cast<size_t>(_currentFrameIndex));
 }
