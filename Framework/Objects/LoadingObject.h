@@ -1,0 +1,51 @@
+#pragma once
+
+class LoadingObject : public AnimationObject
+{
+public:
+	LoadingObject(
+		const std::string& name,
+		const DirectX::SimpleMath::Vector3& pos,
+		const DirectX::SimpleMath::Vector3& scale,
+		float rotation,
+		const std::wstring& texturePath = L"",
+		bool useRectTransformType = false
+	)
+		: AnimationObject(name, pos, scale, rotation, texturePath, useRectTransformType)
+	{
+		const auto& _loadingIconSprite = std::make_shared<Texture2D>(TexturePath + L"Loading_Icon.png");
+		const auto& _loadingIcon = std::make_shared<AnimationClip>(
+			L"_LoadingIcon",
+			_loadingIconSprite.get(),
+			5, 
+			1,
+			Values::ZeroVector2,
+			DirectX::SimpleMath::Vector2((float)_loadingIconSprite->GetWidth(), (float)_loadingIconSprite->GetHeight()),
+			false
+		);
+
+		this->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->AddAnimClip(_loadingIcon);
+		this->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->SetAnimationTime(1.0f / 2.8f);
+		this->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->SetCurrentAnimClip(L"_LoadingIcon");
+	}
+
+	~LoadingObject() = default;
+
+public:
+	void Update() override
+	{
+		__super::Update();
+	}
+
+	void Render() override
+	{
+		__super::Render();
+	}
+
+	void GUI() override
+	{
+		__super::GUI();
+	}
+
+};
+

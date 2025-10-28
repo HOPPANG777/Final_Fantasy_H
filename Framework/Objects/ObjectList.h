@@ -5,3 +5,4 @@
 #include "ColorObject.h"
 #include "TextureObject.h"
 #include "AnimationObject.h"
+#include "LoadingObject.h"

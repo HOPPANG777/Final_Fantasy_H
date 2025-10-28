@@ -96,7 +96,7 @@ void Scene_02::ConfigureLoadSteps()
 	AddLoadStep([this]()
 		{
 			objects.push_back(
-				std::make_shared<AnimationObject>(
+				std::make_shared<LoadingObject>(
 					"LoadingIcon",
 					Values::ZeroVector3,
 					Vector3(128, 128, 0),
@@ -105,22 +105,6 @@ void Scene_02::ConfigureLoadSteps()
 					true
 				)
 			);
-
-
-			const auto& _loadingIconSprite = std::make_shared<Texture2D>(TexturePath + L"Loading_Icon.png");
-			const auto& _loadingIcon = std::make_shared<AnimationClip>(
-				L"_LoadingIcon",
-				_loadingIconSprite.get(),
-				5, 1,
-				Values::ZeroVector2,
-				Vector2((float)_loadingIconSprite->GetWidth(), (float)_loadingIconSprite->GetHeight()),
-				false
-			);
-
-			objects[1]->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->AddAnimClip(_loadingIcon);
-			objects[1]->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->SetAnimationTime(1.0f / 2.8f);
-			objects[1]->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->SetCurrentAnimClip(L"_LoadingIcon");
-
 		});
 
 	AddLoadStep([]()

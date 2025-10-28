@@ -7,7 +7,7 @@ class AnimationClip
 public:
     AnimationClip(
         const std::wstring& clipName,
-        const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
+        const Texture2D& shaderResourceView,
         UINT columns,
         UINT rows,
         const DirectX::SimpleMath::Vector2& startPos,
