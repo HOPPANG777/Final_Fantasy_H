@@ -68,9 +68,7 @@ void RectTransform::GUI()
             360.0f
         );
     }
-    const Vector2 uiScale = Values::GetUIScale();
-    const Vector2 scaledSize = GetScaledSize();
-    Vector2 position2D(position.x * uiScale.x, position.y * uiScale.y);
+    ImGui::End();
 }
 
 const DirectX::SimpleMath::Matrix& RectTransform::GetWorld() const
@@ -83,9 +81,10 @@ RECT RectTransform::GetRect() const
     using namespace DirectX::SimpleMath;
 
     const Vector2 screenSize(static_cast<float>(Values::GetWinWidth()), static_cast<float>(Values::GetWinHeight()));
-    const Vector2 scaledSize(size.x * scale.x, size.y * scale.y);
+    const Vector2 uiScale = Values::GetUIScale();
+    const Vector2 scaledSize = GetScaledSize();
 
-    Vector2 position2D(position.x, position.y);
+    Vector2 position2D(position.x * uiScale.x, position.y * uiScale.y);
     position2D += Vector2(anchor.x * screenSize.x, anchor.y * screenSize.y);
 
     const Vector2 pivotOffset(pivot.x * scaledSize.x, pivot.y * scaledSize.y);
