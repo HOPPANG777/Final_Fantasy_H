@@ -129,8 +129,10 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 #include "Utilities/DirectHelper.h"
 #include "Utilities/FileStream.h"
 #include "Utilities/String.h"
-#include "Utilities/Random.h"	
+#include "Utilities/Random.h"
 #include "Utilities/Path.h"
+#include "Utilities/Texture2DCache.h"
+#include "Utilities/Texture2D.h"
 
 //Systems
 #include "Systems/WindowManager.h"
