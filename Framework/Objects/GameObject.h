@@ -138,6 +138,17 @@ public:
 		}
 	}
 
+	virtual void GUI()
+	{
+		for (const auto& element : components)
+		{
+			const auto& compName = element.first;
+			const auto& compPtr = element.second;
+
+			compPtr->GUI();
+		}
+	}
+
 public:
 	void AddComponent(const std::shared_ptr<Component>& component)
 	{

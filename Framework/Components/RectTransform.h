@@ -10,6 +10,8 @@ public:
     void Update() override;
     void Render() override;
 
+    void GUI() override;
+
     const DirectX::SimpleMath::Matrix& GetWorld() const;
     RECT GetRect() const;
 
@@ -53,6 +55,8 @@ private:
     DirectX::SimpleMath::Vector2 size = Values::ZeroVector2;
 
     DirectX::SimpleMath::Matrix world = DirectX::XMMatrixIdentity();
+
+    bool isOpen = false;
 };
 
 

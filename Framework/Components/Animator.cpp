@@ -83,6 +83,10 @@ void Animator::Render()
 {
 }
 
+void Animator::GUI()
+{
+}
+
 void Animator::AddAnimClip(const std::shared_ptr<AnimationClip>& animClip)
 {
     if (!animClip)

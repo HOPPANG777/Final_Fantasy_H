@@ -32,8 +32,20 @@ public:
 	~TestObject() = default;
 
 public:
-	void Update() override;
-	void Render() override;
+	void Update() override
+	{
+		__super::Update();
+	}
+
+	void Render() override
+	{
+		__super::Render();
+	}
+
+	void GUI() override
+	{
+		__super::GUI();
+	}
 
 };
 

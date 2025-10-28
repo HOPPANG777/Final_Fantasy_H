@@ -25,6 +25,8 @@ public:
     void Update() override;
     void Render() override;
 
+    void GUI() override;
+
 private:
     float intensity;
 

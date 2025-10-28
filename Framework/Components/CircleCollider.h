@@ -19,6 +19,8 @@ public:
     void Update() override;
     void Render() override;
 
+    void GUI() override;
+
 public:
     void SetCenter(const DirectX::SimpleMath::Vector3& newCenter) { center = newCenter; }
     void SetRadius(float newRadius) { radius = newRadius; }

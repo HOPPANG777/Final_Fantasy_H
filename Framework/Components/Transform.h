@@ -11,6 +11,8 @@ public:
 	void Update() override;
 	void Render() override;
 
+	void GUI() override;
+
 	const DirectX::SimpleMath::Matrix& GetWorld() const;
 
 public:
@@ -38,5 +40,6 @@ private:
 
 	DirectX::SimpleMath::Matrix world = DirectX::XMMatrixIdentity();	// S * R * T °á°ú
 	
+	bool isOpen = false;
 };
 

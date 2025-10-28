@@ -45,6 +45,11 @@ void Drawable::Render()
     pixelShader->SetShader();
 }
 
+void Drawable::GUI()
+{
+
+}
+
 void Drawable::DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed)
 {
     GraphicsManager::Get()->GetDC()->IASetPrimitiveTopology(topology);

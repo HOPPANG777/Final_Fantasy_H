@@ -15,7 +15,7 @@ AnimatedTexture::AnimatedTexture(
 
 void AnimatedTexture::Update()
 {
-    Texture::Update();
+    __super::Update();
 
     InitializeAnimator();
 
@@ -34,6 +34,16 @@ void AnimatedTexture::Update()
 
     const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> currentSrv = animator->GetCurrentSRV();
     SetSRV(currentSrv.Get());
+}
+
+void AnimatedTexture::Render()
+{
+    __super::Render();
+}
+
+void AnimatedTexture::GUI()
+{
+    __super::GUI();
 }
 
 std::shared_ptr<Animator> AnimatedTexture::GetAnimator() const

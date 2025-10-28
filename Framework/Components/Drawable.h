@@ -47,6 +47,8 @@ public:
     void Update() override;
     void Render() override;
 
+    void GUI() override;
+
     void DrawCall(const D3D11_PRIMITIVE_TOPOLOGY& topology, bool indexed = true);
 
 private:

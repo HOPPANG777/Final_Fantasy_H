@@ -29,3 +29,7 @@ void MoveComponent::Render()
 {
 
 }
+
+void MoveComponent::GUI()
+{
+}

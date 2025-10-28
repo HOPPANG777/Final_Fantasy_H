@@ -60,6 +60,8 @@ public:
     virtual void Update() override {} // 애니메이션을 구현하려면 업데이트 메서드 사용
     virtual void Render() override {}
 
+    void GUI() override;
+
 public:
     void AttachToObject(GameObject* object);
     void Detach();

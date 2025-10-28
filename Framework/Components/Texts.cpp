@@ -40,6 +40,10 @@ void Texts::RenderText
 	textDesc->format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 }
 
+void Texts::GUI()
+{
+}
+
 void Texts::AttachToObject(GameObject* object)
 {
 	this->attachedObject = object;

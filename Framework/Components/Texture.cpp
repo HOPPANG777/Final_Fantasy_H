@@ -77,6 +77,16 @@ void Texture::Render()
     context->OMSetBlendState(nullptr, defaultBlend, 0xFFFFFFFF);
 }
 
+void Texture::GUI()
+{
+    ImGui::Begin("Color", &isOpen);
+
+    if (ImGui::ColorPicker4("Texture", (float*)&_color))
+        SetColor(_color);
+
+    ImGui::End();
+}
+
 DirectX::SimpleMath::Color Texture::GetColor() const
 {
     if (_colorBuffer)

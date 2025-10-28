@@ -170,6 +170,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\ColorObject.h" />
     <ClInclude Include="Components\AnimatedTexture.h" />
     <ClInclude Include="Components\CircleCollider.h" />
     <ClInclude Include="Components\ColorCircle.h" />
@@ -181,6 +182,8 @@
     <ClInclude Include="Components\MoveComponent.h" />
     <ClInclude Include="Objects\ObjectList.h" />
     <ClInclude Include="Scenes\SceneList.h" />
+    <ClInclude Include="Scenes\Scene_02.h" />
+    <ClInclude Include="Scenes\Scene_03.h" />
     <ClInclude Include="Systems\CameraManager.h" />
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Managers\CollisionManager.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="Scenes\Scene_01.h" />
     <ClInclude Include="Scenes\Scene_MapTool.h" />
     <ClInclude Include="Objects\TestObject.h" />
+    <ClInclude Include="Objects\TextureObject.h" />
     <ClInclude Include="Utilities\AnimationClip.h" />
     <ClInclude Include="Utilities\DirectHelper.h" />
     <ClInclude Include="Components\Drawable.h" />
@@ -235,6 +239,7 @@
     <ClInclude Include="Objects\TileSet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\ColorObject.cpp" />
     <ClCompile Include="Components\AnimatedTexture.cpp" />
     <ClCompile Include="Components\CircleCollider.cpp" />
     <ClCompile Include="Components\ColorCircle.cpp" />
@@ -244,12 +249,15 @@
     <ClCompile Include="Components\ColorRect.cpp" />
     <ClCompile Include="Components\BoxCollider.cpp" />
     <ClCompile Include="Components\MoveComponent.cpp" />
+    <ClCompile Include="Scenes\Scene_02.cpp" />
+    <ClCompile Include="Scenes\Scene_03.cpp" />
     <ClCompile Include="Systems\CameraManager.cpp" />
     <ClCompile Include="Managers\CollisionManager.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Scenes\Scene_01.cpp" />
     <ClCompile Include="Scenes\Scene_MapTool.cpp" />
     <ClCompile Include="Objects\TestObject.cpp" />
+    <ClCompile Include="Objects\TextureObject.cpp" />
     <ClCompile Include="Utilities\AnimationClip.cpp" />
     <ClCompile Include="Utilities\DirectHelper.cpp" />
     <ClCompile Include="Components\Drawable.cpp" />

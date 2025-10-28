@@ -16,6 +16,8 @@ public:
     void Update() override;
     void Render() override;
 
+    void GUI() override;
+
 public:
     DirectX::SimpleMath::Color GetColor() const override;
     void SetColor(const DirectX::SimpleMath::Color& color) override;
@@ -55,8 +57,11 @@ private:
     Microsoft::WRL::ComPtr<ID3D11SamplerState> _samplerLinear;
 
     std::unique_ptr<ColorBuffer> _colorBuffer;
+    DirectX::SimpleMath::Color _color = Values::White;
 
     D3D11_PRIMITIVE_TOPOLOGY _topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
     bool _useIndices = true;
+
+    bool isOpen = false;
 };
 

@@ -11,6 +11,9 @@ public:
 	void Update() override;
 	void Render() override;
 
+	void GUI() override;
+
+public:
 	void AddKeyCount() { ++keyCount; }
 	void ResetKeyCount() { keyCount = 0; }
 

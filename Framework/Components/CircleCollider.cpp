@@ -26,3 +26,7 @@ void CircleCollider::Render()
     // size(박스 크기)는 그대로, center만 screenCenter로
     GizmoManager::Get()->DrawCircle(screenCenter, radius, color, 1.0f);
 }
+
+void CircleCollider::GUI()
+{
+}

@@ -33,6 +33,16 @@ void ColorCircle::Render()
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP, false);
 }
 
+void ColorCircle::GUI()
+{
+    ImGui::Begin("ColorCircle", &isOpen);
+
+    // 특정 UI기능이 작동했다면 특정 함수를 실행하게 할수도 있음
+    if (ImGui::ColorPicker4("Color", (float*)&_color)) UpdateVertexColors();
+
+    ImGui::End();
+}
+
 DirectX::SimpleMath::Color ColorCircle::GetColor() const
 {
     return _color;

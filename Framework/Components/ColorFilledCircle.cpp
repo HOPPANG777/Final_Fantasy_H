@@ -34,6 +34,16 @@ void ColorFilledCircle::Render()
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
+void ColorFilledCircle::GUI()
+{
+    ImGui::Begin("ColorFilledCircle", &isOpen);
+
+    // 특정 UI기능이 작동했다면 특정 함수를 실행하게 할수도 있음
+    if (ImGui::ColorPicker4("Color", (float*)&_color)) UpdateVertexColors();
+
+    ImGui::End();
+}
+
 DirectX::SimpleMath::Color ColorFilledCircle::GetColor() const
 {
     return _color;

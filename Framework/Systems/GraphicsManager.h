@@ -105,4 +105,6 @@ private:
 
     bool _bVsync = true;
     WindowManagerMode _WindowManagerMode = WindowManagerMode::WINDOW_WINDOW;
+
+    bool isOpen = false;
 };

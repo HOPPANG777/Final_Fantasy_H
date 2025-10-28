@@ -27,6 +27,10 @@ public:
     // Component 상속
     void Update() override;
     void Render() override;
+
+    void GUI() override;
+
+public:
     void UpdateEdge() 
     { 
         edge.left = center.x - extents.x; 

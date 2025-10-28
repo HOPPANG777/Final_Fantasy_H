@@ -7,26 +7,25 @@ void Scene_01::Awake()
 	isLoaded = false;
 
 	objects.push_back(
-		std::make_shared<TestObject>(
-			"Mirko2",
+		std::make_shared<ColorObject>(
+			"Background",
 			Values::GetCenter(),
 			DirectX::SimpleMath::Vector3(Values::GetWinWidth(), Values::GetWinHeight(), 0),
 			0.0f,
-			TexturePath + L"Mirko4.webp"
+			Values::White
 		)
 	);
 
 	objects.push_back(
-		std::make_shared<TestObject>(
-			"Mirko",
-			Values::GetCenter(),
-			DirectX::SimpleMath::Vector3(159, 416, 0),
+		std::make_shared<TextureObject>(
+			"Logo",
+			Values::ZeroVector3,
+			DirectX::SimpleMath::Vector3(640, 67, 0),
 			0.0f,
-			TexturePath + L"Mirko1.png"
+			TexturePath + L"Square_Enix_logo.png",
+			true
 		)
 	);
-
-	objects[1]->AddComponent(std::make_shared<MoveComponent>());
 
 	isLoaded = true;
 }
@@ -72,5 +71,6 @@ void Scene_01::PostRender()
 
 void Scene_01::ImGUI()
 {
-	//GraphicsManager::Get()->GUI();
+	objects[1]->GUI();
+	GraphicsManager::Get()->GUI();
 }

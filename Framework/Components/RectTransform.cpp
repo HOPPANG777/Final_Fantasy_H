@@ -35,6 +35,40 @@ void RectTransform::Render()
     // RectTransform does not render anything by itself.
 }
 
+void RectTransform::GUI()
+{
+    // ImGui를 이용해 UI를 만들어내는 기능과 코드들
+
+    // ImGui 코드들을 이용해 UI를 만들기위해 먼저 실행해야하는 함수
+    ImGui::Begin("RectTransform", &isOpen);
+    {
+        ImGui::Text("RectTrasnform");
+
+        ImGui::SliderFloat3(
+            "Position",
+            (float*)&position,
+            0,
+            Values::GetWinWidth()
+        );
+
+        ImGui::SliderFloat3(
+            "Scale",
+            (float*)&scale,
+            0, 
+            Values::GetWinWidth()
+        );
+
+        ImGui::SliderAngle(
+            "Rotation",
+            &rotation,
+            0, 
+            360.0f
+        );
+    }
+    // ImGui의 UI만드는게 끝났다는것을 알려줄 함수
+    ImGui::End();
+}
+
 const DirectX::SimpleMath::Matrix& RectTransform::GetWorld() const
 {
     return world;

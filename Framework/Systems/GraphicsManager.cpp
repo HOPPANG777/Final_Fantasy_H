@@ -172,22 +172,10 @@ void GraphicsManager::End()
 
 void GraphicsManager::GUI()
 {
-    static bool bOpen = true;
-    ImGui::SetNextWindowPos({ 0, 15 });
-    ImGui::SetNextWindowSize(ImVec2(200, 30));
-    ImGui::Begin
-    (
-        "Vstnc",
-        &bOpen,
-        ImGuiWindowFlags_NoBackground   |
-        ImGuiWindowFlags_NoTitleBar     |
-        ImGuiWindowFlags_NoResize       |
-        ImGuiWindowFlags_NoMove         |
-        ImGuiWindowFlags_NoScrollbar
-    );
-    {
-        ImGui::Checkbox("##Vsync", &_bVsync);
-    }
+    ImGui::Begin("Graphics", &isOpen);
+
+    ImGui::Checkbox("Vsync", &_bVsync);
+
     ImGui::End();
 }
 

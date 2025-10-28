@@ -26,6 +26,8 @@ public:
     virtual void Update() override;
     virtual void Render() override;
 
+    void GUI() override;
+
 public:
     // 텍스트 출력이 모두 완료되었는지 여부 반환
     bool IsComplete() const { return complete; }

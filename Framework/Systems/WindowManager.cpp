@@ -98,6 +98,7 @@ WPARAM WindowManager::Run()
 
 			// 마우스 프로시저
 			MouseManager::Get()->MouseProc(msg.message, msg.wParam, msg.lParam);
+			if (ImGuiManager::Get()->MsgProc(msg.hwnd, msg.message, msg.wParam, msg.lParam)) return true;
 
 			// 메시지 처리함수로 전달
 			DispatchMessage(&msg);

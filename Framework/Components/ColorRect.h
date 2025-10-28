@@ -15,6 +15,8 @@ public:
     void Update() override;
     void Render() override;
 
+    void GUI() override;
+
     DirectX::SimpleMath::Color GetColor() const override;
     void SetColor(const DirectX::SimpleMath::Color& color) override;
 
@@ -26,4 +28,6 @@ private:
     std::vector<VertexColor> _vertices;
     std::vector<UINT> _indices;
     DirectX::SimpleMath::Color _color;
+
+    bool isOpen = false;
 };

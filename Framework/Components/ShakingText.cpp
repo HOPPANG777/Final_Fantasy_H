@@ -27,3 +27,7 @@ void ShakingText::Render()
 {
 
 }
+
+void ShakingText::GUI()
+{
+}

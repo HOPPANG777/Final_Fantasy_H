@@ -40,3 +40,7 @@ void TypingText::Render()
 {
 
 }
+
+void TypingText::GUI()
+{
+}

@@ -11,6 +11,9 @@ public:
     void Update() override;
     void Render() override;
 
+    void GUI() override;
+
+public:
     void AddAnimClip(const std::shared_ptr<AnimationClip>& animClip);
     void SetCurrentAnimClip(const std::wstring& clipName);
 

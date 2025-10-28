@@ -2,9 +2,6 @@
 #include "Program.h"
 #include "Scenes/SceneList.h"
 
-		SceneManager::Get()->AddScene("TileMapTool", std::make_shared<Scene_MapTool>());
-		SceneManager::Get()->LoadScene("TileMapTool");
-
 float gWinWidth = WIN_DEFAULT_WIDTH;
 float gWinHeight = WIN_DEFAULT_HEIGHT;
 HWND gHandle;
@@ -17,6 +14,7 @@ void Program::Awake()
 
 	// Scene 세팅
 	{
+		SceneManager::Get()->AddScene("TileMapTool", std::make_shared<Scene_MapTool>());
 		SceneManager::Get()->AddScene("SplashScene", std::make_shared<Scene_01>());
 
 		SceneManager::Get()->LoadScene("SplashScene");

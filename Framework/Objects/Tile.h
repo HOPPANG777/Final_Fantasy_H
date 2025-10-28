@@ -17,6 +17,7 @@ public:
 
     void Update() override;
     void Render() override;
+    void GUI() override;
 
 public:
     void SetTileSet(const std::shared_ptr<TileSet>& tileSet);

@@ -188,6 +188,18 @@
     <ClInclude Include="Objects\Tile.h">
       <Filter>Objects\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="Scenes\Scene_02.h">
+      <Filter>Scenes\Scene_02</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\Scene_03.h">
+      <Filter>Scenes\Scene_03</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\ColorObject.h">
+      <Filter>Objects\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TextureObject.h">
+      <Filter>Objects\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -322,6 +334,18 @@
     </ClCompile>
     <ClCompile Include="Objects\Tile.cpp">
       <Filter>Objects\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Scene_02.cpp">
+      <Filter>Scenes\Scene_02</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Scene_03.cpp">
+      <Filter>Scenes\Scene_03</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\ColorObject.cpp">
+      <Filter>Objects\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TextureObject.cpp">
+      <Filter>Objects\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -471,6 +495,18 @@
     </Filter>
     <Filter Include="Objects\Tile">
       <UniqueIdentifier>{e7b69426-6b9d-4189-84e1-aa020bc96194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Scene_02">
+      <UniqueIdentifier>{79ef78ca-255c-4542-8024-58c8af3725ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Scene_03">
+      <UniqueIdentifier>{aa0070ff-486a-4364-9a80-4b4fcba59b09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Color">
+      <UniqueIdentifier>{30a97418-bdc9-4023-97f5-b55565b069bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Texture">
+      <UniqueIdentifier>{d29870b4-8c67-431e-ac94-2aa6d37309a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

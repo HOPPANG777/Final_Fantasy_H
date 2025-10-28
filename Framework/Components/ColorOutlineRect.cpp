@@ -25,6 +25,16 @@ void ColorOutlineRect::Render()
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP, false);
 }
 
+void ColorOutlineRect::GUI()
+{
+    ImGui::Begin("Color", &isOpen);
+
+    // 특정 UI기능이 작동했다면 특정 함수를 실행하게 할수도 있음
+    if (ImGui::ColorPicker4("ColorOutlineRect", (float*)&_color)) UpdateVertexColors();
+
+    ImGui::End();
+}
+
 DirectX::SimpleMath::Color ColorOutlineRect::GetColor() const
 {
     return _color;

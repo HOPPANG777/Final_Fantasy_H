@@ -25,6 +25,16 @@ void ColorLine::Render()
     DrawCall(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, false);
 }
 
+void ColorLine::GUI()
+{
+    ImGui::Begin("Color", &isOpen);
+
+    // 특정 UI기능이 작동했다면 특정 함수를 실행하게 할수도 있음
+    if (ImGui::ColorPicker4("ColorLine", (float*)&_color)) UpdateVertexColors();
+
+    ImGui::End();
+}
+
 DirectX::SimpleMath::Color ColorLine::GetColor() const
 {
     return _color;

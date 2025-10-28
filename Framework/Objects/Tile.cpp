@@ -38,6 +38,11 @@ void Tile::Render()
     GameObject::Render();
 }
 
+void Tile::GUI()
+{
+    GameObject::GUI();
+}
+
 void Tile::SetTileSet(const std::shared_ptr<TileSet>& tileSet)
 {
     // \ub3d9\uc77c\ud55c SRV\ub97c \uacf5\uc720\ud558\uc5ec \ub2e4\ub978 \ud0c0\uc77c\ub4e4\uacfc \uc77c\uad04\ub418\ub294 \uc5f0\uc0b0\uc774 \uac00\ub2a5\ud558\ub3c4\ub85d \ub9de\ucda4.

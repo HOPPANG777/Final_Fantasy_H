@@ -19,6 +19,9 @@ public:
     ~AnimatedTexture() override = default;
 
     void Update() override;
+    void Render() override;
+
+    void GUI() override;
 
     std::shared_ptr<Animator> GetAnimator() const;
 
