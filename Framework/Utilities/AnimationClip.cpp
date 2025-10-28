@@ -3,34 +3,21 @@
 
 AnimationClip::AnimationClip(
     const std::wstring& clipName,
-    const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
+    const std::shared_ptr<Texture2D>& texture,
     UINT columns,
     UINT rows,
     const DirectX::SimpleMath::Vector2& startPos,
     const DirectX::SimpleMath::Vector2& endPos,
     bool reversed)
-    : _name(clipName), _shaderResourceView(shaderResourceView), _reversed(reversed)
+    : _name(clipName), _texture(texture), _reversed(reversed)
 {
-    if (_shaderResourceView == nullptr)
+    if (_texture == nullptr)
     {
         return;
     }
 
-    Microsoft::WRL::ComPtr<ID3D11Resource> resource;
-    _shaderResourceView->GetResource(&resource);
-
-    Microsoft::WRL::ComPtr<ID3D11Texture2D> texture2D;
-    const HRESULT conversionResult = resource.As(&texture2D);
-    if (FAILED(conversionResult) || texture2D == nullptr)
-    {
-        return;
-    }
-
-    D3D11_TEXTURE2D_DESC textureDesc = {};
-    texture2D->GetDesc(&textureDesc);
-
-    const float textureWidth = static_cast<float>(textureDesc.Width);
-    const float textureHeight = static_cast<float>(textureDesc.Height);
+    const float textureWidth = _texture->GetWidth();
+    const float textureHeight = _texture->GetHeight();
 
     if (textureWidth <= 0.0f || textureHeight <= 0.0f)
     {
@@ -82,7 +69,12 @@ DirectX::SimpleMath::Vector2 AnimationClip::GetFrame(size_t frameIndex) const
 
 Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> AnimationClip::GetShaderResourceView() const
 {
-    return _shaderResourceView;
+    if (_texture)
+    {
+        return _texture->GetSRV();
+    }
+
+    return nullptr;
 }
 
 void AnimationClip::BuildKeyFrames(
