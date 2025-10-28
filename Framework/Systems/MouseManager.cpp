@@ -24,6 +24,23 @@ void MouseManager::Init()
 
 void MouseManager::Update()
 {
+	const ImGuiIO& io = ImGui::GetIO();
+	if (io.WantCaptureMouse)
+	{
+		for (DWORD i = 0; i < MAX_INPUT_MOUSE; ++i)
+		{
+			const int previousStatus = buttonOldStatus[i];
+			buttonStatus[i] = 0;
+			buttonMap[i] = previousStatus == 1 ? BUTTON_INPUT_STATUS_UP : BUTTON_INPUT_STATUS_NONE;
+			buttonOldStatus[i] = buttonStatus[i];
+		}
+
+		wheelOldStatus = wheelStatus;
+		wheelMoveValue = Values::ZeroVector3;
+
+		return;
+	}
+
 	buttonStatus[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
 	buttonStatus[1] = GetAsyncKeyState(VK_RBUTTON) & 0x8000 ? 1 : 0;
 	buttonStatus[2] = GetAsyncKeyState(VK_MBUTTON) & 0x8000 ? 1 : 0;
