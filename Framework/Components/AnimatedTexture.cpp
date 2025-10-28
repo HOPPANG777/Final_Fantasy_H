@@ -46,8 +46,10 @@ void AnimatedTexture::GUI()
     __super::GUI();
 }
 
-std::shared_ptr<Animator> AnimatedTexture::GetAnimator() const
+std::shared_ptr<Animator> AnimatedTexture::GetAnimator()
 {
+    InitializeAnimator();
+
     GameObject* owner = GetOwner();
     if (!owner)
     {

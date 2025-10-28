@@ -13,21 +13,33 @@ public:
 	)
 		: AnimationObject(name, pos, scale, rotation, texturePath, useRectTransformType)
 	{
-		const auto& _loadingIconSprite = std::make_shared<Texture2D>(TexturePath + L"Loading_Icon.png");
-		const auto& _loadingIcon = std::make_shared<AnimationClip>(
-			L"_LoadingIcon",
-			_loadingIconSprite,
-			5,
-			1,
-			Values::ZeroVector2,
-			DirectX::SimpleMath::Vector2((float)_loadingIconSprite->GetWidth(), (float)_loadingIconSprite->GetHeight()),
-			false
-		);
+                const auto& animatedTexture = this->GetComponent<AnimatedTexture>("AnimatedTexture");
+                if (!animatedTexture)
+                {
+                        return;
+                }
 
-		this->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->AddAnimClip(_loadingIcon);
-		this->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->SetAnimationTime(1.0f / 2.8f);
-		this->GetComponent<AnimatedTexture>("AnimatedTexture")->GetAnimator()->SetCurrentAnimClip(L"_LoadingIcon");
-	}
+                const auto& animator = animatedTexture->GetAnimator();
+                if (!animator)
+                {
+                        return;
+                }
+
+                const auto& _loadingIconSprite = std::make_shared<Texture2D>(TexturePath + L"Loading_Icon.png");
+                const auto& _loadingIcon = std::make_shared<AnimationClip>(
+                        L"_LoadingIcon",
+                        _loadingIconSprite,
+                        5,
+                        1,
+                        Values::ZeroVector2,
+                        DirectX::SimpleMath::Vector2((float)_loadingIconSprite->GetWidth(), (float)_loadingIconSprite->GetHeight()),
+                        false
+                );
+
+                animator->AddAnimClip(_loadingIcon);
+                animator->SetAnimationTime(1.0f / 2.8f);
+                animator->SetCurrentAnimClip(L"_LoadingIcon");
+        }
 
 	~LoadingObject() = default;
 
