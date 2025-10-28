@@ -21,18 +21,6 @@ namespace
         return normalized;
     }
 
-    void ResetTexture(Texture2D& texture)
-    {
-        texture._srv.Reset();
-        texture._metaData = {};
-    }
-
-    void ApplyCachedTexture(Texture2D& texture, const Texture2DCacheDesc& desc)
-    {
-        texture._srv = desc.shaderResourceView;
-        texture._metaData = desc.metadata;
-    }
-
     void LogLoadFailure(const std::wstring& stage, const std::wstring& filePath, HRESULT hr)
     {
         std::wostringstream stream;
@@ -53,7 +41,8 @@ void Texture2DCache::Load(Texture2D& texture)
     // 경로가 비어있다면 캐시를 초기화하고 즉시 반환
     if (texture._filePath.empty())
     {
-        ResetTexture(texture);
+        texture._srv.Reset();
+        texture._metaData = {};
         return;
     }
 
@@ -66,7 +55,8 @@ void Texture2DCache::Load(Texture2D& texture)
     {
         if (const Texture2DCacheDesc* cachedDesc = FindCachedDescByPath(texture._filePath))
         {
-            ApplyCachedTexture(texture, *cachedDesc);
+            texture._srv = cachedDesc->shaderResourceView;
+            texture._metaData = cachedDesc->metadata;
             return true;
         }
         return false;
@@ -90,7 +80,8 @@ void Texture2DCache::Load(Texture2D& texture)
         if (!tryReuseCachedDesc())
         {
             LogLoadFailure(L"metadata loading", texture._filePath, hr);
-            ResetTexture(texture);
+            texture._srv.Reset();
+            texture._metaData = {};
         }
         return;
     }
@@ -128,7 +119,8 @@ void Texture2DCache::Load(Texture2D& texture)
         if (!tryReuseCachedDesc())
         {
             LogLoadFailure(L"image loading", texture._filePath, hr);
-            ResetTexture(texture);
+            texture._srv.Reset();
+            texture._metaData = {};
         }
         return;
     }
@@ -146,7 +138,8 @@ void Texture2DCache::Load(Texture2D& texture)
         if (!tryReuseCachedDesc())
         {
             LogLoadFailure(L"shader resource view creation", texture._filePath, hr);
-            ResetTexture(texture);
+            texture._srv.Reset();
+            texture._metaData = {};
         }
         return;
     }
@@ -155,7 +148,8 @@ void Texture2DCache::Load(Texture2D& texture)
     desc.metadata = metaData;
 
     // Texture2D에 로드 결과 전달
-    ApplyCachedTexture(texture, desc);
+    texture._srv = desc.shaderResourceView;
+    texture._metaData = desc.metadata;
 
     // 캐시에 새 항목으로 저장하여 다음 호출에서 재사용
     _cache.emplace_back(desc);
