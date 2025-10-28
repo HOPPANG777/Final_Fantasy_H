@@ -25,6 +25,7 @@ public:
     DirectX::SimpleMath::Vector2 GetAnchor() const;
     DirectX::SimpleMath::Vector2 GetPivot() const;
     DirectX::SimpleMath::Vector2 GetSize() const;
+    DirectX::SimpleMath::Vector2 GetScaledSize() const;
 
 public:
     void SetPosition(const DirectX::SimpleMath::Vector3& pos);
@@ -51,7 +52,7 @@ private:
     DirectX::SimpleMath::Vector2 anchor = DirectX::SimpleMath::Vector2(0.5f, 0.5f);
     // Pivot inside the rectangle (0.0f ~ 1.0f)
     DirectX::SimpleMath::Vector2 pivot = DirectX::SimpleMath::Vector2(0.5f, 0.5f);
-    // Pixel size of the rectangle used for pivot offset
+    // Pixel size of the rectangle at the reference resolution used for pivot offset
     DirectX::SimpleMath::Vector2 size = Values::ZeroVector2;
 
     DirectX::SimpleMath::Matrix world = DirectX::XMMatrixIdentity();

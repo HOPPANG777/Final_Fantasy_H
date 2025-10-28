@@ -1,6 +1,64 @@
 #include "Framework.h"
 #include "DirectHelper.h"
 
+float Values::referenceWidth = WIN_DEFAULT_WIDTH;
+float Values::referenceHeight = WIN_DEFAULT_HEIGHT;
+
+void Values::SetReferenceResolution(float width, float height)
+{
+        referenceWidth = width > 0.0f ? width : 1.0f;
+        referenceHeight = height > 0.0f ? height : 1.0f;
+}
+
+float Values::GetReferenceWidth()
+{
+        return referenceWidth;
+}
+
+float Values::GetReferenceHeight()
+{
+        return referenceHeight;
+}
+
+DirectX::SimpleMath::Vector2 Values::GetReferenceResolution()
+{
+        return DirectX::SimpleMath::Vector2(referenceWidth, referenceHeight);
+}
+
+DirectX::SimpleMath::Vector2 Values::GetUIScale()
+{
+        const float safeWidth = referenceWidth != 0.0f ? referenceWidth : 1.0f;
+        const float safeHeight = referenceHeight != 0.0f ? referenceHeight : 1.0f;
+
+        return DirectX::SimpleMath::Vector2(gWinWidth / safeWidth, gWinHeight / safeHeight);
+}
+
+float Values::GetUIScaleX()
+{
+        return GetUIScale().x;
+}
+
+float Values::GetUIScaleY()
+{
+        return GetUIScale().y;
+}
+
+float Values::ApplyUIScaleX(float value)
+{
+        return value * GetUIScaleX();
+}
+
+float Values::ApplyUIScaleY(float value)
+{
+        return value * GetUIScaleY();
+}
+
+DirectX::SimpleMath::Vector2 Values::ApplyUIScale(const DirectX::SimpleMath::Vector2& value)
+{
+        const DirectX::SimpleMath::Vector2 scale = GetUIScale();
+        return DirectX::SimpleMath::Vector2(value.x * scale.x, value.y * scale.y);
+}
+
 const float Values::PI = 3.141592f;
 const float Values::Deg2Rad = PI / 180;
 
