@@ -46,5 +46,5 @@ private:
         bool _bSplashDone = false;                        // 스플래시 표시 완료 여부
 
         const float _targetSplashTime = 0.0f;             // 스플래시 종료 기준 시간
-        float _currentSplashTime = 2.0f;                  // 남은 스플래시 표시 시간
+        float _currentSplashTime = 1.0f;                  // 남은 스플래시 표시 시간
 };
