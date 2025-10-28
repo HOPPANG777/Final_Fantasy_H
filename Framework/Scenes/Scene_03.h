@@ -18,10 +18,10 @@ public:
 
 	void ImGUI() override;
 
-	bool IsLoaded() const override { return isLoad; }
+	bool IsLoaded() const override { return isLoaded; }
 
 private:
-	bool isLoad = false;
+	bool isLoaded = false;
 
 	std::vector<std::shared_ptr<GameObject>> objects;
 };

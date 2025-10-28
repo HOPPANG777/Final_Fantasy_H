@@ -1,19 +1,33 @@
 #include "Framework.h"
 #include "Scene_02.h"
+#include "Objects/ObjectList.h"
+
+using namespace DirectX;
+using namespace SimpleMath;
 
 void Scene_02::Awake()
 {
-	isLoad = false;
 
-
-
-
-
-	isLoad = true;
 }
 
 void Scene_02::Start()
 {
+	isLoaded = false;
+
+	objects.push_back(
+		std::make_shared<ColorObject>(
+			"LoadingSceneBackground",
+			Values::ZeroVector3,
+			Vector3(Values::GetWinWidth(), Values::GetWinHeight(), 0),
+			0.0f,
+			Values::Black,
+			true
+		)
+	);
+
+	CameraManager::Get()->Reset();
+
+	isLoaded = true;
 }
 
 void Scene_02::Destroy()
@@ -51,5 +65,6 @@ void Scene_02::PostRender()
 
 void Scene_02::ImGUI()
 {
+	objects[0]->GUI();
 }
 

@@ -7,7 +7,7 @@
 class TileMap;
 class TileSet;
 
-class Scene_MapTool : public Scene
+class Scene_00 : public Scene
 {
 public:
     void Awake() override;

@@ -8,18 +8,24 @@ HWND gHandle;
 
 void Program::Awake()
 {
-        RenderStates::Init();
+    RenderStates::Init();
 
-        Values::SetReferenceResolution(gWinWidth, gWinHeight);
+    Values::SetReferenceResolution(gWinWidth, gWinHeight);
 
-        CameraManager::Get()->Init();
+    CameraManager::Get()->Init();
 
 	// Scene 세팅
 	{
-		SceneManager::Get()->AddScene("TileMapTool", std::make_shared<Scene_MapTool>());
+		SceneManager::Get()->AddScene("TileMapTool", std::make_shared<Scene_00>());
 		SceneManager::Get()->AddScene("SplashScene", std::make_shared<Scene_01>());
+		SceneManager::Get()->AddScene("LoadingScene", std::make_shared<Scene_02>());
+		SceneManager::Get()->AddScene("TitleScene", std::make_shared<Scene_03>());
 
-		SceneManager::Get()->LoadScene("SplashScene");
+		SceneManager::Get()->SetSplashScene("SplashScene");
+
+		SceneManager::Get()->SetLoadingScene("LoadingScene");
+
+		SceneManager::Get()->StartGame("TitleScene");
 	}
 }
 

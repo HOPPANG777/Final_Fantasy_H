@@ -24,6 +24,10 @@ private:
 	std::vector<std::shared_ptr<GameObject>> objects;
 
 	bool isLoaded = false;
+	bool _bSplashDone = false;
+	
+	const float _targetSplashTime = 0.0f;
+	float _currentSplashTime = 2.0f;
 
 };
 

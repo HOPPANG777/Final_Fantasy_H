@@ -39,12 +39,12 @@ private:
 private:
     std::unordered_map<std::string, std::shared_ptr<Scene>> sceneList;
     std::shared_ptr<Scene> currentScene;
-    std::shared_ptr<Scene> nextScene;                         // 로드 중인 Scene
+    std::shared_ptr<Scene> nextScene;                           // 로드 중인 Scene
 
 
-    std::shared_ptr<Scene> loadingScene;                      // 로딩 Scene
-    bool isLoading = false;                              // 로딩 상태 플래그
-    float loadingProgress = 0.0f;                        // 로딩 진행률
+    std::shared_ptr<Scene> loadingScene;                        // 로딩 Scene
+    bool isLoading = false;                                     // 로딩 상태 플래그
+    float loadingProgress = 0.0f;                               // 로딩 진행률
 
     // ★ 스플래시 씬
     std::shared_ptr<Scene> splashScene;

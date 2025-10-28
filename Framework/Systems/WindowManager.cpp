@@ -129,6 +129,7 @@ void WindowManager::MainRender()
 	KeyboardManager::Get()->Update();
 	MouseManager::Get()->Update();
 	TimeManager::Get()->Update();
+	CollisionManager::Get()->Update();
 
 	program->Update();
 

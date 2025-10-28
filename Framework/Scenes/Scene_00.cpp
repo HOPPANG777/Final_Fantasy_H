@@ -1,5 +1,5 @@
 #include "Framework.h"
-#include "Scene_MapTool.h"
+#include "Scene_00.h"
 
 #include <algorithm>
 
@@ -22,7 +22,7 @@ namespace
 	}
 }
 
-void Scene_MapTool::Awake()
+void Scene_00::Awake()
 {
 	isLoaded = false;
 
@@ -48,21 +48,21 @@ void Scene_MapTool::Awake()
 	isLoaded = true;
 }
 
-void Scene_MapTool::Start()
+void Scene_00::Start()
 {
 }
 
-void Scene_MapTool::Destroy()
+void Scene_00::Destroy()
 {
 	tileMap.reset();
 	tileSet.reset();
 }
 
-void Scene_MapTool::FixedUpdate()
+void Scene_00::FixedUpdate()
 {
 }
 
-void Scene_MapTool::Update()
+void Scene_00::Update()
 {
 	if (ImGui::GetIO().WantCaptureMouse)
 	{
@@ -75,11 +75,11 @@ void Scene_MapTool::Update()
 	}
 }
 
-void Scene_MapTool::LateUpdate()
+void Scene_00::LateUpdate()
 {
 }
 
-void Scene_MapTool::Render()
+void Scene_00::Render()
 {
 	if (tileMap)
 	{
@@ -87,11 +87,11 @@ void Scene_MapTool::Render()
 	}
 }
 
-void Scene_MapTool::PostRender()
+void Scene_00::PostRender()
 {
 }
 
-void Scene_MapTool::ImGUI()
+void Scene_00::ImGUI()
 {
 	ImGui::Begin("TileMap Tool");
 	{
@@ -182,7 +182,7 @@ void Scene_MapTool::ImGUI()
 	ImGui::End();
 }
 
-void Scene_MapTool::CreateTileMap()
+void Scene_00::CreateTileMap()
 {
 	const UINT validSpacing = std::max<UINT>(spacing, 1);
 	const UINT validWidth = std::max<UINT>(resizeWidth > 0 ? resizeWidth : mapWidth, 1);
@@ -212,7 +212,7 @@ void Scene_MapTool::CreateTileMap()
 	}
 }
 
-void Scene_MapTool::SaveCurrentMap(const std::string& fileName)
+void Scene_00::SaveCurrentMap(const std::string& fileName)
 {
 	if (!tileMap || fileName.empty())
 	{
@@ -228,7 +228,7 @@ void Scene_MapTool::SaveCurrentMap(const std::string& fileName)
 	tileMap->Save(textPath);
 }
 
-void Scene_MapTool::LoadMapFromFile(const std::string& fileName)
+void Scene_00::LoadMapFromFile(const std::string& fileName)
 {
 	if (fileName.empty())
 	{
@@ -260,7 +260,7 @@ void Scene_MapTool::LoadMapFromFile(const std::string& fileName)
 	}
 }
 
-std::string Scene_MapTool::BuildMapPath(const std::string& fileName, const std::string& extension) const
+std::string Scene_00::BuildMapPath(const std::string& fileName, const std::string& extension) const
 {
 	std::string finalName = fileName;
 	if (Path::GetExtension(fileName).empty())
@@ -275,7 +275,7 @@ std::string Scene_MapTool::BuildMapPath(const std::string& fileName, const std::
 	return std::string(kMapDirectory) + finalName;
 }
 
-void Scene_MapTool::EnsureMapDirectoryExists() const
+void Scene_00::EnsureMapDirectoryExists() const
 {
 	Path::CreateFolders(String::ToWstring(kMapDirectory));
 }
