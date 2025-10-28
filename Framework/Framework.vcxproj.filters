@@ -131,6 +131,12 @@
     <ClInclude Include="Utilities\ImageLoader.h">
       <Filter>Utilities\ImageLoader</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Texture2D.h">
+      <Filter>Utilities\Texture2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Texture2DCache.h">
+      <Filter>Utilities\Texture2DCache</Filter>
+    </ClInclude>
     <ClInclude Include="Components\CircleCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
@@ -289,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="Utilities\ImageLoader.cpp">
       <Filter>Utilities\ImageLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Texture2D.cpp">
+      <Filter>Utilities\Texture2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Texture2DCache.cpp">
+      <Filter>Utilities\Texture2DCache</Filter>
     </ClCompile>
     <ClCompile Include="Components\CircleCollider.cpp">
       <Filter>Components\Collider</Filter>
@@ -450,6 +462,12 @@
     </Filter>
     <Filter Include="Utilities\ImageLoader">
       <UniqueIdentifier>{09abeda8-8e8f-45cf-95f6-10c1e99dd322}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Texture2D">
+      <UniqueIdentifier>{f6f7d0a1-4c51-4e7a-9a1b-5e7cd7f5d9a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Texture2DCache">
+      <UniqueIdentifier>{3a1cb16b-63fa-47d2-807d-51771ab0efb5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utilities\Path">
       <UniqueIdentifier>{abbb61da-570b-4306-9144-866fc869bbdf}</UniqueIdentifier>
