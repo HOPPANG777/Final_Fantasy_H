@@ -44,9 +44,9 @@ public:
     void GUI();
 
 public:
-    void SetFullScreen(bool fullscreen);                 // ±âÁ¸ À¯Áö(ÀÍ½ºÅ¬·ç½Ãºê Åä±Û)
-    void SetWindowManagerMode(WindowManagerMode mode);                 // º¸´õ¸®½º/À©µµ¿ì ÀüÈ¯
-    void SetResolution(UINT width, UINT height);         // ·±Å¸ÀÓ ¸®»çÀÌÁî
+    void SetFullScreen(bool fullscreen);                 // ê¸°ì¡´ ìœ ì§€(ìµìŠ¤í´ë£¨ì‹œë¸Œ í† ê¸€)
+    void SetWindowManagerMode(WindowManagerMode mode);                 // ë³´ë”ë¦¬ìŠ¤/ìœˆë„ìš° ì „í™˜
+    void SetResolution(UINT width, UINT height);         // ëŸ°íƒ€ì„ ë¦¬ì‚¬ì´ì¦ˆ
     void SetVSync(bool on) { _bVsync = on; }
 
 public:
@@ -62,14 +62,14 @@ private:
     bool EnumerateAdapterOutput(AdapterInfo* adapterInfo);
 
 private:
-    // »ı¼º ´Ü°è ºĞ¸®
+    // ìƒì„± ë‹¨ê³„ ë¶„ë¦¬
     void CreateDirect3D();
     void CreateDirect2D();
     void CreateDirectWrite();
 
 public:
-    // °øÅë Àç»ı¼º °æ·Î
-    void RecreateDeviceAndSwapChain();   // ¾î´ğÅÍ ¼±ÅÃ + µğ¹ÙÀÌ½º + ½º¿ÒÃ¼ÀÎ
+    // ê³µí†µ ì¬ìƒì„± ê²½ë¡œ
+    void RecreateDeviceAndSwapChain();   // ì–´ëŒ‘í„° ì„ íƒ + ë””ë°”ì´ìŠ¤ + ìŠ¤ì™‘ì²´ì¸
     void RecreateTargetsFromSwapChain(); // RTV + D2D Target + Viewport
 
 private:
@@ -105,6 +105,7 @@ private:
 
     bool _bVsync = true;
     WindowManagerMode _WindowManagerMode = WindowManagerMode::WINDOW_WINDOW;
+    WindowManagerMode _previousWindowMode = WindowManagerMode::WINDOW_WINDOW;
 
     bool isOpen = false;
 };
