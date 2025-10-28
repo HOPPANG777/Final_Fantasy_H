@@ -39,7 +39,7 @@ public:
 
 
 private:
-	HWND handle;
+	HWND handle = nullptr;
 	DirectX::SimpleMath::Vector3 mousePos;
 
 private:

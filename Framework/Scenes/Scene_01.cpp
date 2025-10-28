@@ -9,10 +9,11 @@ void Scene_01::Awake()
 	objects.push_back(
 		std::make_shared<ColorObject>(
 			"Background",
-			Values::GetCenter(),
+			Values::ZeroVector3,
 			DirectX::SimpleMath::Vector3(Values::GetWinWidth(), Values::GetWinHeight(), 0),
 			0.0f,
-			Values::White
+			Values::White,
+			true
 		)
 	);
 

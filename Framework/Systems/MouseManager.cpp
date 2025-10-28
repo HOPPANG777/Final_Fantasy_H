@@ -10,6 +10,8 @@ MouseManager::~MouseManager() {}
 
 void MouseManager::Init()
 {
+	handle = gHandle;
+
 	ZeroMemory(startDblClk, sizeof(DWORD) * MAX_INPUT_MOUSE);
 	ZeroMemory(buttonCount, sizeof(int) * MAX_INPUT_MOUSE);
 
@@ -24,6 +26,11 @@ void MouseManager::Init()
 
 void MouseManager::Update()
 {
+	if (handle != gHandle)
+	{
+		handle = gHandle;
+	}
+
 	const ImGuiIO& io = ImGui::GetIO();
 	if (io.WantCaptureMouse)
 	{
