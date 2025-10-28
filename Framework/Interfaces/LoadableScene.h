@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "IScene.h"
 
@@ -110,7 +110,7 @@ inline void LoadableScene::UpdateLoad(float /*deltaTime*/)
 
     if (totalWeight > 0.0f)
     {
-        loadingProgress = std::clamp(completedWeight / totalWeight, 0.0f, 1.0f);
+        loadingProgress = CLAMP(completedWeight / totalWeight, 0.0f, 1.0f);
     }
     else
     {
@@ -133,7 +133,7 @@ inline void LoadableScene::AddLoadStep(const LoadAction& action, float weight)
         return;
     }
 
-    const float clampedWeight = std::max(weight, 0.0f);
+    const float clampedWeight = max(weight, 0.0f);
     if (clampedWeight <= 0.0f)
     {
         return;

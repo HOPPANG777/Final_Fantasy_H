@@ -1,4 +1,4 @@
-#include "Framework.h"
+﻿#include "Framework.h"
 #include "SceneManager.h"
 
 #include <algorithm>
@@ -136,7 +136,7 @@ void SceneManager::Update()
                 if (nextScene)
                 {
                         nextScene->UpdateLoad(TimeManager::Get()->GetDeltaTime());
-                        loadingProgress = std::clamp(nextScene->GetLoadProgress(), 0.0f, 1.0f);
+                        loadingProgress = CLAMP(nextScene->GetLoadProgress(), 0.0f, 1.0f);
 
                         if (nextScene->IsLoaded())
                         {

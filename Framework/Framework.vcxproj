@@ -170,6 +170,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\AnimationObject.h" />
     <ClInclude Include="Objects\ColorObject.h" />
     <ClInclude Include="Components\AnimatedTexture.h" />
     <ClInclude Include="Components\CircleCollider.h" />
@@ -240,6 +241,7 @@
     <ClInclude Include="Objects\TileSet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\AnimationObject.cpp" />
     <ClCompile Include="Objects\ColorObject.cpp" />
     <ClCompile Include="Components\AnimatedTexture.cpp" />
     <ClCompile Include="Components\CircleCollider.cpp" />
