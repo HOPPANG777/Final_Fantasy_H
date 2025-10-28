@@ -36,9 +36,14 @@ void Texture2D::ReadPixel(std::vector<Color>* pixels)
         return;
     }
 
+    // 그래픽스 장치가 아직 초기화되지 않았다면 더 진행할 수 없다.
+    auto* graphicsManager = GraphicsManager::Get();
+    ID3D11Device* device = graphicsManager ? graphicsManager->GetDevice() : nullptr;
+    ID3D11DeviceContext* deviceContext = graphicsManager ? graphicsManager->GetDC() : nullptr;
+
     Microsoft::WRL::ComPtr<ID3D11Resource> resource = nullptr;
-    // SRV가 비어있으면 픽셀 정보 역시 비워준다.
-    if (_srv == nullptr)
+    // SRV가 비어있거나 디바이스가 준비되지 않았으면 픽셀 정보 역시 비워준다.
+    if (_srv == nullptr || device == nullptr || deviceContext == nullptr)
     {
         pixels->clear();
         return;
@@ -60,6 +65,16 @@ void Texture2D::ReadPixel(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture, std::
         return;
     }
 
+    auto* graphicsManager = GraphicsManager::Get();
+    ID3D11Device* device = graphicsManager ? graphicsManager->GetDevice() : nullptr;
+    ID3D11DeviceContext* deviceContext = graphicsManager ? graphicsManager->GetDC() : nullptr;
+
+    if (device == nullptr || deviceContext == nullptr)
+    {
+        pixels->clear();
+        return;
+    }
+
     D3D11_TEXTURE2D_DESC sourceDesc = {};
     texture->GetDesc(&sourceDesc);
 
@@ -74,13 +89,13 @@ void Texture2D::ReadPixel(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture, std::
     stagingDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
     Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture = nullptr;
-    HRESULT hr = GraphicsManager::Get()->GetDevice()->CreateTexture2D(&stagingDesc, nullptr, stagingTexture.GetAddressOf());
+    HRESULT hr = device->CreateTexture2D(&stagingDesc, nullptr, stagingTexture.GetAddressOf());
     CHECK(hr);
 
-    GraphicsManager::Get()->GetDC()->CopyResource(stagingTexture.Get(), texture.Get());
+    deviceContext->CopyResource(stagingTexture.Get(), texture.Get());
 
     D3D11_MAPPED_SUBRESOURCE mappedResource = {};
-    hr = GraphicsManager::Get()->GetDC()->Map(stagingTexture.Get(), 0, D3D11_MAP_READ, 0, &mappedResource);
+    hr = deviceContext->Map(stagingTexture.Get(), 0, D3D11_MAP_READ, 0, &mappedResource);
     CHECK(hr);
 
     const size_t pixelCount = static_cast<size_t>(stagingDesc.Width) * static_cast<size_t>(stagingDesc.Height);
@@ -89,7 +104,7 @@ void Texture2D::ReadPixel(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture, std::
     // 압축 텍스처 등은 직접 읽어올 수 없으므로 기본값으로 채운다.
     if (bytesPerPixel == 0)
     {
-        GraphicsManager::Get()->GetDC()->Unmap(stagingTexture.Get(), 0);
+        deviceContext->Unmap(stagingTexture.Get(), 0);
         pixels->assign(pixelCount, Color(0.0f, 0.0f, 0.0f, 1.0f));
         return;
     }
@@ -146,7 +161,7 @@ void Texture2D::ReadPixel(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture, std::
         }
     }
 
-    GraphicsManager::Get()->GetDC()->Unmap(stagingTexture.Get(), 0);
+    deviceContext->Unmap(stagingTexture.Get(), 0);
 
     // 계산된 픽셀 데이터를 결과 컨테이너에 전달한다.
     *pixels = std::move(localPixels);

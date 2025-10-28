@@ -125,10 +125,21 @@ void Texture2DCache::Load(Texture2D& texture)
         return;
     }
 
+    auto* graphicsManager = GraphicsManager::Get();
+    ID3D11Device* device = graphicsManager ? graphicsManager->GetDevice() : nullptr;
+
+    if (device == nullptr)
+    {
+        LogLoadFailure(L"shader resource view creation", texture._filePath, E_POINTER);
+        texture._srv.Reset();
+        texture._metaData = {};
+        return;
+    }
+
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shaderResourceView = nullptr;
     // GPU에 업로드하여 SRV를 생성
     hr = DirectX::CreateShaderResourceView(
-        GraphicsManager::Get()->GetDevice(),
+        device,
         image.GetImages(),
         image.GetImageCount(),
         metaData,
