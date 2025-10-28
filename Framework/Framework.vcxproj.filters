@@ -152,6 +152,9 @@
     <ClInclude Include="Scenes\Scene_01.h">
       <Filter>Scenes\Scene_01</Filter>
     </ClInclude>
+    <ClInclude Include="Scenes\Scene_MapTool.h">
+      <Filter>Scenes\Scene_MapTool</Filter>
+    </ClInclude>
     <ClInclude Include="Components\ColorCircle.h">
       <Filter>Components\Color\ColorCircle</Filter>
     </ClInclude>
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="Scenes\Scene_01.cpp">
       <Filter>Scenes\Scene_01</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Scene_MapTool.cpp">
+      <Filter>Scenes\Scene_MapTool</Filter>
     </ClCompile>
     <ClCompile Include="Components\ColorCircle.cpp">
       <Filter>Components\Color\ColorCircle</Filter>
@@ -438,6 +444,9 @@
     </Filter>
     <Filter Include="Scenes\Scene_01">
       <UniqueIdentifier>{dc5b265b-247f-4608-a5e1-c4012e6d70ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Scene_MapTool">
+      <UniqueIdentifier>{c9c13a01-a63d-404b-889d-be7923059951}</UniqueIdentifier>
     </Filter>
     <Filter Include="Components\Color\ColorRect">
       <UniqueIdentifier>{9978bc42-8e54-414a-919c-c25bd1bae4cd}</UniqueIdentifier>

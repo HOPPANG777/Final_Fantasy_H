@@ -2,7 +2,8 @@
 #include "Program.h"
 #include "Scenes/SceneList.h"
 
-// $(SolutionDir)Build\bin\$(ProjectName)\$(PlatformTarget)\$(Configuration)\ <- ÀÌ°É ÇÁ·ÎÁ§Æ® ¼³Á¤ µğ¹ö±ë¿¡ ÀÛ¾÷ µğ·ºÅä¸®¿¡ ÀÔ·ÂÇÏ½Ã¿À
+		SceneManager::Get()->AddScene("TileMapTool", std::make_shared<Scene_MapTool>());
+		SceneManager::Get()->LoadScene("TileMapTool");
 
 float gWinWidth = WIN_DEFAULT_WIDTH;
 float gWinHeight = WIN_DEFAULT_HEIGHT;
@@ -14,7 +15,7 @@ void Program::Awake()
 
 	CameraManager::Get()->Init();
 
-	// Scene ¼¼ÆÃ
+	// Scene ì„¸íŒ…
 	{
 		SceneManager::Get()->AddScene("SplashScene", std::make_shared<Scene_01>());
 
@@ -53,14 +54,14 @@ void Program::ImGUI()
 
 int APIENTRY wWinMain
 (
-	_In_ HINSTANCE hInstance,		// À©µµ¿ì ½ÇÇàÀ» À§ÇÑ °íÀ¯°ª
+	_In_ HINSTANCE hInstance,		// ìœˆë„ìš° ì‹¤í–‰ì„ ìœ„í•œ ê³ ìœ ê°’
 	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPWSTR    lpCmdLine,		// Ä¿¸Çµå Àü´ŞÀÎÀÚ
+	_In_ LPWSTR    lpCmdLine,		// ì»¤ë§¨ë“œ ì „ë‹¬ì¸ì
 	_In_ int       nCmdShow
 )
 {
 	WinDesc desc;
-	desc.appName = L"Final Fantasy H"; // Ã¢ ÀÌ¸§
+	desc.appName = L"Final Fantasy H"; // ì°½ ì´ë¦„
 	desc.instance = hInstance;
 	desc.handle = nullptr;
 	desc.width = gWinWidth;
