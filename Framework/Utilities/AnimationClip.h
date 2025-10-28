@@ -1,13 +1,20 @@
 #pragma once
 
-struct ID3D11ShaderResourceView;
+#include <memory>
+#include <string>
+#include <vector>
+
+#include <wrl/client.h>
+#include <directxtk/SimpleMath.h>
+
+class Texture2D;
 
 class AnimationClip
 {
 public:
     AnimationClip(
         const std::wstring& clipName,
-        const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
+        const std::shared_ptr<Texture2D>& texture,
         UINT columns,
         UINT rows,
         const DirectX::SimpleMath::Vector2& startPos,
@@ -37,7 +44,7 @@ private:
     std::wstring _name;
     std::vector<DirectX::SimpleMath::Vector2> _keyFrames;
     UINT _frameCount = 0;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _shaderResourceView;
+    std::shared_ptr<Texture2D> _texture;
     DirectX::SimpleMath::Vector2 _texelFrameSize = DirectX::SimpleMath::Vector2(0.0f, 0.0f);
     bool _reversed = false;
 };
