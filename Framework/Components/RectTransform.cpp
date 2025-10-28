@@ -12,18 +12,21 @@ void RectTransform::Update()
     using namespace DirectX::SimpleMath;
 
     const Vector2 screenSize(static_cast<float>(Values::GetWinWidth()), static_cast<float>(Values::GetWinHeight()));
-    Vector3 translation = position;
+    const Vector2 uiScale = Values::GetUIScale();
+    Vector3 translation(position.x * uiScale.x, position.y * uiScale.y, position.z);
 
     const Vector3 anchorOffset(anchor.x * screenSize.x, anchor.y * screenSize.y, 0.0f);
     translation += anchorOffset;
 
-    const Vector2 pivotOffset((pivot.x - 0.5f) * size.x, (pivot.y - 0.5f) * size.y);
+    const Vector2 scaledSize = GetScaledSize();
+    const Vector2 pivotOffset((pivot.x - 0.5f) * scaledSize.x, (pivot.y - 0.5f) * scaledSize.y);
     translation.x -= pivotOffset.x;
     translation.y -= pivotOffset.y;
 
     translation += CameraManager::Get()->GetPosition();
 
-    const Matrix S = DirectX::XMMatrixScalingFromVector(scale);
+    const Vector3 scaledScale(scale.x * uiScale.x, scale.y * uiScale.y, scale.z);
+    const Matrix S = DirectX::XMMatrixScalingFromVector(scaledScale);
     const Matrix R = DirectX::XMMatrixRotationZ(rotation);
     const Matrix T = DirectX::XMMatrixTranslationFromVector(translation);
 
@@ -37,9 +40,9 @@ void RectTransform::Render()
 
 void RectTransform::GUI()
 {
-    // ImGui¸¦ ÀÌ¿ëÇØ UI¸¦ ¸¸µé¾î³»´Â ±â´É°ú ÄÚµåµé
+    // ImGuië¥¼ ì´ìš©í•´ UIë¥¼ ë§Œë“¤ì–´ë‚´ëŠ” ê¸°ëŠ¥ê³¼ ì½”ë“œë“¤
 
-    // ImGui ÄÚµåµéÀ» ÀÌ¿ëÇØ UI¸¦ ¸¸µé±âÀ§ÇØ ¸ÕÀú ½ÇÇàÇØ¾ßÇÏ´Â ÇÔ¼ö
+    // ImGui ì½”ë“œë“¤ì„ ì´ìš©í•´ UIë¥¼ ë§Œë“¤ê¸°ìœ„í•´ ë¨¼ì € ì‹¤í–‰í•´ì•¼í•˜ëŠ” í•¨ìˆ˜
     ImGui::Begin("RectTransform", &isOpen);
     {
         ImGui::Text("RectTrasnform");
@@ -65,8 +68,9 @@ void RectTransform::GUI()
             360.0f
         );
     }
-    // ImGuiÀÇ UI¸¸µå´Â°Ô ³¡³µ´Ù´Â°ÍÀ» ¾Ë·ÁÁÙ ÇÔ¼ö
-    ImGui::End();
+    const Vector2 uiScale = Values::GetUIScale();
+    const Vector2 scaledSize = GetScaledSize();
+    Vector2 position2D(position.x * uiScale.x, position.y * uiScale.y);
 }
 
 const DirectX::SimpleMath::Matrix& RectTransform::GetWorld() const
@@ -134,6 +138,12 @@ DirectX::SimpleMath::Vector2 RectTransform::GetPivot() const
 DirectX::SimpleMath::Vector2 RectTransform::GetSize() const
 {
     return size;
+}
+
+DirectX::SimpleMath::Vector2 RectTransform::GetScaledSize() const
+{
+    const DirectX::SimpleMath::Vector2 uiScale = Values::GetUIScale();
+    return DirectX::SimpleMath::Vector2(size.x * uiScale.x, size.y * uiScale.y);
 }
 
 void RectTransform::SetPosition(const DirectX::SimpleMath::Vector3& pos)

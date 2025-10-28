@@ -8,9 +8,11 @@ HWND gHandle;
 
 void Program::Awake()
 {
-	RenderStates::Init();
+        RenderStates::Init();
 
-	CameraManager::Get()->Init();
+        Values::SetReferenceResolution(gWinWidth, gWinHeight);
+
+        CameraManager::Get()->Init();
 
 	// Scene 세팅
 	{
