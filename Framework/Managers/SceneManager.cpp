@@ -1,255 +1,314 @@
 #include "Framework.h"
 #include "SceneManager.h"
 
-SceneManager::SceneManager() {}
+#include <algorithm>
 
-// SceneManager ¼Ò¸êÀÚ: ¸ğµç ¾ÀÀ» Destroy() È£Ãâ ÈÄ sceneList¸¦ clearÇÕ´Ï´Ù.
+SceneManager::SceneManager()
+{
+        loadingProgress = 1.0f;
+}
+
 SceneManager::~SceneManager()
 {
-	// std::unordered_map<std::string, std::shared_ptr<Scene>>::iterator »ç¿ë
-	for (auto& scene : sceneList)
-	{
-		scene.second->Destroy();
-	}
-	sceneList.clear();
+        for (auto& scene : sceneList)
+        {
+                if (scene.second != nullptr)
+                {
+                        scene.second->Destroy();
+                }
+        }
+        sceneList.clear();
 }
 
-// ¾ÀÀ» Ãß°¡ÇÕ´Ï´Ù.
+// ìƒˆë¡œìš´ ì¥ë©´ì„ ë“±ë¡í•œë‹¤.
 void SceneManager::AddScene(const std::string& sceneName, std::shared_ptr<Scene> newScene)
 {
-	// °°Àº ÀÌ¸§ÀÇ ¾ÀÀÌ ÀÌ¹Ì Á¸ÀçÇÏ´ÂÁö È®ÀÎ
-	if (sceneList.find(sceneName) != sceneList.end())
-	{
-		printf("Scene '%s' already exists.\n", sceneName.c_str());
-		return;
-	}
-	// ¾À Ãß°¡
-	sceneList[sceneName] = newScene;
+        if (sceneList.find(sceneName) != sceneList.end())
+        {
+                printf("Scene '%s' already exists.\n", sceneName.c_str());
+                return;
+        }
+
+        sceneList[sceneName] = newScene;
 }
 
-// ¾ÀÀ» ·ÎµåÇÏ´Â ÇÔ¼ö: sceneName¿¡ ÇØ´çÇÏ´Â ¾ÀÀ» nextSceneÀ¸·Î ÁöÁ¤ÇÏ°í, Ã¹ ½ÇÇàÀÎ °æ¿ì ¹Ù·Î ÀüÈ¯ÇÕ´Ï´Ù.
+// ì¥ë©´ ì „í™˜ì„ ìš”ì²­í•œë‹¤.
 void SceneManager::LoadScene(const std::string& sceneName)
 {
-	// ¸í½ÃÀû iterator Å¸ÀÔ »ç¿ë
-	const auto& it = sceneList.find(sceneName);
-	if (it == sceneList.end())
-	{
-		printf("Scene '%s' not found.\n", sceneName.c_str());
-		return;
-	}
-	// ÀÌ¹Ì ·Îµù ÁßÀÌ¸é ¹«½Ã
-	if (isLoading)
-	{
-		return;
-	}
+        const auto it = sceneList.find(sceneName);
+        if (it == sceneList.end())
+        {
+                printf("Scene '%s' not found.\n", sceneName.c_str());
+                return;
+        }
 
-	nextScene = it->second;
-	sceneChangeRequested = true;
+        if (isLoading)
+        {
+                return;
+        }
 
-	// ¸¸¾à ÃÖÃÊ ½ÇÇàÀÌ¸é ¹Ù·Î ÀüÈ¯ (deferred Ã³¸® ¾øÀÌ)
-	if (isFirstLaunch)
-	{
-		isFirstLaunch = false;
-		if (currentScene)
-		{
-			currentScene->Destroy();
-			CameraManager::Get()->Reset();
-		}
-		currentScene = nextScene;
-		currentScene->Awake();
-		currentScene->Start();
-		nextScene = nullptr;
-		sceneChangeRequested = false;
-	}
+        nextScene = it->second;
+        sceneChangeRequested = true;
+        loadingProgress = 0.0f;
 }
 
-// Loading SceneÀ» ¼³Á¤ÇÏ´Â ÇÔ¼ö
+// ë¡œë”© í™”ë©´ìœ¼ë¡œ ì‚¬ìš©í•  ì¥ë©´ì„ ì§€ì •í•œë‹¤.
 void SceneManager::SetLoadingScene(const std::string& sceneName)
 {
-	const auto& it = sceneList.find(sceneName);
-	if (it != sceneList.end())
-	{
-		loadingScene = it->second;
-	}
-	else
-	{
-		printf("Loading Scene '%s' not found.\n", sceneName.c_str());
-	}
+        const auto it = sceneList.find(sceneName);
+        if (it != sceneList.end())
+        {
+                loadingScene = it->second;
+        }
+        else
+        {
+                printf("Loading Scene '%s' not found.\n", sceneName.c_str());
+        }
 }
 
-// Splash SceneÀ» ¼³Á¤ÇÏ´Â ÇÔ¼ö
+// ìŠ¤í”Œë˜ì‹œ ì¥ë©´ì„ ì§€ì •í•œë‹¤.
 void SceneManager::SetSplashScene(const std::string& sceneName)
 {
-	const auto& it = sceneList.find(sceneName);
-	if (it != sceneList.end())
-	{
-		splashScene = it->second;
-	}
-	else
-	{
-		printf("Splash Scene '%s' not found.\n", sceneName.c_str());
-	}
+        const auto it = sceneList.find(sceneName);
+        if (it != sceneList.end())
+        {
+                splashScene = it->second;
+        }
+        else
+        {
+                printf("Splash Scene '%s' not found.\n", sceneName.c_str());
+        }
 }
 
+// ê²Œì„ì„ ì‹œì‘í•˜ë©´ì„œ ì²« ì¥ë©´ì„ ì¤€ë¹„í•œë‹¤.
 void SceneManager::StartGame(const std::string& titleSceneName)
 {
-	// ¡Ú °ÔÀÓÀ» Ã³À½ ½ÃÀÛÇÒ ¶§ ·Îµù¾À ¾øÀÌ ¡°½ºÇÃ·¡½Ã ¾À¡±ºÎÅÍ º¸¿©ÁÖ°í,
-	//   ½ºÇÃ·¡½Ã ¾ÀÀÌ ³¡³ª¸é titleSceneName(Å¸ÀÌÆ² ¾À)À» LoadScene() ¹æ½ÄÀ¸·Î ÀüÈ¯
-	//   ÀÌ¶§ LoadScene("Å¸ÀÌÆ²")À» È£ÃâÇÏ¸é ±×¶§ºÎÅÍ´Â ·Îµù¾ÀÀÌ ¾²ÀÏ ¼öµµ ÀÖÀ½.
-
-	if (!splashScene)
-	{
-		// ½ºÇÃ·¡½Ã ¾ÀÀÌ ¾ø´Ù¸é, ¹Ù·Î Å¸ÀÌÆ² ¾ÀÀ¸·Î
-		LoadScene(titleSceneName);
-		return;
-	}
-
-	// isFirstLaunch°¡ trueÀÌ¸é ·Îµù °úÁ¤À» ½ºÅµÇÏ´Â ·ÎÁ÷À»
-	// ¡°LoadScene¡±¿¡¼­ Âü°íÇÒ ¼ö ÀÖµµ·Ï ÇØµµ µÇ°í,
-	// È¤Àº ¿©±â¼­ ±×³É currentSceneÀ» ¹Ù·Î ½ºÇÃ·¡½Ã·Î ¼¼ÆÃÇØµµ µË´Ï´Ù.
-	isFirstLaunch = true;
-
-	// ±âÁ¸ currentSceneÀÌ ÀÖ´Ù¸é Destroy
-	if (currentScene)
-	{
-		currentScene->Destroy();
-		CameraManager::Get()->Reset();
-	}
-
-	// ½ºÇÃ·¡½Ã ¾ÀÀ» ÇöÀç ¾ÀÀ¸·Î ±³Ã¼
-	currentScene = splashScene;
-	currentScene->Awake();
-
-	// ¡°½ºÇÃ·¡½Ã -> Å¸ÀÌÆ²¡± ÀüÈ¯Àº SplashScene ³»ºÎ ·ÎÁ÷(¿¹: ÀÏÁ¤ ½Ã°£ ÈÄ)¿¡¼­
-	// SceneManager::LoadScene(titleSceneName)À» È£ÃâÇØ Ã³¸®ÇÑ´Ù°í °¡Á¤
-}
-
-void SceneManager::ProcessSceneChange()
-{
-	if (sceneChangeRequested && nextScene)
-	{
-		// ·Îµù¾ÀÀÌ Á¸ÀçÇÏ¸é ·Îµù¾ÀÀ» °ÅÄ¡´Â ·ÎÁ÷
-		if (loadingScene != nullptr)
-		{
-			// ÇöÀç ¾À Á¤¸®
-			if (currentScene != nullptr)
-			{
-				currentScene->Destroy();
-				CameraManager::Get()->Reset();
-			}
-
-			// nextSceneÀ» ÇöÀç ¾ÀÀ¸·Î ¼³Á¤ÇÏ°í, ·Îµù¾ÀÀ» ½ÃÀÛÇÕ´Ï´Ù.
-			currentScene = nextScene;
-			currentScene->Awake();
-			loadingScene->Start();
-
-			// ·Îµù ÇÃ·¡±×¸¦ È°¼ºÈ­ÇÏ°í ÁøÇà·ü ÃÊ±âÈ­
-			isLoading = true;
-			loadingProgress = 0.0f;
-		}
-		else
-		{
-			// ·Îµù¾ÀÀÌ ¾ø´Â °æ¿ì¿£ Áï½Ã ÀüÈ¯
-			if (currentScene != nullptr)
-			{
-				currentScene->Destroy();
-				CameraManager::Get()->Reset();
-			}
-			currentScene = nextScene;
-			currentScene->Awake();
-			nextScene = nullptr;
-		}
-		sceneChangeRequested = false;
-	}
-}
-
-void SceneManager::Start()
-{
-	if (isLoading == true)
-	{
-		if (loadingScene != nullptr) loadingScene->Start();
-		// È¤Àº º°µµÀÇ ·Îµù UI¸¸ ±×¸± ¼öµµ ÀÖÀ½
-	}
-	else
-	{
-		currentScene->Start();
-	}
-}
-
-void SceneManager::Update()
-{
-    if (isLoading)
-    {
-        // ·Îµù¾À Update
-        if (loadingScene) loadingScene->Update();
-
-        // ·Îµù ÁøÇà·ü(¿¹½Ã)
-        if (nextScene->IsLoaded())
+        if (!splashScene)
         {
-            // ·Îµù ³¡³µ´Ù°í °¡Á¤
-            // ·Îµù¾À -> nextScene ÀüÈ¯
-            if (nextScene)
-            {
-                loadingScene->Destroy(); // ·Îµù¾À Destroy
-                //currentScene = nextScene;
-                currentScene->Start();
-                nextScene = nullptr;
-            }
-
-            isLoading = false;
+                LoadScene(titleSceneName);
+                return;
         }
-    }
-    else
-    {
-        // ÀÏ¹İ ¾À Update
+
         if (currentScene)
         {
-            currentScene->FixedUpdate();
-            currentScene->Update();
-            currentScene->LateUpdate();
+                currentScene->Destroy();
+                CameraManager::Get()->Reset();
         }
-    }
 
-	// deferred ¾À ÀüÈ¯ Ã³¸®
-	ProcessSceneChange();
+        currentScene = splashScene;
+        BeginSceneLoad(currentScene);
+
+        while (currentScene && !currentScene->IsLoaded())
+        {
+                currentScene->UpdateLoad(0.0f);
+        }
+
+        loadingProgress = 1.0f;
+        sceneChangeRequested = false;
+        nextScene.reset();
+        isLoading = false;
 }
 
+// í˜„ì¬ í™œì„± ì¥ë©´ì˜ Startë¥¼ í˜¸ì¶œí•œë‹¤.
+void SceneManager::Start()
+{
+        if (isLoading)
+        {
+                return;
+        }
+
+        if (currentScene)
+        {
+                currentScene->Start();
+        }
+}
+
+// ë§¤ í”„ë ˆì„ë§ˆë‹¤ ì¥ë©´ì„ ê°±ì‹ í•œë‹¤.
+void SceneManager::Update()
+{
+        if (isLoading)
+        {
+                if (loadingScene)
+                {
+                        loadingScene->Update();
+                }
+
+                if (nextScene)
+                {
+                        nextScene->UpdateLoad(TimeManager::Get()->GetDeltaTime());
+                        loadingProgress = std::clamp(nextScene->GetLoadProgress(), 0.0f, 1.0f);
+
+                        if (nextScene->IsLoaded())
+                        {
+                                if (loadingScene)
+                                {
+                                        loadingScene->Destroy();
+                                }
+
+                                if (currentScene)
+                                {
+                                        currentScene->Start();
+                                }
+
+                                nextScene.reset();
+                                isLoading = false;
+                                loadingProgress = 1.0f;
+                        }
+                }
+
+                return;
+        }
+
+        if (currentScene)
+        {
+                currentScene->FixedUpdate();
+                currentScene->Update();
+                currentScene->LateUpdate();
+        }
+
+        ProcessSceneChange();
+}
+
+// í˜„ì¬ ìƒíƒœì— ë§ê²Œ ë Œë”ë§í•œë‹¤.
 void SceneManager::Render()
 {
-	if (isLoading == true)
-	{
-		if (loadingScene != nullptr) loadingScene->Render();
-		// È¤Àº º°µµÀÇ ·Îµù UI¸¸ ±×¸± ¼öµµ ÀÖÀ½
-	}
-	else
-	{
-		currentScene->Render();
-	}
-	
+        if (isLoading)
+        {
+                if (loadingScene)
+                {
+                        loadingScene->Render();
+                }
+                return;
+        }
+
+        if (currentScene)
+        {
+                currentScene->Render();
+        }
 }
 
+// í¬ìŠ¤íŠ¸ ë Œë”ë§ì„ ì²˜ë¦¬í•œë‹¤.
 void SceneManager::PostRender()
 {
-	if (isLoading == true)
-	{
-		if (loadingScene != nullptr) loadingScene->PostRender();
-	}
-	else
-	{
-		currentScene->PostRender();
-	}
+        if (isLoading)
+        {
+                if (loadingScene)
+                {
+                        loadingScene->PostRender();
+                }
+                return;
+        }
+
+        if (currentScene)
+        {
+                currentScene->PostRender();
+        }
 }
 
+// ImGui ë””ë²„ê·¸ UIë¥¼ ë Œë”ë§í•œë‹¤.
 void SceneManager::ImGUI()
 {
-	if (isLoading == true)
-	{
-		if (loadingScene != nullptr) loadingScene->ImGUI();
-	}
-	else
-	{
-		currentScene->ImGUI();
-	}
+        if (isLoading)
+        {
+                if (loadingScene)
+                {
+                        loadingScene->ImGUI();
+                }
+                return;
+        }
+
+        if (currentScene)
+        {
+                currentScene->ImGUI();
+        }
 }
 
+// ì¥ë©´ ë¡œë”©ì„ ì‹œì‘í•˜ê¸° ìœ„í•œ ê³µí†µ ì´ˆê¸°í™” í•¨ìˆ˜.
+void SceneManager::BeginSceneLoad(const std::shared_ptr<Scene>& scene)
+{
+        if (!scene)
+        {
+                return;
+        }
 
+        scene->Awake();
+        scene->BeginLoad();
+}
+
+// ë¡œë”© í™”ë©´ì„ ì¤€ë¹„í•˜ì—¬ ì¦‰ì‹œ ì‚¬ìš©í•  ìˆ˜ ìˆë„ë¡ í•œë‹¤.
+void SceneManager::PrepareLoadingScene()
+{
+        if (!loadingScene)
+        {
+                return;
+        }
+
+        loadingScene->Awake();
+        loadingScene->BeginLoad();
+
+        while (!loadingScene->IsLoaded())
+        {
+                loadingScene->UpdateLoad(0.0f);
+        }
+
+        loadingScene->Start();
+}
+
+// ë¡œë”© ì¥ë©´ ì—†ì´ ì¦‰ì‹œ ì „í™˜ì„ ì™„ë£Œí•œë‹¤.
+void SceneManager::CompleteSceneWithoutLoading()
+{
+        if (!nextScene)
+        {
+                return;
+        }
+
+        if (currentScene)
+        {
+                currentScene->Destroy();
+                CameraManager::Get()->Reset();
+        }
+
+        currentScene = nextScene;
+        BeginSceneLoad(currentScene);
+
+        while (currentScene && !currentScene->IsLoaded())
+        {
+                currentScene->UpdateLoad(0.0f);
+        }
+
+        currentScene->Start();
+
+        nextScene.reset();
+        sceneChangeRequested = false;
+        loadingProgress = 1.0f;
+}
+
+// ì§€ì—°ëœ ì¥ë©´ ì „í™˜ ìš”ì²­ì„ ì²˜ë¦¬í•œë‹¤.
+void SceneManager::ProcessSceneChange()
+{
+        if (!sceneChangeRequested || !nextScene || isLoading)
+        {
+                return;
+        }
+
+        if (!loadingScene)
+        {
+                CompleteSceneWithoutLoading();
+                return;
+        }
+
+        if (currentScene)
+        {
+                currentScene->Destroy();
+                CameraManager::Get()->Reset();
+        }
+
+        BeginSceneLoad(nextScene);
+        currentScene = nextScene;
+
+        PrepareLoadingScene();
+
+        isLoading = true;
+        loadingProgress = 0.0f;
+        sceneChangeRequested = false;
+}

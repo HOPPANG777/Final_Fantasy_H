@@ -207,6 +207,7 @@
     <ClInclude Include="Managers\LogManager.h" />
     <ClInclude Include="Managers\ImGuiManager.h" />
     <ClInclude Include="Interfaces\IColorable.h" />
+    <ClInclude Include="Interfaces\LoadableScene.h" />
     <ClInclude Include="Renders\IndexBuffer.h" />
     <ClInclude Include="Renders\InputLayout.h" />
     <ClInclude Include="Interfaces\IScene.h" />
