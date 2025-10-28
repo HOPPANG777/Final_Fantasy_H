@@ -4,6 +4,9 @@
 
 #include <algorithm>
 #include <cwctype>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 
 namespace
 {
@@ -17,6 +20,27 @@ namespace
         });
         return normalized;
     }
+
+    void ResetTexture(Texture2D& texture)
+    {
+        texture._srv.Reset();
+        texture._metaData = {};
+    }
+
+    void ApplyCachedTexture(Texture2D& texture, const Texture2DCacheDesc& desc)
+    {
+        texture._srv = desc.shaderResourceView;
+        texture._metaData = desc.metadata;
+    }
+
+    void LogLoadFailure(const std::wstring& stage, const std::wstring& filePath, HRESULT hr)
+    {
+        std::wostringstream stream;
+        stream << L"[Texture2DCache] " << stage
+               << L" failed for '" << filePath
+               << L"' (hr=0x" << std::uppercase << std::hex << static_cast<unsigned long>(hr) << L")";
+        std::wcerr << stream.str() << std::endl;
+    }
 }
 
 bool Texture2DCacheDesc::operator==(const Texture2DCacheDesc& other) const
@@ -29,8 +53,7 @@ void Texture2DCache::Load(Texture2D& texture)
     // 경로가 비어있다면 캐시를 초기화하고 즉시 반환
     if (texture._filePath.empty())
     {
-        texture._srv.Reset();
-        texture._metaData = {};
+        ResetTexture(texture);
         return;
     }
 
@@ -38,6 +61,16 @@ void Texture2DCache::Load(Texture2D& texture)
     std::wstring extension = NormalizeExtension(Path::GetExtension(texture._filePath));
 
     HRESULT hr = S_OK;
+
+    const auto tryReuseCachedDesc = [this, &texture]() -> bool
+    {
+        if (const Texture2DCacheDesc* cachedDesc = FindCachedDescByPath(texture._filePath))
+        {
+            ApplyCachedTexture(texture, *cachedDesc);
+            return true;
+        }
+        return false;
+    };
 
     // 파일 확장자에 따라 메타데이터만 먼저 로드하여 규격 확인
     if (extension == L"tga")
@@ -52,7 +85,15 @@ void Texture2DCache::Load(Texture2D& texture)
     {
         hr = DirectX::GetMetadataFromWICFile(texture._filePath.c_str(), DirectX::WIC_FLAGS_NONE, metaData);
     }
-    CHECK(hr);
+    if (FAILED(hr))
+    {
+        if (!tryReuseCachedDesc())
+        {
+            LogLoadFailure(L"metadata loading", texture._filePath, hr);
+            ResetTexture(texture);
+        }
+        return;
+    }
 
     Texture2DCacheDesc desc = {};
     desc.filePath = texture._filePath;
@@ -82,7 +123,15 @@ void Texture2DCache::Load(Texture2D& texture)
     {
         hr = DirectX::LoadFromWICFile(texture._filePath.c_str(), DirectX::WIC_FLAGS_NONE, &metaData, image);
     }
-    CHECK(hr);
+    if (FAILED(hr))
+    {
+        if (!tryReuseCachedDesc())
+        {
+            LogLoadFailure(L"image loading", texture._filePath, hr);
+            ResetTexture(texture);
+        }
+        return;
+    }
 
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shaderResourceView = nullptr;
     // GPU에 업로드하여 SRV를 생성
@@ -92,14 +141,21 @@ void Texture2DCache::Load(Texture2D& texture)
         image.GetImageCount(),
         metaData,
         shaderResourceView.GetAddressOf());
-    CHECK(hr);
+    if (FAILED(hr))
+    {
+        if (!tryReuseCachedDesc())
+        {
+            LogLoadFailure(L"shader resource view creation", texture._filePath, hr);
+            ResetTexture(texture);
+        }
+        return;
+    }
 
     desc.shaderResourceView = shaderResourceView;
     desc.metadata = metaData;
 
     // Texture2D에 로드 결과 전달
-    texture._srv = shaderResourceView;
-    texture._metaData = metaData;
+    ApplyCachedTexture(texture, desc);
 
     // 캐시에 새 항목으로 저장하여 다음 호출에서 재사용
     _cache.emplace_back(desc);
@@ -123,6 +179,21 @@ const Texture2DCacheDesc* Texture2DCache::FindCachedDesc(const Texture2DCacheDes
     {
         return nullptr;
     }
+    return &(*found);
+}
+
+const Texture2DCacheDesc* Texture2DCache::FindCachedDescByPath(const std::wstring& filePath) const
+{
+    auto found = std::find_if(_cache.begin(), _cache.end(), [&filePath](const Texture2DCacheDesc& entry)
+    {
+        return entry.filePath == filePath;
+    });
+
+    if (found == _cache.end())
+    {
+        return nullptr;
+    }
+
     return &(*found);
 }
 

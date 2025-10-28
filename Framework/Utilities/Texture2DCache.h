@@ -42,6 +42,7 @@ public:
 
 private:
     const Texture2DCacheDesc* FindCachedDesc(const Texture2DCacheDesc& desc) const; // 캐시에 동일 텍스처가 있는지 탐색
+    const Texture2DCacheDesc* FindCachedDescByPath(const std::wstring& filePath) const; // 파일 경로로 캐시 항목 탐색
 
 private:
     std::vector<Texture2DCacheDesc> _cache; // 캐시에 저장된 텍스처 목록
