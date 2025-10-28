@@ -44,9 +44,9 @@ public:
     void GUI();
 
 public:
-    void SetFullScreen(bool fullscreen);                 // 기존 유지(익스클루시브 토글)
-    void SetWindowManagerMode(WindowManagerMode mode);                 // 보더리스/윈도우 전환
-    void SetResolution(UINT width, UINT height);         // 런타임 리사이즈
+    void SetFullScreen(bool fullscreen);                 //  (枯클첬 )
+    void SetWindowManagerMode(WindowManagerMode mode);                 // / 환
+    void SetResolution(UINT width, UINT height);         // 타
     void SetVSync(bool on) { _bVsync = on; }
 
 public:
@@ -62,15 +62,21 @@ private:
     bool EnumerateAdapterOutput(AdapterInfo* adapterInfo);
 
 private:
-    // 생성 단계 분리
+    //  丙 龜
     void CreateDirect3D();
     void CreateDirect2D();
     void CreateDirectWrite();
 
 public:
-    // 공통 재생성 경로
-    void RecreateDeviceAndSwapChain();   // 어댑터 선택 + 디바이스 + 스왑체인
+    //
+    void RecreateDeviceAndSwapChain();   //   + 決 + 체
     void RecreateTargetsFromSwapChain(); // RTV + D2D Target + Viewport
+
+private:
+    void ApplyFullScreen(bool fullscreen);
+    void ApplyWindowManagerMode(WindowManagerMode mode);
+    void ApplyResolution(UINT width, UINT height);
+    void ProcessPendingStateChanges();
 
 private:
     Microsoft::WRL::ComPtr<ID3D11Device> _device = nullptr;
@@ -107,4 +113,14 @@ private:
     WindowManagerMode _WindowManagerMode = WindowManagerMode::WINDOW_WINDOW;
 
     bool isOpen = false;
+
+    bool _pendingResolutionChange = false;
+    UINT _pendingResolutionWidth = 0;
+    UINT _pendingResolutionHeight = 0;
+
+    bool _pendingFullscreenChange = false;
+    bool _pendingFullscreenState = false;
+
+    bool _pendingWindowModeChange = false;
+    WindowManagerMode _pendingWindowMode = WindowManagerMode::WINDOW_WINDOW;
 };
