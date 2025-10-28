@@ -2,6 +2,7 @@
 
 class AnimationObject : public GameObject
 {
+public:
 	AnimationObject(
 		const std::string& name,
 		const DirectX::SimpleMath::Vector3& pos,

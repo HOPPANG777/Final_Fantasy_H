@@ -1,4 +1,4 @@
-#include "Framework.h"
+﻿#include "Framework.h"
 #include "Texture2D.h"
 #include "Texture2DCache.h"
 
