@@ -24,28 +24,7 @@ namespace
 
 void Scene_00::Awake()
 {
-	isLoaded = false;
-
-	tileSet = std::make_shared<TileSet>();
-
-	spacing = 64;
-	mapWidth = std::max<UINT>(1, (Values::GetWinWidth() * 2) / spacing);
-	mapHeight = std::max<UINT>(1, (Values::GetWinHeight() * 2) / spacing);
-
-	resizeWidth = mapWidth;
-	resizeHeight = mapHeight;
-
-	tileSetColumns = tileSet ? tileSet->GetColumns() : 0;
-	tileSetRows = tileSet ? tileSet->GetRows() : 0;
-
-	CopyStringToBuffer("map01", mapFileNameBuffer);
-	CopyStringToBuffer("Tilesets/tile.png", tileSetRelativePathBuffer);
-
-	CreateTileMap();
-
-	CameraManager::Get()->Reset();
-
-	isLoaded = true;
+        // 로딩 단계에서 모든 초기화를 수행하므로 여기서는 추가 처리가 필요 없다.
 }
 
 void Scene_00::Start()
@@ -54,8 +33,8 @@ void Scene_00::Start()
 
 void Scene_00::Destroy()
 {
-	tileMap.reset();
-	tileSet.reset();
+        tileMap.reset();
+        tileSet.reset();
 }
 
 void Scene_00::FixedUpdate()
@@ -93,9 +72,9 @@ void Scene_00::PostRender()
 
 void Scene_00::ImGUI()
 {
-	ImGui::Begin("TileMap Tool");
-	{
-		int spacingInput = static_cast<int>(spacing);
+        ImGui::Begin("TileMap Tool");
+        {
+                int spacingInput = static_cast<int>(spacing);
 		if (ImGui::InputInt("Spacing", &spacingInput))
 		{
 			spacing = spacingInput <= 0 ? spacing : static_cast<UINT>(spacingInput);
@@ -178,15 +157,74 @@ void Scene_00::ImGUI()
 		{
 			tileMap->ImGUI();
 		}
-	}
-	ImGui::End();
+        }
+        ImGui::End();
+}
+
+void Scene_00::ConfigureLoadSteps()
+{
+        // 타일셋과 기본 맵 정보를 준비한다.
+        AddLoadStep([this]()
+        {
+                tileSet = std::make_shared<TileSet>();
+
+                spacing = 64;
+                mapWidth = std::max<UINT>(1, (Values::GetWinWidth() * 2) / spacing);
+                mapHeight = std::max<UINT>(1, (Values::GetWinHeight() * 2) / spacing);
+
+                resizeWidth = mapWidth;
+                resizeHeight = mapHeight;
+        });
+
+        // 문자열 버퍼와 타일셋 정보를 설정한다.
+        AddLoadStep([this]()
+        {
+                tileSetColumns = tileSet ? tileSet->GetColumns() : 0;
+                tileSetRows = tileSet ? tileSet->GetRows() : 0;
+
+                CopyStringToBuffer("map01", mapFileNameBuffer);
+                CopyStringToBuffer("Tilesets/tile.png", tileSetRelativePathBuffer);
+        });
+
+        // 타일맵을 실제로 생성한다.
+        AddLoadStep([this]()
+        {
+                CreateTileMap();
+        }, 2.0f);
+
+        // 카메라를 초기 위치로 되돌린다.
+        AddLoadStep([]()
+        {
+                CameraManager::Get()->Reset();
+        });
+}
+
+void Scene_00::OnLoadBegin()
+{
+        LoadableScene::OnLoadBegin();
+
+        tileMap.reset();
+        tileSet.reset();
+
+        spacing = 64;
+        mapWidth = 0;
+        mapHeight = 0;
+
+        resizeWidth = 0;
+        resizeHeight = 0;
+
+        tileSetColumns = 0;
+        tileSetRows = 0;
+
+        mapFileNameBuffer.fill('\0');
+        tileSetRelativePathBuffer.fill('\0');
 }
 
 void Scene_00::CreateTileMap()
 {
-	const UINT validSpacing = std::max<UINT>(spacing, 1);
-	const UINT validWidth = std::max<UINT>(resizeWidth > 0 ? resizeWidth : mapWidth, 1);
-	const UINT validHeight = std::max<UINT>(resizeHeight > 0 ? resizeHeight : mapHeight, 1);
+        const UINT validSpacing = std::max<UINT>(spacing, 1);
+        const UINT validWidth = std::max<UINT>(resizeWidth > 0 ? resizeWidth : mapWidth, 1);
+        const UINT validHeight = std::max<UINT>(resizeHeight > 0 ? resizeHeight : mapHeight, 1);
 
 	tileMap = std::make_unique<TileMap>(
 		validWidth,

@@ -53,6 +53,9 @@
     <ClInclude Include="Interfaces\IScene.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="Interfaces\LoadableScene.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
     <ClInclude Include="Components\BoxCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
