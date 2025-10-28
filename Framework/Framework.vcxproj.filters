@@ -131,9 +131,6 @@
     <ClInclude Include="Utilities\ImageLoader.h">
       <Filter>Utilities\ImageLoader</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\SpriteTexture.h">
-      <Filter>Utilities\SpriteTexture</Filter>
-    </ClInclude>
     <ClInclude Include="Components\CircleCollider.h">
       <Filter>Components\Collider</Filter>
     </ClInclude>
@@ -293,9 +290,6 @@
     <ClCompile Include="Utilities\ImageLoader.cpp">
       <Filter>Utilities\ImageLoader</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\SpriteTexture.cpp">
-      <Filter>Utilities\SpriteTexture</Filter>
-    </ClCompile>
     <ClCompile Include="Components\CircleCollider.cpp">
       <Filter>Components\Collider</Filter>
     </ClCompile>
@@ -363,9 +357,6 @@
     </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{d34d5fc8-358d-4935-a750-c0d2a3d64d2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\SpriteTexture">
-      <UniqueIdentifier>{3d26b7ea-81f0-48a0-8686-62d9c7c7d685}</UniqueIdentifier>
     </Filter>
     <Filter Include="Renders">
       <UniqueIdentifier>{6c07adbe-720c-4617-be9e-3de6e66c605d}</UniqueIdentifier>

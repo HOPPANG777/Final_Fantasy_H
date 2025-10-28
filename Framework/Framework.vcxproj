@@ -239,7 +239,6 @@
     <ClInclude Include="Objects\Tile.h" />
     <ClInclude Include="Components\TileMap.h" />
     <ClInclude Include="Objects\TileSet.h" />
-    <ClInclude Include="Utilities\SpriteTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Objects\AnimationObject.cpp" />
@@ -267,7 +266,6 @@
     <ClCompile Include="Components\Drawable.cpp" />
     <ClCompile Include="Utilities\FileStream.cpp" />
     <ClCompile Include="Utilities\ImageLoader.cpp" />
-    <ClCompile Include="Utilities\SpriteTexture.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
