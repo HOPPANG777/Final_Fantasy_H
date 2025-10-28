@@ -17,7 +17,6 @@ class GraphicsManager
         DXGI_OUTPUT_DESC outputDesc = {};
         UINT numerator = 0;
         UINT denominator = 1;
-        std::vector<DXGI_MODE_DESC> displayModes;
     };
     struct AdapterInfo 
     {
@@ -45,9 +44,9 @@ public:
     void GUI();
 
 public:
-    void SetFullScreen(bool fullscreen);                 // ê¸°ì¡´ ìœ ì§€(ìµìŠ¤í´ë£¨ì‹œë¸Œ í† ê¸€)
-    void SetWindowManagerMode(WindowManagerMode mode);                 // ë³´ë”ë¦¬ìŠ¤/ìœˆë„ìš° ì „í™˜
-    void SetResolution(UINT width, UINT height);         // ëŸ°íƒ€ì„ ë¦¬ì‚¬ì´ì¦ˆ
+    void SetFullScreen(bool fullscreen);                 // ±âÁ¸ À¯Áö(ÀÍ½ºÅ¬·ç½Ãºê Åä±Û)
+    void SetWindowManagerMode(WindowManagerMode mode);                 // º¸´õ¸®½º/À©µµ¿ì ÀüÈ¯
+    void SetResolution(UINT width, UINT height);         // ·±Å¸ÀÓ ¸®»çÀÌÁî
     void SetVSync(bool on) { _bVsync = on; }
 
 public:
@@ -63,14 +62,14 @@ private:
     bool EnumerateAdapterOutput(AdapterInfo* adapterInfo);
 
 private:
-    // ìƒì„± ë‹¨ê³„ ë¶„ë¦¬
+    // »ı¼º ´Ü°è ºĞ¸®
     void CreateDirect3D();
     void CreateDirect2D();
     void CreateDirectWrite();
 
 public:
-    // ê³µí†µ ì¬ìƒì„± ê²½ë¡œ
-    void RecreateDeviceAndSwapChain();   // ì–´ëŒ‘í„° ì„ íƒ + ë””ë°”ì´ìŠ¤ + ìŠ¤ì™‘ì²´ì¸
+    // °øÅë Àç»ı¼º °æ·Î
+    void RecreateDeviceAndSwapChain();   // ¾î´ğÅÍ ¼±ÅÃ + µğ¹ÙÀÌ½º + ½º¿ÒÃ¼ÀÎ
     void RecreateTargetsFromSwapChain(); // RTV + D2D Target + Viewport
 
 private:
