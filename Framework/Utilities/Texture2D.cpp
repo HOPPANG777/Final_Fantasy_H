@@ -3,18 +3,25 @@
 #include "Texture2DCache.h"
 
 #include <cstdint>
-#include <stdexcept>
 #include <utility>
 
-std::shared_ptr<ITexture2DCache> Texture2D::_defaultCache = std::make_shared<Texture2DCache>();
+std::shared_ptr<ITexture2DCache> Texture2D::_defaultCache = nullptr;
+
+namespace
+{
+    std::shared_ptr<ITexture2DCache> CreateDefaultCache()
+    {
+        return std::make_shared<Texture2DCache>();
+    }
+}
 
 Texture2D::Texture2D(const std::wstring& filePath)
     : _filePath(filePath)
 {
-    // 기본 캐시가 초기화되어 있어야 정상 동작한다.
+    // 기본 캐시가 없으면 즉시 생성한다.
     if (!_defaultCache)
     {
-        throw std::runtime_error("Texture2D default cache is not initialized.");
+        _defaultCache = CreateDefaultCache();
     }
 
     // 기본 캐시를 통해 텍스처를 로드한다.
@@ -154,13 +161,25 @@ void Texture2D::ReadPixel(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture, std::
 
 void Texture2D::SetDefaultCache(std::shared_ptr<ITexture2DCache> cache)
 {
-    // 기본 캐시를 외부에서 교체할 수 있도록 한다.
-    _defaultCache = std::move(cache);
+    // 기본 캐시를 외부에서 교체할 수 있도록 한다. nullptr이 전달되면 기본 구현으로 복원한다.
+    if (cache)
+    {
+        _defaultCache = std::move(cache);
+    }
+    else
+    {
+        _defaultCache = CreateDefaultCache();
+    }
 }
 
 std::shared_ptr<ITexture2DCache> Texture2D::GetDefaultCache()
 {
-    // 현재 사용 중인 기본 캐시를 반환한다.
+    // 현재 사용 중인 기본 캐시를 반환한다. 없으면 즉시 생성한다.
+    if (!_defaultCache)
+    {
+        _defaultCache = CreateDefaultCache();
+    }
+
     return _defaultCache;
 }
 
