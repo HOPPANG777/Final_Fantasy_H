@@ -29,6 +29,10 @@ public:
     void GenerateTileMap();
     void ResizeMap(UINT newWidth, UINT newHeight);
 
+    UINT GetWidth() const noexcept { return width; }
+    UINT GetHeight() const noexcept { return height; }
+    UINT GetSpacing() const noexcept { return spacing; }
+
     void Save(const std::string& path);
     void Load(const std::string& path);
 

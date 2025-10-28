@@ -188,6 +188,7 @@
     <ClInclude Include="Renders\ConstantBuffer.h" />
     <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Scenes\Scene_01.h" />
+    <ClInclude Include="Scenes\Scene_MapTool.h" />
     <ClInclude Include="Objects\TestObject.h" />
     <ClInclude Include="Utilities\AnimationClip.h" />
     <ClInclude Include="Utilities\DirectHelper.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="Managers\CollisionManager.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Scenes\Scene_01.cpp" />
+    <ClCompile Include="Scenes\Scene_MapTool.cpp" />
     <ClCompile Include="Objects\TestObject.cpp" />
     <ClCompile Include="Utilities\AnimationClip.cpp" />
     <ClCompile Include="Utilities\DirectHelper.cpp" />
