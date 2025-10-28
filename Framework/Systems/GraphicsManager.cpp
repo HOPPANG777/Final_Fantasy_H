@@ -174,8 +174,73 @@ void GraphicsManager::GUI()
 {
     ImGui::Begin("Graphics", &isOpen);
 
-    ImGui::Checkbox("Vsync", &_bVsync);
+    bool bVsync = _bVsync;
+    if (ImGui::Checkbox("Vsync", &bVsync))
+    {
+        SetVSync(bVsync);
+    }
 
+    bool fullscreen = false;
+    if (_swapChain)
+    {
+        BOOL fullscreenState = FALSE;
+        if (SUCCEEDED(_swapChain->GetFullscreenState(&fullscreenState, nullptr)))
+        {
+            fullscreen = fullscreenState == TRUE;
+        }
+    }
+    if (ImGui::Checkbox("Fullscreen", &fullscreen))
+    {
+        SetFullScreen(fullscreen);
+    }
+
+    static int s_windowModeIndex = static_cast<int>(WindowManagerMode::WINDOW_WINDOW);
+    const char* windowModeNames[] = { "Windowed", "Borderless", "Exclusive" };
+    int currentModeIndex = static_cast<int>(_WindowManagerMode);
+    if (s_windowModeIndex != currentModeIndex)
+    {
+        s_windowModeIndex = currentModeIndex;
+    }
+    if (ImGui::Combo("Window Mode", &s_windowModeIndex, windowModeNames, IM_ARRAYSIZE(windowModeNames)))
+    {
+        if (s_windowModeIndex < 0) s_windowModeIndex = 0;
+        if (s_windowModeIndex >= (int)IM_ARRAYSIZE(windowModeNames)) s_windowModeIndex = (int)IM_ARRAYSIZE(windowModeNames) - 1;
+        SetWindowManagerMode(static_cast<WindowManagerMode>(s_windowModeIndex));
+    }
+
+    static int s_resolutionWidth = 0;
+    static int s_resolutionHeight = 0;
+    static int s_lastAppliedWidth = 0;
+    static int s_lastAppliedHeight = 0;
+
+    int currentWidth = static_cast<int>(gWinWidth);
+    int currentHeight = static_cast<int>(gWinHeight);
+
+    if (s_lastAppliedWidth != currentWidth || s_lastAppliedHeight != currentHeight)
+    {
+        s_lastAppliedWidth = currentWidth;
+        s_lastAppliedHeight = currentHeight;
+        s_resolutionWidth = currentWidth;
+        s_resolutionHeight = currentHeight;
+    }
+
+    if (ImGui::InputInt("Width", &s_resolutionWidth))
+    {
+        s_resolutionWidth = max(s_resolutionWidth, 1);
+    }
+    if (ImGui::InputInt("Height", &s_resolutionHeight))
+    {
+        s_resolutionHeight = max(s_resolutionHeight, 1);
+    }
+
+    if (ImGui::Button("Apply Resolution"))
+    {
+        s_resolutionWidth = max(s_resolutionWidth, 1);
+        s_resolutionHeight = max(s_resolutionHeight, 1);
+        SetResolution(static_cast<UINT>(s_resolutionWidth), static_cast<UINT>(s_resolutionHeight));
+        s_lastAppliedWidth = s_resolutionWidth;
+        s_lastAppliedHeight = s_resolutionHeight;
+    }
     ImGui::End();
 }
 
