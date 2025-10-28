@@ -209,6 +209,12 @@
     <ClInclude Include="Objects\TextureObject.h">
       <Filter>Objects\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\AnimationObject.h">
+      <Filter>Objects\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\LoadingObject.h">
+      <Filter>Objects\Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -361,6 +367,12 @@
     </ClCompile>
     <ClCompile Include="Objects\TextureObject.cpp">
       <Filter>Objects\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\AnimationObject.cpp">
+      <Filter>Objects\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\LoadingObject.cpp">
+      <Filter>Objects\Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -528,6 +540,12 @@
     </Filter>
     <Filter Include="Scenes\Scene_01%28SplashScene%29">
       <UniqueIdentifier>{dc5b265b-247f-4608-a5e1-c4012e6d70ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Animation">
+      <UniqueIdentifier>{50e4a078-cd26-4af1-b1a2-32db4995a938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Loading">
+      <UniqueIdentifier>{1493e5cf-cf5b-462b-b08c-e09e3d9ed6db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
