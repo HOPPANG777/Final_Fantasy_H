@@ -23,7 +23,7 @@ public:
 
     void GUI() override;
 
-    std::shared_ptr<Animator> GetAnimator() const;
+    std::shared_ptr<Animator> GetAnimator();
 
 private:
     void InitializeAnimator();
