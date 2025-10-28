@@ -31,7 +31,7 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
         if (vram > maxVRam) { _selectedAdapterIndex = (int)i; maxVRam = (UINT)vram; }
     }
 
-    // غ
+    // 어뎁터 출력
     for (size_t i = 0; i < _adapterInfos.size(); i++)
     {
         std::wcout << L"GPU Name : " << _adapterInfos[i]->adapterDesc.Description << std::endl;
@@ -65,7 +65,7 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
     desc.BufferCount = 2; //
     desc.OutputWindow = gHandle;
     desc.Windowed = TRUE;
-    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; //  (ʿ FLIP  )
+    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; //  (  FLIP  )
     desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
     std::vector<D3D_FEATURE_LEVEL> featureLevels
@@ -98,10 +98,10 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
     );
     CHECK(hr);
 
-    // D2D ⼭ 籸
+    // D2D 생성
     CreateDirect2D();
 
-    // RTV/D2D Ÿ/Ʈ 缳
+    // RTV/D2D 스왑체인 생성
     RecreateTargetsFromSwapChain();
 }
 
@@ -148,7 +148,7 @@ void GraphicsManager::RecreateTargetsFromSwapChain()
 
 void GraphicsManager::CreateBackBuffer()
 {
-    // ȣ ȣȯ .  ۾ RecreateTargetsFromSwapChain .
+    // 스왑체인 다시 생성
     RecreateTargetsFromSwapChain();
 }
 
@@ -311,7 +311,7 @@ bool GraphicsManager::EnumerateAdapterOutput(AdapterInfo* adapterInfo)
     return true;
 }
 
-void GraphicsManager::CreateDirect3D() { /* յ: RecreateDeviceAndSwapChain */ }
+void GraphicsManager::CreateDirect3D() { /* 통합: RecreateDeviceAndSwapChain */ }
 
 void GraphicsManager::CreateDirect2D()
 {

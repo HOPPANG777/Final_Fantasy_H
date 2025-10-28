@@ -115,10 +115,10 @@ WPARAM WindowManager::Run()
 
 void WindowManager::MainRender()
 {
+	ImGuiManager::Get()->Update();
 	KeyboardManager::Get()->Update();
 	MouseManager::Get()->Update();
 	TimeManager::Get()->Update();
-	ImGuiManager::Get()->Update();
 
 	program->Update();
 
