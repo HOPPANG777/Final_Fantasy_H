@@ -1,6 +1,9 @@
 #include "Framework.h"
 #include "GraphicsManager.h"
 
+#include <algorithm>
+#include <string>
+#include <cstdio>
 GraphicsManager::GraphicsManager()
 {
     EnumerateAdapters();
@@ -16,13 +19,13 @@ GraphicsManager::~GraphicsManager()
 void GraphicsManager::Init()
 {
     LoadFont();
-    RecreateDeviceAndSwapChain(); // ≈Î«’ ∞Ê∑Œ
+    RecreateDeviceAndSwapChain(); // ÌÜµÌï© Í≤ΩÎ°ú
     CreateDirectWrite();
 }
 
 void GraphicsManager::RecreateDeviceAndSwapChain()
 {
-    // ±‚¡∏ CreateDirect3D ≥Ì∏Æ ∆˜«‘
+    // Í∏∞Ï°¥ CreateDirect3D ÎÖºÎ¶¨ Ìè¨Ìï®
     UINT maxVRam = 0;
     for (UINT i = 0; i < _adapterInfos.size(); i++)
     {
@@ -31,7 +34,7 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
         if (vram > maxVRam) { _selectedAdapterIndex = (int)i; maxVRam = (UINT)vram; }
     }
 
-    // √‚∑¬«ÿ∫∏±‚
+    // Ï∂úÎ†•Ìï¥Î≥¥Í∏∞
     for (size_t i = 0; i < _adapterInfos.size(); i++)
     {
         std::wcout << L"GPU Name : " << _adapterInfos[i]->adapterDesc.Description << std::endl;
@@ -62,10 +65,10 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
     desc.SampleDesc.Count = 1;
     desc.SampleDesc.Quality = 0;
     desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    desc.BufferCount = 2; // ¥ı∫Ì πˆ∆€
+    desc.BufferCount = 2; // ÎçîÎ∏î Î≤ÑÌçº
     desc.OutputWindow = gHandle;
     desc.Windowed = TRUE;
-    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // ±‚¡∏ ¿Ø¡ˆ(« ø‰Ω√ FLIP¿∏∑Œ ∫Ø∞Ê ∞°¥…)
+    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // Í∏∞Ï°¥ Ïú†ÏßÄ(ÌïÑÏöîÏãú FLIPÏúºÎ°ú Î≥ÄÍ≤Ω Í∞ÄÎä•)
     desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
     std::vector<D3D_FEATURE_LEVEL> featureLevels
@@ -98,10 +101,10 @@ void GraphicsManager::RecreateDeviceAndSwapChain()
     );
     CHECK(hr);
 
-    // D2D¥¬ ø©±‚º≠ ¿Á±∏º∫
+    // D2DÎäî Ïó¨Í∏∞ÏÑú Ïû¨Íµ¨ÏÑ±
     CreateDirect2D();
 
-    // RTV/D2D ≈∏±Í/∫‰∆˜∆Æ ¿Áº≥¡§
+    // RTV/D2D ÌÉÄÍπÉ/Î∑∞Ìè¨Ìä∏ Ïû¨ÏÑ§Ï†ï
     RecreateTargetsFromSwapChain();
 }
 
@@ -148,16 +151,150 @@ void GraphicsManager::RecreateTargetsFromSwapChain()
 
 void GraphicsManager::CreateBackBuffer()
 {
-    // »£√‚ »£»Øº∫ ¿Ø¡ˆ. Ω«¡¶ ¿€æ˜¿∫ RecreateTargetsFromSwapChainø°º≠ ºˆ«‡.
-    RecreateTargetsFromSwapChain();
+    if (!ImGui::Begin("Graphics", &isOpen))
+    {
+        ImGui::End();
+        return;
+    }
+
+    bool vsync = _bVsync;
+    if (ImGui::Checkbox("VSync", &vsync))
+    {
+        SetVSync(vsync);
+    }
+
+    ImGui::Separator();
+
+    bool exclusiveFullscreen = (_WindowManagerMode == WindowManagerMode::WINDOW_EXCLUSIVE);
+    if (ImGui::Checkbox("Exclusive Fullscreen", &exclusiveFullscreen))
+    {
+        SetFullScreen(exclusiveFullscreen);
+    }
+    static const char* windowModeLabels[] = { "Windowed", "Borderless", "Exclusive" };
+    int windowMode = static_cast<int>(_WindowManagerMode);
+    if (ImGui::Combo("Window Mode", &windowMode, windowModeLabels, IM_ARRAYSIZE(windowModeLabels)))
+    {
+        SetWindowManagerMode(static_cast<WindowManagerMode>(windowMode));
+    }
+
+    ImGui::Separator();
+
+    OutputInfo* outputInfo = nullptr;
+    if (!_adapterInfos.empty())
+    {
+        outputInfo = _adapterInfos[_selectedAdapterIndex]->outputInfo.get();
+    }
+
+    static std::vector<std::string> resolutionLabels;
+    static int selectedResolutionIndex = -1;
+
+    if (outputInfo && !outputInfo->displayModes.empty())
+    {
+        resolutionLabels.clear();
+        UINT currentWidth = Values::GetWinWidth();
+        UINT currentHeight = Values::GetWinHeight();
+        int matchedIndex = -1;
+
+        for (size_t i = 0; i < outputInfo->displayModes.size(); ++i)
+        {
+            const auto& mode = outputInfo->displayModes[i];
+            char buffer[32] = { 0, };
+            std::snprintf(buffer, sizeof(buffer), "%u x %u", mode.Width, mode.Height);
+            resolutionLabels.emplace_back(buffer);
+
+            if (mode.Width == currentWidth && mode.Height == currentHeight)
+            {
+                matchedIndex = static_cast<int>(i);
+            }
+        }
+
+        if (matchedIndex != -1)
+        {
+            selectedResolutionIndex = matchedIndex;
+        }
+        else if (!resolutionLabels.empty())
+        {
+            selectedResolutionIndex = std::clamp(selectedResolutionIndex, -1, static_cast<int>(resolutionLabels.size()) - 1);
+        }
+
+        auto comboGetter = [](void* data, int idx, const char** out_text) -> bool
+        {
+            auto* labels = static_cast<std::vector<std::string>*>(data);
+            if (idx < 0 || idx >= static_cast<int>(labels->size())) return false;
+            *out_text = (*labels)[idx].c_str();
+            return true;
+        };
+
+        if (ImGui::Combo("Resolution", &selectedResolutionIndex, comboGetter, &resolutionLabels, static_cast<int>(resolutionLabels.size())))
+        {
+            if (selectedResolutionIndex >= 0 && selectedResolutionIndex < static_cast<int>(outputInfo->displayModes.size()))
+            {
+                const auto& mode = outputInfo->displayModes[selectedResolutionIndex];
+                SetResolution(mode.Width, mode.Height);
+            }
+        }
+    }
+
+    static int customResolution[2] = { 0, 0 };
+    if (customResolution[0] <= 0 || customResolution[1] <= 0)
+    {
+        customResolution[0] = static_cast<int>(Values::GetWinWidth());
+        customResolution[1] = static_cast<int>(Values::GetWinHeight());
+    }
+
+    if (ImGui::InputInt2("Custom Resolution", customResolution))
+    {
+        customResolution[0] = std::max(customResolution[0], 1);
+        customResolution[1] = std::max(customResolution[1], 1);
+    }
+
+    if (ImGui::Button("Apply Resolution"))
+    {
+        UINT width = static_cast<UINT>(customResolution[0]);
+        UINT height = static_cast<UINT>(customResolution[1]);
+        SetResolution(width, height);
+
+        customResolution[0] = static_cast<int>(Values::GetWinWidth());
+        customResolution[1] = static_cast<int>(Values::GetWinHeight());
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Use Current"))
+    {
+        customResolution[0] = static_cast<int>(Values::GetWinWidth());
+        customResolution[1] = static_cast<int>(Values::GetWinHeight());
+    }
 }
 
-void GraphicsManager::Begin()
-{
-    _deviceContext->RSSetViewports(1, &_viewport);
-    _deviceContext->OMSetRenderTargets(1, _rtv.GetAddressOf(), nullptr);
-    _deviceContext->ClearRenderTargetView(_rtv.Get(), Values::Gray);
+    outputInfo->displayModes.clear();
+    outputInfo->displayModes.reserve(numModes);
 
+        const DXGI_MODE_DESC& modeDesc = displayModes[i];
+
+        bool alreadyInserted = std::any_of(outputInfo->displayModes.begin(), outputInfo->displayModes.end(),
+            [&](const DXGI_MODE_DESC& other)
+            {
+                return other.Width == modeDesc.Width && other.Height == modeDesc.Height;
+            });
+
+        if (alreadyInserted)
+            continue;
+
+        outputInfo->displayModes.push_back(modeDesc);
+
+        if (modeDesc.Width == Values::GetWinWidth() && modeDesc.Height == Values::GetWinHeight())
+            outputInfo->numerator = modeDesc.RefreshRate.Numerator;
+            outputInfo->denominator = modeDesc.RefreshRate.Denominator;
+
+    std::sort(outputInfo->displayModes.begin(), outputInfo->displayModes.end(),
+        [](const DXGI_MODE_DESC& lhs, const DXGI_MODE_DESC& rhs)
+        {
+            if (lhs.Width == rhs.Width)
+                return lhs.Height < rhs.Height;
+            return lhs.Width < rhs.Width;
+        });
+
+
+    _WindowManagerMode = fullscreen ? WindowManagerMode::WINDOW_EXCLUSIVE : WindowManagerMode::WINDOW_WINDOW;
     _d2DeviceContext->BeginDraw();
 }
 
@@ -239,7 +376,7 @@ bool GraphicsManager::EnumerateAdapterOutput(AdapterInfo* adapterInfo)
     return true;
 }
 
-void GraphicsManager::CreateDirect3D() { /* ≈Î«’µ : RecreateDeviceAndSwapChain */ }
+void GraphicsManager::CreateDirect3D() { /* ÌÜµÌï©Îê®: RecreateDeviceAndSwapChain */ }
 
 void GraphicsManager::CreateDirect2D()
 {
@@ -279,7 +416,7 @@ void GraphicsManager::SetWindowManagerMode(WindowManagerMode mode)
     else if (_WindowManagerMode == WindowManagerMode::WINDOW_BORDERLESS)
     {
         _swapChain->SetFullscreenState(FALSE, nullptr);
-        // ∫∏¥ı∏ÆΩ∫¥¬ ¿©µµøÏ Ω∫≈∏¿œ/MoveWindowManager¥¬ ªÛ¿ß ∑π¿ÃæÓø°º≠ √≥∏Æ
+        // Î≥¥ÎçîÎ¶¨Ïä§Îäî ÏúàÎèÑÏö∞ Ïä§ÌÉÄÏùº/MoveWindowManagerÎäî ÏÉÅÏúÑ Î†àÏù¥Ïñ¥ÏóêÏÑú Ï≤òÎ¶¨
     }
     else // Exclusive
     {
@@ -302,7 +439,7 @@ void GraphicsManager::SetResolution(UINT width, UINT height)
     UINT top = (GetSystemMetrics(SM_CYSCREEN) - height) / 2 + rect.top;
     MoveWindow(gHandle, left, top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
 
-    // Ω∫ø“√º¿Œ ∏ÆªÁ¿Ã¡Ó °Ê ∞¯≈Î ¿Áª˝º∫
+    // Ïä§ÏôëÏ≤¥Ïù∏ Î¶¨ÏÇ¨Ïù¥Ï¶à ‚Üí Í≥µÌÜµ Ïû¨ÏÉùÏÑ±
     HRESULT hr = _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
     CHECK(hr);
     RecreateTargetsFromSwapChain();
