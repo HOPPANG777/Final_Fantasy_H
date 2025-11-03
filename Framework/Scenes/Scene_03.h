@@ -65,6 +65,7 @@ private:
                 size_t objectIndex = 0;
                 std::wstring label;
                 bool disabled = false;
+				std::function<void()> action; // 실행 함수
         };
 
         void InitializeMenu();
@@ -82,5 +83,8 @@ private:
         std::weak_ptr<SpriteText> pressAnySpriteText;
         DirectX::SimpleMath::Color pressAnyBaseColor = DirectX::SimpleMath::Color(0.0f, 1.0f, 1.0f, 1.0f);
         float pressAnyBlinkPeriod = 1.5f;
+
+		bool menuReady = false;
+		float inputGuard = 0.15f; // 전환 후 150ms
 
 };

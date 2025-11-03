@@ -189,6 +189,7 @@
     <ClInclude Include="Scenes\Scene_02.h" />
     <ClInclude Include="Scenes\Scene_03.h" />
     <ClInclude Include="Components\SpriteText.h" />
+    <ClInclude Include="Scenes\Scene_04.h" />
     <ClInclude Include="Systems\CameraManager.h" />
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Managers\CollisionManager.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="Scenes\Scene_02.cpp" />
     <ClCompile Include="Scenes\Scene_03.cpp" />
     <ClCompile Include="Components\SpriteText.cpp" />
+    <ClCompile Include="Scenes\Scene_04.cpp" />
     <ClCompile Include="Systems\CameraManager.cpp" />
     <ClCompile Include="Managers\CollisionManager.cpp" />
     <ClCompile Include="Components\Texture.cpp" />

@@ -41,26 +41,51 @@ void Scene_03::FixedUpdate()
 // 매 프레임 타이틀 장면의 오브젝트를 갱신한다.
 void Scene_03::Update()
 {
-	if (!bPressButton && GetForegroundWindow() == gHandle) // 창 활성 시에만
+	// 1) Press-any
+	if (!bPressButton && GetForegroundWindow() == gHandle)
 	{
 		if (AnyMouseDown() || AnyKeyboardDown())
+		{
 			bPressButton = true;
+			menuReady = false;
+			inputGuard = 0.15f;   // 가드 시작
+			InitializeMenu();     // 즉시 메뉴 구성
+			return;               // 이번 프레임 종료(확정 입력 차단)
+		}
 	}
 
-	if (bPressButton && menuOptions.empty())
+	// 2) 전환 직후 가드
+	if (bPressButton && !menuReady)
 	{
-		InitializeMenu();
+		inputGuard -= TimeManager::Get()->GetDeltaTime();
+		// 가드가 끝났고, 모든 입력이 릴리즈된 상태에서만 메뉴 활성
+		if (inputGuard <= 0.0f && !AnyKeyboardDown() && !AnyMouseDown())
+			menuReady = true;
+		else
+			return; // 아직 메뉴 입력 금지
 	}
 
-	if (bPressButton && !menuOptions.empty())
+	// 3) 메뉴 입력 처리는 menuReady 이후
+	if (bPressButton && menuReady && !menuOptions.empty())
 	{
-		if (KeyboardManager::Get()->Down(VK_UP))
+		if (KeyboardManager::Get()->Down(VK_UP)) 
 		{
 			SelectMenu(-1);
 		}
-		else if (KeyboardManager::Get()->Down(VK_DOWN))
+		else if (KeyboardManager::Get()->Down(VK_DOWN)) 
 		{
 			SelectMenu(1);
+		}
+
+		// 확정 입력은 엣지로만
+		const bool confirm = KeyboardManager::Get()->Down(VK_RETURN) || KeyboardManager::Get()->Down(VK_SPACE);
+
+		if (confirm)
+		{
+			// 현재 인덱스 실행 로직 호출(콜백 또는 switch)
+			// ExecuteCurrentMenu();
+			auto& item = menuOptions[currentMenuIndex];
+			if (!item.disabled && item.action) item.action();
 		}
 
 		UpdateMenuCursor();
@@ -407,6 +432,20 @@ void Scene_03::ConfigureLoadSteps()
 			objects.back()->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(120, 0));
 		});
 
+	//AddLoadStep([this]()
+	//	{
+	//		objects.push_back(
+	//			std::make_shared<TextureObject>(
+	//				"Hand",
+	//				DirectX::SimpleMath::Vector3(0, 0, 0),
+	//				DirectX::SimpleMath::Vector3(64, 64, 0),
+	//				0.0f,
+	//				TexturePath + L"UIHand.png",
+	//				true
+	//			)
+	//		);
+	//	});
+
 	AddLoadStep([]()
 		{
 			CameraManager::Get()->Reset();
@@ -435,11 +474,48 @@ void Scene_03::InitializeMenu()
 		return;
 	}
 
-	menuOptions.push_back({ 4, L"불러오기", true });
-	menuOptions.push_back({ 5, L"새 게임", false });
-	menuOptions.push_back({ 6, L"엑스트라", false });
-	menuOptions.push_back({ 7, L"옵션", false });
-	menuOptions.push_back({ 8, L"종료", false });
+	using SM = SceneManager;
+
+	menuOptions.push_back({
+		4, L"불러오기", true,
+		[this] {
+			// 비활성화 상태라면 보통 noop or 사운드만
+			// SoundManager::Get()->Play("deny");
+		}
+		});
+
+	menuOptions.push_back({
+		5, L"새 게임", false,
+		[this] {
+			// 예: 로드 또는 씬 전환
+			// SM::Get()->Load<Scene_01>();
+			// 또는 SM::Get()->LoadByName("Scene_01");
+			SM::Get()->LoadScene("StartGameScene");
+		}
+		});
+
+	menuOptions.push_back({
+		6, L"엑스트라", false,
+		[this] {
+			// SM::Get()->Load<Scene_Extra>();
+		}
+		});
+
+	menuOptions.push_back({
+		7, L"옵션", false,
+		[this] {
+			// SM::Get()->Load<Scene_Option>();
+		}
+		});
+
+	menuOptions.push_back({
+		8, L"종료", false,
+		[] {
+			// 프레임워크에 맞는 종료 루틴 사용
+			// Application::Get()->RequestQuit();
+			PostQuitMessage(0);
+		}
+		});
 
 	for (size_t index = 0; index < menuOptions.size(); ++index)
 	{
