@@ -40,6 +40,7 @@ void Scene_03::Update()
 			obj->Update();
 		}
 	}
+
 }
 
 // 후처리 갱신은 사용하지 않는다.
@@ -67,6 +68,7 @@ void Scene_03::PostRender()
 // 디버그 UI는 현재 사용하지 않는다.
 void Scene_03::ImGUI()
 {
+	
 }
 
 // 타이틀 장면에서 사용할 오브젝트를 구성한다.
@@ -86,7 +88,19 @@ void Scene_03::ConfigureLoadSteps()
 			);
 		});
 
-
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<TextureObject>(
+					"Title",
+					DirectX::SimpleMath::Vector3(0, 150, 0),
+					DirectX::SimpleMath::Vector3(706, 520, 0),
+					0.0f,
+					TexturePath + L"Final_Fantasy_5.png",
+					true
+				)
+			);
+		});
 
 
 	AddLoadStep([]()

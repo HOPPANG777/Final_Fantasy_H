@@ -55,14 +55,14 @@ private:
     void ApplyPendingTransform();
 
 protected:
-    std::unique_ptr<VertexBuffer> vertexBuffer;
-    std::unique_ptr<IndexBuffer> indexBuffer;
+    std::shared_ptr<VertexBuffer> vertexBuffer;
+    std::shared_ptr<IndexBuffer> indexBuffer;
 
-    std::unique_ptr<VertexShader> vertexShader;
+    std::shared_ptr<VertexShader> vertexShader;
 
-    std::unique_ptr<InputLayout> inputLayout;
+    std::shared_ptr<InputLayout> inputLayout;
 
-    std::unique_ptr<PixelShader> pixelShader;
+    std::shared_ptr<PixelShader> pixelShader;
 
     std::wstring shaderPath = L"";
 

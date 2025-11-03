@@ -16,16 +16,16 @@ Drawable::Drawable(
     initialRotation = rotation;
     pendingTransformApply = true;
 
-    vertexBuffer = std::make_unique<VertexBuffer>();
+    vertexBuffer = std::make_shared<VertexBuffer>();
 
-    vertexShader = std::make_unique<VertexShader>();
+    vertexShader = std::make_shared<VertexShader>();
     vertexShader->Create(shaderPath, "VS");
 
-    indexBuffer = std::make_unique<IndexBuffer>();
+    indexBuffer = std::make_shared<IndexBuffer>();
 
-    inputLayout = std::make_unique<InputLayout>();
+    inputLayout = std::make_shared<InputLayout>();
 
-    pixelShader = std::make_unique<PixelShader>();
+    pixelShader = std::make_shared<PixelShader>();
     pixelShader->Create(shaderPath, "PS");
 }
 
