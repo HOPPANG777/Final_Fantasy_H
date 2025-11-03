@@ -7,21 +7,26 @@ void Scene_03::Awake()
 {
 }
 
-// 로딩 단계에서 오브젝트를 구성하므로 Start에서는 별도 작업을 하지 않는다.
+// 로딩 단계에서 오브젝트를 구성하므로 Start에서는 메뉴 구성을 초기화한다.
 void Scene_03::Start()
 {
+        InitializeMenu();
 }
 
 // 장면 종료 시 생성한 오브젝트를 정리한다.
 void Scene_03::Destroy()
 {
-	//pressAnySpriteText.reset();
-	bPressButton = false;
+        //pressAnySpriteText.reset();
+        bPressButton = false;
 
-	for (auto& obj : objects)
-	{
-		if (obj != nullptr)
-		{
+        menuOptions.clear();
+        currentMenuIndex = 0;
+        menuCursorObject.reset();
+
+        for (auto& obj : objects)
+        {
+                if (obj != nullptr)
+                {
 			obj.reset();
 		}
 	}
@@ -36,13 +41,32 @@ void Scene_03::FixedUpdate()
 // 매 프레임 타이틀 장면의 오브젝트를 갱신한다.
 void Scene_03::Update()
 {
-	if (!bPressButton && GetForegroundWindow() == gHandle) // 창 활성 시에만
-	{
-		if (AnyMouseDown() || AnyKeyboardDown())
-			bPressButton = true;
-	}
+        if (!bPressButton && GetForegroundWindow() == gHandle) // 창 활성 시에만
+        {
+                if (AnyMouseDown() || AnyKeyboardDown())
+                        bPressButton = true;
+        }
 
-	//if (auto spriteText = pressAnySpriteText.lock())
+        if (bPressButton && menuOptions.empty())
+        {
+                InitializeMenu();
+        }
+
+        if (bPressButton && !menuOptions.empty())
+        {
+                if (KeyboardManager::Get()->Down(VK_UP))
+                {
+                        SelectMenu(-1);
+                }
+                else if (KeyboardManager::Get()->Down(VK_DOWN))
+                {
+                        SelectMenu(1);
+                }
+
+                UpdateMenuCursor();
+        }
+
+        //if (auto spriteText = pressAnySpriteText.lock())
 	//{
 	//	if (bPressButton)
 	//	{
@@ -100,63 +124,66 @@ void Scene_03::PostRender()
 		L"Pretendard JP"
 	);
 
-	if (bPressButton == true)
-	{
-		objects[4]->GetComponent<Texts>("Texts")->RenderText(
-			L"불러오기",
-			objects[4]->GetRectTransform()->GetRect(),
-			28.0f,
-			DirectX::SimpleMath::Color(0, 0, 0, 0.5f),
-			L"Pretendard JP",
-			DWRITE_TEXT_ALIGNMENT_CENTER,
-			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-			DWRITE_FONT_WEIGHT_BOLD
-		);
+        if (bPressButton == true)
+        {
+                const DirectX::SimpleMath::Color disabledColor(0.0f, 0.0f, 0.0f, 0.5f);
+                const DirectX::SimpleMath::Color highlightColor = Values::Cyan;
 
-		objects[5]->GetComponent<Texts>("Texts")->RenderText(
-			L"새 게임",
-			objects[5]->GetRectTransform()->GetRect(),
-			28.0f,
-			Values::Black,
-			L"Pretendard JP",
-			DWRITE_TEXT_ALIGNMENT_CENTER,
-			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-			DWRITE_FONT_WEIGHT_BOLD
-		);
+                for (size_t index = 0; index < menuOptions.size(); ++index)
+                {
+                        const auto& option = menuOptions[index];
+                        if (option.objectIndex >= objects.size())
+                        {
+                                continue;
+                        }
 
-		objects[6]->GetComponent<Texts>("Texts")->RenderText(
-			L"엑스트라",
-			objects[6]->GetRectTransform()->GetRect(),
-			28.0f,
-			Values::Black,
-			L"Pretendard JP",
-			DWRITE_TEXT_ALIGNMENT_CENTER,
-			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-			DWRITE_FONT_WEIGHT_BOLD
-		);
+                        const auto& menuObject = objects[option.objectIndex];
+                        if (menuObject == nullptr)
+                        {
+                                continue;
+                        }
 
-		objects[7]->GetComponent<Texts>("Texts")->RenderText(
-			L"옵션",
-			objects[7]->GetRectTransform()->GetRect(),
-			28.0f,
-			Values::Black,
-			L"Pretendard JP",
-			DWRITE_TEXT_ALIGNMENT_CENTER,
-			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-			DWRITE_FONT_WEIGHT_BOLD
-		);
+                        const auto& textComponent = menuObject->GetComponent<Texts>("Texts");
+                        if (textComponent == nullptr)
+                        {
+                                continue;
+                        }
 
-		objects[8]->GetComponent<Texts>("Texts")->RenderText(
-			L"종료",
-			objects[8]->GetRectTransform()->GetRect(),
-			28.0f,
-			Values::Black,
-			L"Pretendard JP",
-			DWRITE_TEXT_ALIGNMENT_CENTER,
-			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-			DWRITE_FONT_WEIGHT_BOLD
-		);
-	}
+                        DirectX::SimpleMath::Color textColor = option.disabled ? disabledColor : Values::Black;
+                        if (!option.disabled && index == currentMenuIndex)
+                        {
+                                textColor = highlightColor;
+                        }
+
+                        textComponent->RenderText(
+                                option.label,
+                                menuObject->GetRectTransform()->GetRect(),
+                                28.0f,
+                                textColor,
+                                L"Pretendard JP",
+                                DWRITE_TEXT_ALIGNMENT_CENTER,
+                                DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+                                DWRITE_FONT_WEIGHT_BOLD
+                        );
+                }
+
+                if (const auto cursorObject = menuCursorObject.lock())
+                {
+                        if (const auto& cursorText = cursorObject->GetComponent<Texts>("Texts"))
+                        {
+                                cursorText->RenderText(
+                                        L"▶",
+                                        cursorObject->GetRectTransform()->GetRect(),
+                                        32.0f,
+                                        highlightColor,
+                                        L"Pretendard JP",
+                                        DWRITE_TEXT_ALIGNMENT_CENTER,
+                                        DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+                                        DWRITE_FONT_WEIGHT_BOLD
+                                );
+                        }
+                }
+        }
 
 	if (bPressButton == false)
 	{
@@ -348,11 +375,11 @@ void Scene_03::ConfigureLoadSteps()
 			objects[7]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
 		});
 
-	AddLoadStep([this]()
-		{
-			objects.push_back(
-				std::make_shared<GameObject>(
-					"Quit",
+        AddLoadStep([this]()
+                {
+                        objects.push_back(
+                                std::make_shared<GameObject>(
+                                        "Quit",
 					DirectX::SimpleMath::Vector3(0, -200, 0),
 					Values::ZeroVector3,
 					0.0f,
@@ -360,20 +387,150 @@ void Scene_03::ConfigureLoadSteps()
 				)
 			);
 
-			objects[8]->AddComponent(std::make_shared<Texts>());
-			objects[8]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
-		});
+                        objects[8]->AddComponent(std::make_shared<Texts>());
+                        objects[8]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
+                });
 
-	AddLoadStep([]()
-		{
-			CameraManager::Get()->Reset();
-		});
+        AddLoadStep([this]()
+                {
+                        objects.push_back(
+                                std::make_shared<GameObject>(
+                                        "MenuCursor",
+                                        DirectX::SimpleMath::Vector3(-140, -80, 0),
+                                        Values::ZeroVector3,
+                                        0.0f,
+                                        true
+                                )
+                        );
+
+                        objects.back()->AddComponent(std::make_shared<Texts>());
+                        objects.back()->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(120, 0));
+                });
+
+        AddLoadStep([]()
+                {
+                        CameraManager::Get()->Reset();
+                });
 }
 
 // 로딩 시작 시 오브젝트를 초기화한다.
 void Scene_03::OnLoadBegin()
 {
-	LoadableScene::OnLoadBegin();
+        LoadableScene::OnLoadBegin();
 
-	objects.clear();
+        objects.clear();
+        menuOptions.clear();
+        currentMenuIndex = 0;
+        menuCursorObject.reset();
+}
+
+void Scene_03::InitializeMenu()
+{
+        menuOptions.clear();
+        currentMenuIndex = 0;
+        menuCursorObject.reset();
+
+        if (objects.size() <= 9)
+        {
+                return;
+        }
+
+        menuOptions.push_back({ 4, L"불러오기", true });
+        menuOptions.push_back({ 5, L"새 게임", false });
+        menuOptions.push_back({ 6, L"엑스트라", false });
+        menuOptions.push_back({ 7, L"옵션", false });
+        menuOptions.push_back({ 8, L"종료", false });
+
+        for (size_t index = 0; index < menuOptions.size(); ++index)
+        {
+                if (!menuOptions[index].disabled)
+                {
+                        currentMenuIndex = index;
+                        break;
+                }
+        }
+
+        for (const auto& object : objects)
+        {
+                if (object != nullptr && object->GetName() == "MenuCursor")
+                {
+                        menuCursorObject = object;
+                        break;
+                }
+        }
+
+        UpdateMenuCursor();
+}
+
+void Scene_03::SelectMenu(int direction)
+{
+        if (menuOptions.empty())
+        {
+                return;
+        }
+
+        const int count = static_cast<int>(menuOptions.size());
+        int nextIndex = static_cast<int>(currentMenuIndex);
+
+        for (int iteration = 0; iteration < count; ++iteration)
+        {
+                nextIndex += direction;
+
+                if (nextIndex < 0)
+                {
+                        nextIndex = count - 1;
+                }
+                else if (nextIndex >= count)
+                {
+                        nextIndex = 0;
+                }
+
+                if (!menuOptions[static_cast<size_t>(nextIndex)].disabled)
+                {
+                        currentMenuIndex = static_cast<size_t>(nextIndex);
+                        UpdateMenuCursor();
+                        break;
+                }
+        }
+}
+
+void Scene_03::UpdateMenuCursor()
+{
+        if (menuOptions.empty())
+        {
+                return;
+        }
+
+        if (currentMenuIndex >= menuOptions.size())
+        {
+                currentMenuIndex = 0;
+        }
+
+        const auto optionIndex = menuOptions[currentMenuIndex].objectIndex;
+        if (optionIndex >= objects.size())
+        {
+                return;
+        }
+
+        const auto cursorObject = menuCursorObject.lock();
+        if (!cursorObject)
+        {
+                return;
+        }
+
+        const auto& targetObject = objects[optionIndex];
+        if (targetObject == nullptr)
+        {
+                return;
+        }
+
+        const auto& targetRect = targetObject->GetRectTransform();
+        const auto& cursorRect = cursorObject->GetRectTransform();
+        if (targetRect == nullptr || cursorRect == nullptr)
+        {
+                return;
+        }
+
+        DirectX::SimpleMath::Vector3 newPosition = targetRect->GetPosition() + menuCursorOffset;
+        cursorRect->SetPosition(newPosition);
 }

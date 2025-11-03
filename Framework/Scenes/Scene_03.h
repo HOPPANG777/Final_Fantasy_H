@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "../Interfaces/LoadableScene.h"
@@ -42,10 +43,10 @@ protected:
 	void OnLoadBegin() override;
 
 private:
-	inline bool AnyMouseDown()
-	{
-		return (GetAsyncKeyState(VK_LBUTTON) & 0x8000) ||
-			(GetAsyncKeyState(VK_RBUTTON) & 0x8000) ||
+        inline bool AnyMouseDown()
+        {
+                return (GetAsyncKeyState(VK_LBUTTON) & 0x8000) ||
+                        (GetAsyncKeyState(VK_RBUTTON) & 0x8000) ||
 			(GetAsyncKeyState(VK_MBUTTON) & 0x8000) ||
 			(GetAsyncKeyState(VK_XBUTTON1) & 0x8000) ||
 			(GetAsyncKeyState(VK_XBUTTON2) & 0x8000);
@@ -56,14 +57,30 @@ private:
 		for (int vk = 0; vk < 256; ++vk)
 			if (GetAsyncKeyState(vk) & 0x8000) return true;
 		return false;
-	}
+        }
 
 private:
-	std::vector<std::shared_ptr<GameObject>> objects; // 타이틀 장면에서 사용하는 오브젝트 목록
-	bool bPressButton = false;
+        struct MenuOption
+        {
+                size_t objectIndex = 0;
+                std::wstring label;
+                bool disabled = false;
+        };
 
-	std::weak_ptr<SpriteText> pressAnySpriteText;
-	DirectX::SimpleMath::Color pressAnyBaseColor = DirectX::SimpleMath::Color(0.0f, 1.0f, 1.0f, 1.0f);
-	float pressAnyBlinkPeriod = 1.5f;
+        void InitializeMenu();
+        void SelectMenu(int direction);
+        void UpdateMenuCursor();
+
+        std::vector<std::shared_ptr<GameObject>> objects; // 타이틀 장면에서 사용하는 오브젝트 목록
+        bool bPressButton = false;
+
+        std::vector<MenuOption> menuOptions;
+        size_t currentMenuIndex = 0;
+        DirectX::SimpleMath::Vector3 menuCursorOffset = DirectX::SimpleMath::Vector3(-140.0f, 0.0f, 0.0f);
+        std::weak_ptr<GameObject> menuCursorObject;
+
+        std::weak_ptr<SpriteText> pressAnySpriteText;
+        DirectX::SimpleMath::Color pressAnyBaseColor = DirectX::SimpleMath::Color(0.0f, 1.0f, 1.0f, 1.0f);
+        float pressAnyBlinkPeriod = 1.5f;
 
 };
