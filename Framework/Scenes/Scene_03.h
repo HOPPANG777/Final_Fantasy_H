@@ -6,6 +6,7 @@
 #include "../Interfaces/LoadableScene.h"
 
 class GameObject;
+class SpriteText;
 
 // 타이틀 장면을 담당하는 구현 장면 클래스
 class Scene_03 : public LoadableScene
@@ -60,5 +61,9 @@ private:
 private:
 	std::vector<std::shared_ptr<GameObject>> objects; // 타이틀 장면에서 사용하는 오브젝트 목록
 	bool bPressButton = false;
+
+	std::weak_ptr<SpriteText> pressAnySpriteText;
+	DirectX::SimpleMath::Color pressAnyBaseColor = DirectX::SimpleMath::Color(0.0f, 1.0f, 1.0f, 1.0f);
+	float pressAnyBlinkPeriod = 1.5f;
 
 };

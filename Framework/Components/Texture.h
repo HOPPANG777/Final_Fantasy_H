@@ -37,6 +37,7 @@ public:
 protected:
     std::vector<VertexTexture>& AccessVertices();
     void CommitVertices();
+    DirectX::SimpleMath::Vector2 GetTextureSize() const;
 
 private:
     void InitializeGeometry();

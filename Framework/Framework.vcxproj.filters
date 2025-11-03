@@ -221,6 +221,9 @@
     <ClInclude Include="Components\BlinkingText.h">
       <Filter>Components\Texts</Filter>
     </ClInclude>
+    <ClInclude Include="Components\SpriteText.h">
+      <Filter>Components\SpriteText</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -385,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="Components\BlinkingText.cpp">
       <Filter>Components\Texts</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SpriteText.cpp">
+      <Filter>Components\SpriteText</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -561,6 +567,9 @@
     </Filter>
     <Filter Include="Components\Button">
       <UniqueIdentifier>{afc1d336-ca3a-411f-a976-cf7a36f63b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\SpriteText">
+      <UniqueIdentifier>{ad320368-8999-4343-8d73-fb7a20c3b936}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -39,6 +39,27 @@ void Scene_03::Update()
 			bPressButton = true;
 	}
 
+	if (auto spriteText = pressAnySpriteText.lock())
+	{
+		if (bPressButton)
+		{
+			auto transparentColor = pressAnyBaseColor;
+			transparentColor.w = 0.0f;
+			spriteText->SetColor(transparentColor);
+		}
+		else
+		{
+			const float period = (pressAnyBlinkPeriod <= 0.0f) ? 1.0f : pressAnyBlinkPeriod;
+			const float elapsed = static_cast<float>(TimeManager::Get()->GetWorldTime());
+			const float phase = (elapsed / period) * DirectX::XM_2PI;
+			const float intensity = 0.5f * (std::sin(phase) + 1.0f);
+
+			auto blinkColor = pressAnyBaseColor;
+			blinkColor.w = CLAMP(intensity, 0.0f, 1.0f);
+			spriteText->SetColor(blinkColor);
+		}
+	}
+
 	for (const auto& obj : objects)
 	{
 		if (obj != nullptr)
@@ -133,19 +154,6 @@ void Scene_03::PostRender()
 			DWRITE_FONT_WEIGHT_BOLD
 		);
 	}
-
-	if (bPressButton) return;
-
-	objects[3]->GetComponent<BlinkingText>("BlinkingText")->RenderText(
-		L"PRESS ANY BUTTON",
-		objects[3]->GetRectTransform()->GetRect(),
-		30.0f,
-		DirectX::SimpleMath::Color(0x00ffff),
-		L"Pretendard JP",
-		DWRITE_TEXT_ALIGNMENT_CENTER,
-		DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-		DWRITE_FONT_WEIGHT_BOLD
-	);
 }
 
 // 디버그 UI는 현재 사용하지 않는다.
@@ -189,16 +197,39 @@ void Scene_03::ConfigureLoadSteps()
 		{
 			objects.push_back(
 				std::make_shared<GameObject>(
-					"CopyrightsText",
-					DirectX::SimpleMath::Vector3(0, -305, 0),
+					"PRESSANYBUTTON",
+					DirectX::SimpleMath::Vector3(0, -120, 0),
 					Values::ZeroVector3,
 					0.0f,
 					true
 				)
 			);
 
-			objects[2]->AddComponent(std::make_shared<Texts>());
-			objects[2]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+			const auto spriteText = std::make_shared<SpriteText>(
+				Values::ZeroVector3,
+				Values::OneVector3,
+				0.0f,
+				TexturePath + L"FFPixelFont.png",
+				true,
+				DirectX::SimpleMath::Vector2(8.0f, 8.0f),
+				16,
+				L' '
+			);
+
+			std::wstring glyphOrder;
+			glyphOrder.reserve(95);
+			for (wchar_t character = L' '; character <= L'~'; ++character)
+			{
+				glyphOrder.push_back(character);
+			}
+
+			spriteText->SetGlyphOrder(glyphOrder);
+			spriteText->SetText(L"PRESS ANY BUTTON");
+			spriteText->SetSpacing(1.0f, 2.0f);
+			spriteText->SetColor(pressAnyBaseColor);
+
+			objects[3]->AddComponent(spriteText);
+			pressAnySpriteText = spriteText;
 		});
 
 	AddLoadStep([this]()
@@ -307,5 +338,7 @@ void Scene_03::ConfigureLoadSteps()
 void Scene_03::OnLoadBegin()
 {
 	LoadableScene::OnLoadBegin();
+	pressAnySpriteText.reset();
+	bPressButton = false;
 	objects.clear();
 }

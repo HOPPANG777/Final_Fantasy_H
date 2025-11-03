@@ -182,6 +182,7 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 #include "Components/ColorLine.h"
 #include "Components/Texture.h"
 #include "Components/AnimatedTexture.h"
+#include "Components/SpriteText.h"
 #include "Components/Texts.h"
 #include "Components/TypingText.h"
 #include "Components/ShakingText.h"

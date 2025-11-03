@@ -330,3 +330,14 @@ void Texture::CommitVertices()
     }
 }
 
+DirectX::SimpleMath::Vector2 Texture::GetTextureSize() const
+{
+    if (_texture)
+    {
+        D3D11_TEXTURE2D_DESC desc = {};
+        _texture->GetDesc(&desc);
+        return DirectX::SimpleMath::Vector2(static_cast<float>(desc.Width), static_cast<float>(desc.Height));
+    }
+
+    return DirectX::SimpleMath::Vector2(0.0f, 0.0f);
+}
