@@ -248,9 +248,9 @@ void Scene_03::ConfigureLoadSteps()
 			spriteText->SetSpacing(1.0f, 2.0f);
 			spriteText->SetColor(pressAnyBaseColor);
 
-			const auto& pressAnyObject = objects.back();
-			pressAnyObject->AddComponent(spriteText);
-			pressAnyObject->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+			//const auto& pressAnyObject = objects.back();
+			objects[3]->AddComponent(spriteText);
+			objects[3]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
 			pressAnySpriteText = spriteText;
 		});
 
