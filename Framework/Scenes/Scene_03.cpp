@@ -15,7 +15,7 @@ void Scene_03::Start()
 // 장면 종료 시 생성한 오브젝트를 정리한다.
 void Scene_03::Destroy()
 {
-	pressAnySpriteText.reset();
+	//pressAnySpriteText.reset();
 	bPressButton = false;
 
 	for (auto& obj : objects)
@@ -42,26 +42,26 @@ void Scene_03::Update()
 			bPressButton = true;
 	}
 
-	if (auto spriteText = pressAnySpriteText.lock())
-	{
-		if (bPressButton)
-		{
-			auto transparentColor = pressAnyBaseColor;
-			transparentColor.w = 0.0f;
-			spriteText->SetColor(transparentColor);
-		}
-		else
-		{
-			const float period = (pressAnyBlinkPeriod <= 0.0f) ? 1.0f : pressAnyBlinkPeriod;
-			const float elapsed = static_cast<float>(TimeManager::Get()->GetWorldTime());
-			const float phase = (elapsed / period) * DirectX::XM_2PI;
-			const float intensity = 0.5f * (std::sin(phase) + 1.0f);
+	//if (auto spriteText = pressAnySpriteText.lock())
+	//{
+	//	if (bPressButton)
+	//	{
+	//		auto transparentColor = pressAnyBaseColor;
+	//		transparentColor.w = 0.0f;
+	//		spriteText->SetColor(transparentColor);
+	//	}
+	//	else
+	//	{
+	//		const float period = (pressAnyBlinkPeriod <= 0.0f) ? 1.0f : pressAnyBlinkPeriod;
+	//		const float elapsed = static_cast<float>(TimeManager::Get()->GetWorldTime());
+	//		const float phase = (elapsed / period) * DirectX::XM_2PI;
+	//		const float intensity = 0.5f * (std::sin(phase) + 1.0f);
 
-			auto blinkColor = pressAnyBaseColor;
-			blinkColor.w = CLAMP(intensity, 0.0f, 1.0f);
-			spriteText->SetColor(blinkColor);
-		}
-	}
+	//		auto blinkColor = pressAnyBaseColor;
+	//		blinkColor.w = CLAMP(intensity, 0.0f, 1.0f);
+	//		spriteText->SetColor(blinkColor);
+	//	}
+	//}
 
 	for (const auto& obj : objects)
 	{
@@ -157,6 +157,20 @@ void Scene_03::PostRender()
 			DWRITE_FONT_WEIGHT_BOLD
 		);
 	}
+
+	if (bPressButton == false)
+	{
+		objects[3]->GetComponent<BlinkingText>("BlinkingText")->RenderText(
+			L"PRESS ANY BUTTON",
+			objects[3]->GetRectTransform()->GetRect(),
+			30.0f,
+			Values::Cyan,
+			L"Pretendard JP",
+			DWRITE_TEXT_ALIGNMENT_CENTER,
+			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+			DWRITE_FONT_WEIGHT_MEDIUM
+		);
+	}
 }
 
 // 디버그 UI는 현재 사용하지 않는다.
@@ -213,47 +227,6 @@ void Scene_03::ConfigureLoadSteps()
 			copyrightObject->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
 		});
 
-	AddLoadStep([this]()
-		{
-			objects.push_back(
-				std::make_shared<GameObject>(
-					"PRESSANYBUTTON",
-					DirectX::SimpleMath::Vector3(0, -120, 0),
-					Values::ZeroVector3,
-					0.0f,
-					true
-				)
-			);
-
-			const auto& spriteText = std::make_shared<SpriteText>(
-				Values::ZeroVector3,
-				Values::OneVector3,
-				0.0f,
-				TexturePath + L"FFPixelFont.png",
-				true,
-				DirectX::SimpleMath::Vector2(8.0f, 8.0f),
-				16,
-				L' '
-			);
-
-			std::wstring glyphOrder;
-			glyphOrder.reserve(95);
-			for (wchar_t character = L' '; character <= L'~'; ++character)
-			{
-				glyphOrder.push_back(character);
-			}
-
-			spriteText->SetGlyphOrder(glyphOrder);
-			spriteText->SetText(L"PRESS ANY BUTTON");
-			spriteText->SetSpacing(1.0f, 2.0f);
-			spriteText->SetColor(pressAnyBaseColor);
-
-			//const auto& pressAnyObject = objects.back();
-			objects[3]->AddComponent(spriteText);
-			objects[3]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
-			pressAnySpriteText = spriteText;
-		});
-
 	//AddLoadStep([this]()
 	//	{
 	//		objects.push_back(
@@ -266,9 +239,50 @@ void Scene_03::ConfigureLoadSteps()
 	//			)
 	//		);
 
-	//		objects[3]->AddComponent(std::make_shared<BlinkingText>("BlinkingText", 1.5f));
+	//		const auto& spriteText = std::make_shared<SpriteText>(
+	//			Values::ZeroVector3,
+	//			Values::OneVector3,
+	//			0.0f,
+	//			TexturePath + L"FFPixelFont.png",
+	//			true,
+	//			DirectX::SimpleMath::Vector2(8.0f, 8.0f),
+	//			16,
+	//			L' '
+	//		);
+
+	//		std::wstring glyphOrder;
+	//		glyphOrder.reserve(95);
+	//		for (wchar_t character = L' '; character <= L'~'; ++character)
+	//		{
+	//			glyphOrder.push_back(character);
+	//		}
+
+	//		spriteText->SetGlyphOrder(glyphOrder);
+	//		spriteText->SetText(L"PRESS ANY BUTTON");
+	//		spriteText->SetSpacing(1.0f, 2.0f);
+	//		spriteText->SetColor(pressAnyBaseColor);
+
+	//		//const auto& pressAnyObject = objects.back();
+	//		objects[3]->AddComponent(spriteText);
 	//		objects[3]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+	//		pressAnySpriteText = spriteText;
 	//	});
+
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<GameObject>(
+					"PRESSANYBUTTON",
+					DirectX::SimpleMath::Vector3(0, -120, 0),
+					Values::ZeroVector3,
+					0.0f,
+					true
+				)
+			);
+
+			objects[3]->AddComponent(std::make_shared<BlinkingText>("BlinkingText", 1.5f));
+			objects[3]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+		});
 
 	AddLoadStep([this]()
 		{
