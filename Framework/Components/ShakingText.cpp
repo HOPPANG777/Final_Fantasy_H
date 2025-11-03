@@ -11,13 +11,16 @@ void ShakingText::RenderText(
     const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment,
     const DWRITE_FONT_WEIGHT& weight, 
     const DWRITE_FONT_STYLE& style, 
-    const DWRITE_FONT_STRETCH& stretch)
+    const DWRITE_FONT_STRETCH& stretch,
+    bool useOutline,
+    const DirectX::SimpleMath::Color& outlineColor,
+    float outlineThickness)
 {
     RECT newRect = rect;
     newRect.left += RandomOffset();
     newRect.top += RandomOffset();
 
-    Texts::RenderText(text, newRect, size, color, font, textalignment, paragraphalignment, weight, style, stretch);
+    Texts::RenderText(text, newRect, size, color, font, textalignment, paragraphalignment, weight, style, stretch, useOutline, outlineColor, outlineThickness);
 }
 
 void ShakingText::Update()

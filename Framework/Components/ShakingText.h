@@ -20,7 +20,10 @@ public:
         const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
         const DWRITE_FONT_WEIGHT& weight = DWRITE_FONT_WEIGHT_NORMAL,
         const DWRITE_FONT_STYLE& style = DWRITE_FONT_STYLE_NORMAL,
-        const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL
+        const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL,
+        bool useOutline = false,
+        const DirectX::SimpleMath::Color& outlineColor = Values::Black,
+        float outlineThickness = 1.0f
     ) override;
 
 

@@ -12,25 +12,28 @@ void TypingText::RenderText
     const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment,
 	const DWRITE_FONT_WEIGHT& weight,
 	const DWRITE_FONT_STYLE& style,
-	const DWRITE_FONT_STRETCH& stretch
+	const DWRITE_FONT_STRETCH& stretch,
+	bool useOutline,
+	const DirectX::SimpleMath::Color& outlineColor,
+	float outlineThickness
 )
 {
-	// ÀüÃ¼ ÅØ½ºÆ®(fullText) ´ë½Å, visibleCharacters¸¸Å­ ÀÚ¸¥ ÅØ½ºÆ®¸¦ ·»´õ¸µ
+	// Ã¼ Ø½Æ®(fullText) , visibleCharactersÅ­ Ú¸ Ø½Æ® 
 	std::wstring visibleText = text.substr(0, visibleCharacters);
 	fullText = text;
-	Texts::RenderText(visibleText, rect, size, color, font, textalignment, paragraphalignment, weight, style, stretch);
+	Texts::RenderText(visibleText, rect, size, color, font, textalignment, paragraphalignment, weight, style, stretch, useOutline, outlineColor, outlineThickness);
 }
 
 void TypingText::Update()
 {
-	// ¿©±â¼­ ±âº» Texts::Update()°¡ Æ¯º°ÇÑ ·ÎÁ÷ÀÌ ¾ø´Ù¸é »ı·«ÇÏ°í Å¸ÀÌÇÎ ¾÷µ¥ÀÌÆ®¸¸ ¼öÇà
+	// â¼­ âº» Texts::Update() Æ¯  Ù¸ Ï° Å¸ Æ® 
     elapsedTime += TimeManager::Get()->GetDeltaTime();
 
     if (elapsedTime >= typingSpeed)
     {
         elapsedTime = 0.0f;
 
-        // ¾ÆÁ÷ ¿Ï¼º ÀüÀÌ¸é ÇÑ ±ÛÀÚ¾¿ Áõ°¡
+        //  Ï¼ Ì¸  Ú¾ 
         if (!complete)
         {
             visibleCharacters++;
@@ -40,7 +43,7 @@ void TypingText::Update()
                 complete = true;
             }
         }
-        // ¿Ï¼º ÈÄ ·çÇÁ ¸ğµåÀÏ °æ¿ì ÃÊ±âÈ­
+        // Ï¼     Ê±È­
         else if (bLoop)
         {
             visibleCharacters = 0;

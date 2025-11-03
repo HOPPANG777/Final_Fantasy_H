@@ -14,22 +14,25 @@ void BlinkingText::RenderText(
 	const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment,
 	const DWRITE_FONT_WEIGHT& weight,
 	const DWRITE_FONT_STYLE& style,
-	const DWRITE_FONT_STRETCH& stretch
+	const DWRITE_FONT_STRETCH& stretch,
+	bool useOutline,
+	const DirectX::SimpleMath::Color& outlineColor,
+	float outlineThickness
 )
 {
 	Color newColor = color;
 	timer += TimeManager::Get()->GetDeltaTime();
 
 	if (timer >= interval)
-		timer -= interval; // 주기 반복
+		timer -= interval; // 殮 趺
 
-	// 0~interval 구간에서 0→1→0 변화
+	// 0~interval  010 화
 	float t = timer / interval;
 	float alpha = t < 0.5f ? t * 2.0f : (1.0f - (t - 0.5f) * 2.0f);
 
 	newColor.A(alpha);
 
-	Texts::RenderText(text, rect, size, newColor, font, textalignment, paragraphalignment, weight, style, stretch);
+	Texts::RenderText(text, rect, size, newColor, font, textalignment, paragraphalignment, weight, style, stretch, useOutline, outlineColor, outlineThickness);
 }
 
 void BlinkingText::Update()

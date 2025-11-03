@@ -9,7 +9,7 @@ public:
 
     }
 
-    // RenderText: Å¸ÀÌÇÎ È¿°ú·Î Ãâ·ÂµÈ ÅØ½ºÆ®¸¦ ·»´õ¸µ (±âÁ¸ Texts::RenderText¸¦ ³»ºÎÀûÀ¸·Î È£Ãâ)
+    // RenderText: Å¸ È¿ Âµ Ø½Æ®  ( Texts::RenderText  È£)
     virtual void RenderText
     (
         const std::wstring& text,
@@ -21,7 +21,10 @@ public:
         const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
         const DWRITE_FONT_WEIGHT& weight = DWRITE_FONT_WEIGHT_NORMAL,
         const DWRITE_FONT_STYLE& style = DWRITE_FONT_STYLE_NORMAL,
-        const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL
+        const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL,
+        bool useOutline = false,
+        const DirectX::SimpleMath::Color& outlineColor = Values::Black,
+        float outlineThickness = 1.0f
     ) override;
 
 public:
@@ -31,18 +34,18 @@ public:
     void GUI() override;
 
 public:
-    // ÅØ½ºÆ® Ãâ·ÂÀÌ ¸ðµÎ ¿Ï·áµÇ¾ú´ÂÁö ¿©ºÎ ¹ÝÈ¯
+    // Ø½Æ®   Ï·Ç¾  È¯
     bool IsComplete() const { return complete; }
-    // ÅØ½ºÆ® Ãâ·Â ½ºÅµ
+    // Ø½Æ®  Åµ
 	void SkipToEnd() { visibleCharacters = fullText.size(); complete = true; }
 
     void SetLoop(bool loop) { bLoop = loop; }
 
 private:
-    float typingSpeed;        // ÇÑ ±ÛÀÚ Ãâ·Â¿¡ °É¸®´Â ½Ã°£ (ÃÊ)
-    float elapsedTime;        // ´©Àû ½Ã°£
-    size_t visibleCharacters; // ÇöÀç±îÁö Ãâ·ÂµÈ ¹®ÀÚ ¼ö
-    std::wstring fullText;         // ÀüÃ¼ ÅØ½ºÆ® ³»¿ë
-    bool complete = false;    // ÅØ½ºÆ® Ãâ·Â ¿Ï·á ¿©ºÎ
+    float typingSpeed;        //   Â¿ É¸ Ã° ()
+    float elapsedTime;        //  Ã°
+    size_t visibleCharacters; //  Âµ  
+    std::wstring fullText;         // Ã¼ Ø½Æ® 
+    bool complete = false;    // Ø½Æ®  Ï· 
     bool bLoop = false;
 };
