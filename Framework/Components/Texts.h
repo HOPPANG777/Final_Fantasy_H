@@ -56,10 +56,13 @@ public:
         const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
         const DWRITE_FONT_WEIGHT& weight = DWRITE_FONT_WEIGHT_NORMAL,
         const DWRITE_FONT_STYLE& style = DWRITE_FONT_STYLE_NORMAL,
-        const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL
+        const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL,
+        bool useOutline = false,
+        const DirectX::SimpleMath::Color& outlineColor = Values::Black,
+        float outlineThickness = 1.0f
     );
 
-    virtual void Update() override {} // 애니메이션을 구현하려면 업데이트 메서드 사용
+    virtual void Update() override {} // 獵玖抉 狗 트 氷 
     virtual void Render() override {}
 
     void GUI() override;
@@ -84,8 +87,8 @@ protected:
         const DWRITE_FONT_STRETCH& stretch
     );
 
-    GameObject* attachedObject = nullptr; // 텍스트가 따라다닐 객체
-    DirectX::SimpleMath::Vector3 offset = Values::ZeroVector3;  // 객체 위치에 더할 오프셋
+    GameObject* attachedObject = nullptr; // 灣트 募 체
+    DirectX::SimpleMath::Vector3 offset = Values::ZeroVector3;  // 체 치  
 
     bool textOut = false;
 

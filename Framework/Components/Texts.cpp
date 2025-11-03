@@ -12,11 +12,17 @@ void Texts::RenderText
 	const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment,
 	const DWRITE_FONT_WEIGHT& weight,
 	const DWRITE_FONT_STYLE& style,
-	const DWRITE_FONT_STRETCH& stretch
+	const DWRITE_FONT_STRETCH& stretch,
+	bool useOutline,
+	const DirectX::SimpleMath::Color& outlineColor,
+	float outlineThickness
 )
 {
 	FontBrushDesc* brush = GetOrCreateBrush(color);
 	FontTextDesc* textDesc = GetOrCreateTextFormat(font, size, weight, style, stretch);
+
+	textDesc->format->SetTextAlignment(textalignment);
+	textDesc->format->SetParagraphAlignment(paragraphalignment);
 
 	RECT finalRect = CalculateRectFromObject(rect);
 
@@ -28,6 +34,43 @@ void Texts::RenderText
 	static_cast<float>(gWinHeight - finalRect.top)
 	};
 
+	if (useOutline && outlineThickness > 0.0f)
+	{
+		FontBrushDesc* outlineBrush = GetOrCreateBrush(outlineColor);
+		const float outlineOffsets[8][2] =
+		{
+			{-1.0f, 0.0f},
+			{1.0f, 0.0f},
+			{0.0f, -1.0f},
+			{0.0f, 1.0f},
+			{-1.0f, -1.0f},
+			{-1.0f, 1.0f},
+			{1.0f, -1.0f},
+			{1.0f, 1.0f}
+		};
+
+		for (const auto& offsetPair : outlineOffsets)
+		{
+			D2D1_RECT_F outlineRectF = rectF;
+			const float offsetX = offsetPair[0] * outlineThickness;
+			const float offsetY = offsetPair[1] * outlineThickness;
+
+			outlineRectF.left += offsetX;
+			outlineRectF.right += offsetX;
+			outlineRectF.top += offsetY;
+			outlineRectF.bottom += offsetY;
+
+			GraphicsManager::Get()->GetD2DC()->DrawTextW
+			(
+				text.c_str(),
+				static_cast<UINT32>(text.size()),
+				textDesc->format.Get(),
+				outlineRectF,
+				outlineBrush->brush.Get()
+			);
+		}
+	}
+
 	GraphicsManager::Get()->GetD2DC()->DrawTextW
 	(
 		text.c_str(),
@@ -36,10 +79,6 @@ void Texts::RenderText
 		rectF,
 		brush->brush.Get()
 	);
-
-	// 텍스트 정렬 설정
-	textDesc->format->SetTextAlignment(textalignment);
-	textDesc->format->SetParagraphAlignment(paragraphalignment);
 }
 
 void Texts::GUI()
@@ -125,7 +164,7 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 	RECT adjustedRect;
 	if (attachedObject)
 	{
-		// RectTransform이 있다면 그 값을 사용
+		// RectTransform 獵摸   
 		const auto& rectTransform = attachedObject->GetComponent<RectTransform>("RectTransform");
 		if (rectTransform)
 		{
@@ -133,7 +172,7 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 		}
 		else
 		{
-			// 없으면 기본적으로 객체의 위치와 offset을 더함
+			//  羞� 체 치 offset 
 			DirectX::SimpleMath::Vector3 objectPos = attachedObject->GetComponent<RectTransform>("RectTransform")->GetPosition();
 			adjustedRect = rect;
 			adjustedRect.left += static_cast<LONG>(objectPos.x + offset.x);
@@ -141,19 +180,19 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 			adjustedRect.top += static_cast<LONG>(objectPos.y + offset.y);
 			adjustedRect.bottom += static_cast<LONG>(objectPos.y + offset.y);
 		}
-		// 보정 함수 호출: DX3D 좌표계 -> 윈도우 좌표계로 변환
+		//  獨 호: DX3D 표 ->  표 환
 		return ConvertToWindowCoordinates(adjustedRect, gWinHeight);
 	}
 	return rect;
 }
 
-// 좌표계를 보정하는 헬퍼 함수: DX3D(원점: 좌하단) -> DX2D(원점: 좌상단)
+// 표甕� 求  獨: DX3D(: 求) -> DX2D(: 쨩)
 RECT Texts::ConvertToWindowCoordinates(const RECT& rect, float screenHeight)
 {
 	RECT windowRect;
 	windowRect.left = rect.left;
 	windowRect.right = rect.right;
-	windowRect.top = static_cast<LONG>(screenHeight) - rect.bottom; // bottom 값에서 보정
+	windowRect.top = static_cast<LONG>(screenHeight) - rect.bottom; // bottom  
 	windowRect.bottom = static_cast<LONG>(screenHeight) - rect.top;
 	return windowRect;
 }
