@@ -201,7 +201,7 @@ void Scene_03::ConfigureLoadSteps()
 			objects.push_back(
 				std::make_shared<GameObject>(
 					"Copyright",
-					DirectX::SimpleMath::Vector3(0, -260, 0),
+					DirectX::SimpleMath::Vector3(0, -280, 0),
 					Values::ZeroVector3,
 					0.0f,
 					true
