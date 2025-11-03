@@ -182,25 +182,42 @@ void Scene_03::ConfigureLoadSteps()
 			);
 		});
 
-	AddLoadStep([this]()
-		{
-			objects.push_back(
-				std::make_shared<TextureObject>(
-					"Title",
+        AddLoadStep([this]()
+                {
+                        objects.push_back(
+                                std::make_shared<TextureObject>(
+                                        "Title",
 					DirectX::SimpleMath::Vector3(0, 150, 0),
 					DirectX::SimpleMath::Vector3(706, 520, 0),
 					0.0f,
 					TexturePath + L"Final_Fantasy_5.png",
 					true
-				)
-			);
-		});
+                                )
+                        );
+                });
 
-	AddLoadStep([this]()
-		{
-			objects.push_back(
-				std::make_shared<GameObject>(
-					"PRESSANYBUTTON",
+        AddLoadStep([this]()
+                {
+                        objects.push_back(
+                                std::make_shared<GameObject>(
+                                        "Copyright",
+                                        DirectX::SimpleMath::Vector3(0, -260, 0),
+                                        Values::ZeroVector3,
+                                        0.0f,
+                                        true
+                                )
+                        );
+
+                        const auto& copyrightObject = objects.back();
+                        copyrightObject->AddComponent(std::make_shared<Texts>());
+                        copyrightObject->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+                });
+
+        AddLoadStep([this]()
+                {
+                        objects.push_back(
+                                std::make_shared<GameObject>(
+                                        "PRESSANYBUTTON",
 					DirectX::SimpleMath::Vector3(0, -120, 0),
 					Values::ZeroVector3,
 					0.0f,
@@ -227,13 +244,15 @@ void Scene_03::ConfigureLoadSteps()
 			}
 
 			spriteText->SetGlyphOrder(glyphOrder);
-			spriteText->SetText(L"PRESS ANY BUTTON");
-			spriteText->SetSpacing(1.0f, 2.0f);
-			spriteText->SetColor(pressAnyBaseColor);
+                        spriteText->SetText(L"PRESS ANY BUTTON");
+                        spriteText->SetSpacing(1.0f, 2.0f);
+                        spriteText->SetColor(pressAnyBaseColor);
 
-			objects[3]->AddComponent(spriteText);
-			pressAnySpriteText = spriteText;
-		});
+                        const auto& pressAnyObject = objects.back();
+                        pressAnyObject->AddComponent(spriteText);
+                        pressAnyObject->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+                        pressAnySpriteText = spriteText;
+                });
 
 	//AddLoadStep([this]()
 	//	{
