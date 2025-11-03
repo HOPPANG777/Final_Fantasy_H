@@ -7,6 +7,8 @@ void ShakingText::RenderText(
     const float size, 
     const DirectX::SimpleMath::Color& color, 
     const std::wstring& font,
+    const DWRITE_TEXT_ALIGNMENT& textalignment,
+    const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment,
     const DWRITE_FONT_WEIGHT& weight, 
     const DWRITE_FONT_STYLE& style, 
     const DWRITE_FONT_STRETCH& stretch)
@@ -15,7 +17,7 @@ void ShakingText::RenderText(
     newRect.left += RandomOffset();
     newRect.top += RandomOffset();
 
-    Texts::RenderText(text, newRect, size, color, font, weight, style, stretch);
+    Texts::RenderText(text, newRect, size, color, font, textalignment, paragraphalignment, weight, style, stretch);
 }
 
 void ShakingText::Update()

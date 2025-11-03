@@ -215,6 +215,12 @@
     <ClInclude Include="Objects\LoadingObject.h">
       <Filter>Objects\Loading</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Button.h">
+      <Filter>Components\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\BlinkingText.h">
+      <Filter>Components\Texts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -373,6 +379,12 @@
     </ClCompile>
     <ClCompile Include="Objects\LoadingObject.cpp">
       <Filter>Objects\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Button.cpp">
+      <Filter>Components\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\BlinkingText.cpp">
+      <Filter>Components\Texts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -546,6 +558,9 @@
     </Filter>
     <Filter Include="Objects\Loading">
       <UniqueIdentifier>{1493e5cf-cf5b-462b-b08c-e09e3d9ed6db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Button">
+      <UniqueIdentifier>{afc1d336-ca3a-411f-a976-cf7a36f63b95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

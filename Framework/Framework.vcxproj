@@ -170,6 +170,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\BlinkingText.h" />
+    <ClInclude Include="Components\Button.h" />
     <ClInclude Include="Objects\LoadingObject.h" />
     <ClInclude Include="Objects\AnimationObject.h" />
     <ClInclude Include="Objects\ColorObject.h" />
@@ -244,6 +246,8 @@
     <ClInclude Include="Objects\TileSet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\BlinkingText.cpp" />
+    <ClCompile Include="Components\Button.cpp" />
     <ClCompile Include="Objects\LoadingObject.cpp" />
     <ClCompile Include="Objects\AnimationObject.cpp" />
     <ClCompile Include="Objects\ColorObject.cpp" />

@@ -183,6 +183,7 @@ const std::wstring FontPath = L"Contents/_Fonts/";
 #include "Components/Texts.h"
 #include "Components/TypingText.h"
 #include "Components/ShakingText.h"
+#include "Components/BlinkingText.h"
 #include "Components/TileMap.h"
 
 //Object

@@ -33,11 +33,11 @@ public:
                         1,
                         Values::ZeroVector2,
                         DirectX::SimpleMath::Vector2((float)_loadingIconSprite->GetWidth(), (float)_loadingIconSprite->GetHeight()),
-                        false
+                        true
                 );
 
                 animator->AddAnimClip(_loadingIcon);
-                animator->SetAnimationTime(1.0f / 2.8f);
+                animator->SetAnimationTime(1.0f / 1.3f);
                 animator->SetCurrentAnimClip(L"_LoadingIcon");
         }
 

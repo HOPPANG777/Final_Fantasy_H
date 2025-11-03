@@ -8,6 +8,8 @@ void Texts::RenderText
 	const float size,
 	const DirectX::SimpleMath::Color& color,
 	const std::wstring& font,
+	const DWRITE_TEXT_ALIGNMENT& textalignment,
+	const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment,
 	const DWRITE_FONT_WEIGHT& weight,
 	const DWRITE_FONT_STYLE& style,
 	const DWRITE_FONT_STRETCH& stretch
@@ -36,8 +38,8 @@ void Texts::RenderText
 	);
 
 	// 텍스트 정렬 설정
-	textDesc->format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-	textDesc->format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+	textDesc->format->SetTextAlignment(textalignment);
+	textDesc->format->SetParagraphAlignment(paragraphalignment);
 }
 
 void Texts::GUI()

@@ -17,6 +17,8 @@ public:
         const float size = 25.0f,
         const DirectX::SimpleMath::Color& color = Values::White,
         const std::wstring& font = L"Pretendard JP",
+        const DWRITE_TEXT_ALIGNMENT& textalignment = DWRITE_TEXT_ALIGNMENT_CENTER,
+        const DWRITE_PARAGRAPH_ALIGNMENT& paragraphalignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
         const DWRITE_FONT_WEIGHT& weight = DWRITE_FONT_WEIGHT_NORMAL,
         const DWRITE_FONT_STYLE& style = DWRITE_FONT_STYLE_NORMAL,
         const DWRITE_FONT_STRETCH& stretch = DWRITE_FONT_STRETCH_NORMAL
@@ -34,11 +36,13 @@ public:
     // 텍스트 출력 스킵
 	void SkipToEnd() { visibleCharacters = fullText.size(); complete = true; }
 
+    void SetLoop(bool loop) { bLoop = loop; }
+
 private:
     float typingSpeed;        // 한 글자 출력에 걸리는 시간 (초)
     float elapsedTime;        // 누적 시간
     size_t visibleCharacters; // 현재까지 출력된 문자 수
     std::wstring fullText;         // 전체 텍스트 내용
     bool complete = false;    // 텍스트 출력 완료 여부
-
+    bool bLoop = false;
 };

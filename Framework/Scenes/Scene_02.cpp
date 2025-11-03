@@ -62,18 +62,32 @@ void Scene_02::Render()
 	}
 }
 
-// 렌더링 후처리는 사용하지 않는다.
+// 렌더링 후처리는 폰트 출력등에 사용한다.
 void Scene_02::PostRender()
 {
+	objects[2]->GetComponent<Texts>("Texts")->RenderText(
+		L"불러오는중",
+		objects[2]->GetRectTransform()->GetRect(),
+		25.0f
+	);
+
+	objects[3]->GetComponent<TypingText>("TypingText")->RenderText(
+		L"...",
+		objects[3]->GetRectTransform()->GetRect(),
+		35.0f,
+		Values::White,
+		L"Pretendard JP",
+		DWRITE_TEXT_ALIGNMENT_LEADING
+	);
 }
 
 // 로딩 장면의 디버그 UI를 제공한다.
 void Scene_02::ImGUI()
 {
-	if (!objects.empty() && objects[0] != nullptr)
-	{
-		objects[0]->GUI();
-	}
+	//if (!objects.empty() && objects[0] != nullptr)
+	//{
+	//	objects[0]->GUI();
+	//}
 }
 
 // 로딩 장면에서 사용할 오브젝트를 구성한다.
@@ -98,13 +112,46 @@ void Scene_02::ConfigureLoadSteps()
 			objects.push_back(
 				std::make_shared<LoadingObject>(
 					"LoadingIcon",
-					Values::ZeroVector3,
-					Vector3(128, 128, 0),
+					DirectX::SimpleMath::Vector3(130, 18, 0),
+					Vector3(64, 64, 0),
 					0.0f,
 					TexturePath + L"Loading_Icon.png",
 					true
 				)
 			);
+		});
+
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<GameObject>(
+					"LoadingText1",
+					Values::ZeroVector3,
+					Values::ZeroVector3,
+					0.0f,
+					true
+				)
+			);
+
+			objects[2]->AddComponent(std::make_shared<Texts>());
+			objects[2]->GetRectTransform()->SetSize(Vector2(150, 0));
+		});
+
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<GameObject>(
+					"LoadingTypingText",
+					Vector3(140, 0, 0),
+					Values::ZeroVector3,
+					0.0f,
+					true
+				)
+			);
+
+			objects[3]->AddComponent(std::make_shared<TypingText>("TypingText", 0.5f));
+			objects[3]->GetRectTransform()->SetSize(Vector2(150, 0));
+			objects[3]->GetComponent<TypingText>("TypingText")->SetLoop(true);
 		});
 
 	AddLoadStep([]()
