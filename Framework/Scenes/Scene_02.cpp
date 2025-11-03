@@ -18,6 +18,8 @@ void Scene_02::Start()
 // 장면 종료 시 생성한 오브젝트를 정리한다.
 void Scene_02::Destroy()
 {
+	objects[3]->GetComponent<TypingText>("TypingText")->SetLoop(false);
+	objects[3]->GetComponent<TypingText>("TypingText")->IsComplete();
 	for (auto& obj : objects)
 	{
 		if (obj != nullptr)

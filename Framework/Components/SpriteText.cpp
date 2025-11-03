@@ -398,9 +398,17 @@ bool SpriteText::TryGetGlyphIndex(wchar_t character, size_t& outIndex) const
 void SpriteText::RebuildGlyphLookup()
 {
     _glyphLookup.clear();
-    for (size_t index = 0; index < _glyphOrder.size(); ++index)
+    size_t index = 0;
+    _glyphLookup.reserve(_glyphOrder.size());
+
+    for (wchar_t character : _glyphOrder)
     {
-        const wchar_t character = _glyphOrder[index];
-        _glyphLookup.emplace(character, index);
+        auto result = _glyphLookup.emplace(character, index);
+        if (!result.second)
+        {
+            result.first->second = index;
+        }
+        ++index;
     }
+
 }

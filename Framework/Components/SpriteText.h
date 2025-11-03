@@ -18,6 +18,7 @@ public:
         wchar_t firstChar = L' ',
         const std::string& componentName = "SpriteText"
     );
+    ~SpriteText() = default;
 
     void Update() override;
 

@@ -15,6 +15,9 @@ void Scene_03::Start()
 // 장면 종료 시 생성한 오브젝트를 정리한다.
 void Scene_03::Destroy()
 {
+	pressAnySpriteText.reset();
+	bPressButton = false;
+
 	for (auto& obj : objects)
 	{
 		if (obj != nullptr)
@@ -205,7 +208,7 @@ void Scene_03::ConfigureLoadSteps()
 				)
 			);
 
-			const auto spriteText = std::make_shared<SpriteText>(
+			const auto& spriteText = std::make_shared<SpriteText>(
 				Values::ZeroVector3,
 				Values::OneVector3,
 				0.0f,
@@ -232,21 +235,21 @@ void Scene_03::ConfigureLoadSteps()
 			pressAnySpriteText = spriteText;
 		});
 
-	AddLoadStep([this]()
-		{
-			objects.push_back(
-				std::make_shared<GameObject>(
-					"PRESSANYBUTTON",
-					DirectX::SimpleMath::Vector3(0, -120, 0),
-					Values::ZeroVector3,
-					0.0f,
-					true
-				)
-			);
+	//AddLoadStep([this]()
+	//	{
+	//		objects.push_back(
+	//			std::make_shared<GameObject>(
+	//				"PRESSANYBUTTON",
+	//				DirectX::SimpleMath::Vector3(0, -120, 0),
+	//				Values::ZeroVector3,
+	//				0.0f,
+	//				true
+	//			)
+	//		);
 
-			objects[3]->AddComponent(std::make_shared<BlinkingText>("BlinkingText", 1.5f));
-			objects[3]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
-		});
+	//		objects[3]->AddComponent(std::make_shared<BlinkingText>("BlinkingText", 1.5f));
+	//		objects[3]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+	//	});
 
 	AddLoadStep([this]()
 		{
@@ -338,7 +341,6 @@ void Scene_03::ConfigureLoadSteps()
 void Scene_03::OnLoadBegin()
 {
 	LoadableScene::OnLoadBegin();
-	pressAnySpriteText.reset();
-	bPressButton = false;
+
 	objects.clear();
 }
