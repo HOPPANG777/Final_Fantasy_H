@@ -18,7 +18,7 @@ void TypingText::RenderText
 	float outlineThickness
 )
 {
-	// ü ؽƮ(fullText) , visibleCharactersŭ ڸ ؽƮ 
+	
 	std::wstring visibleText = text.substr(0, visibleCharacters);
 	fullText = text;
 	Texts::RenderText(visibleText, rect, size, color, font, textalignment, paragraphalignment, weight, style, stretch, useOutline, outlineColor, outlineThickness);
@@ -26,14 +26,14 @@ void TypingText::RenderText
 
 void TypingText::Update()
 {
-	// ⼭ ⺻ Texts::Update() Ư  ٸ ϰ Ÿ Ʈ 
+	
     elapsedTime += TimeManager::Get()->GetDeltaTime();
 
     if (elapsedTime >= typingSpeed)
     {
         elapsedTime = 0.0f;
 
-        //  ϼ ̸  ھ 
+       
         if (!complete)
         {
             visibleCharacters++;
@@ -43,7 +43,7 @@ void TypingText::Update()
                 complete = true;
             }
         }
-        // ϼ     ʱȭ
+        
         else if (bLoop)
         {
             visibleCharacters = 0;

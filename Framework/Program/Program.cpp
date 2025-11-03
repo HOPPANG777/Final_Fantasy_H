@@ -67,7 +67,7 @@ int APIENTRY wWinMain
 )
 {
 	WinDesc desc;
-	desc.appName = L"Final Fantasy H"; // 창 이름
+	desc.appName = L"Final Fantasy V"; // 창 이름
 	desc.instance = hInstance;
 	desc.handle = nullptr;
 	desc.width = gWinWidth;

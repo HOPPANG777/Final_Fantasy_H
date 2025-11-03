@@ -164,7 +164,7 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 	RECT adjustedRect;
 	if (attachedObject)
 	{
-		// RectTransform ִٸ   
+		   
 		const auto& rectTransform = attachedObject->GetComponent<RectTransform>("RectTransform");
 		if (rectTransform)
 		{
@@ -172,7 +172,7 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 		}
 		else
 		{
-			//  ⺻ ü ġ offset 
+			
 			DirectX::SimpleMath::Vector3 objectPos = attachedObject->GetComponent<RectTransform>("RectTransform")->GetPosition();
 			adjustedRect = rect;
 			adjustedRect.left += static_cast<LONG>(objectPos.x + offset.x);
@@ -180,13 +180,13 @@ RECT Texts::CalculateRectFromObject(const RECT& rect)
 			adjustedRect.top += static_cast<LONG>(objectPos.y + offset.y);
 			adjustedRect.bottom += static_cast<LONG>(objectPos.y + offset.y);
 		}
-		//  Լ ȣ: DX3D ǥ ->  ǥ ȯ
+		
 		return ConvertToWindowCoordinates(adjustedRect, gWinHeight);
 	}
 	return rect;
 }
 
-// ǥ踦 ϴ  Լ: DX3D(: ϴ) -> DX2D(: »)
+
 RECT Texts::ConvertToWindowCoordinates(const RECT& rect, float screenHeight)
 {
 	RECT windowRect;

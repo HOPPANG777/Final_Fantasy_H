@@ -33,6 +33,12 @@ void Scene_03::FixedUpdate()
 // 매 프레임 타이틀 장면의 오브젝트를 갱신한다.
 void Scene_03::Update()
 {
+	if (!bPressButton && GetForegroundWindow() == gHandle) // 창 활성 시에만
+	{
+		if (AnyMouseDown() || AnyKeyboardDown())
+			bPressButton = true;
+	}
+
 	for (const auto& obj : objects)
 	{
 		if (obj != nullptr)
@@ -40,7 +46,6 @@ void Scene_03::Update()
 			obj->Update();
 		}
 	}
-
 }
 
 // 후처리 갱신은 사용하지 않는다.
@@ -71,16 +76,65 @@ void Scene_03::PostRender()
 		L"Pretendard JP"
 	);
 
-	objects[4]->GetComponent<BlinkingText>("BlinkingText")->RenderText(
-		L"PRESS ANY BUTTON",
-		objects[4]->GetRectTransform()->GetRect(),
-		30.0f,
-		Values::Black,
-		L"Pretendard JP",
-		DWRITE_TEXT_ALIGNMENT_CENTER,
-		DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-		DWRITE_FONT_WEIGHT_MEDIUM
-	);
+	if (bPressButton == true)
+	{
+		objects[4]->GetComponent<Texts>("Texts")->RenderText(
+			L"불러오기",
+			objects[4]->GetRectTransform()->GetRect(),
+			28.0f,
+			DirectX::SimpleMath::Color(0, 0, 0, 0.5f),
+			L"Pretendard JP",
+			DWRITE_TEXT_ALIGNMENT_CENTER,
+			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+			DWRITE_FONT_WEIGHT_BOLD
+		);
+
+		objects[5]->GetComponent<Texts>("Texts")->RenderText(
+			L"새 게임",
+			objects[5]->GetRectTransform()->GetRect(),
+			28.0f,
+			Values::Black,
+			L"Pretendard JP",
+			DWRITE_TEXT_ALIGNMENT_CENTER,
+			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+			DWRITE_FONT_WEIGHT_BOLD
+		);
+
+		objects[6]->GetComponent<Texts>("Texts")->RenderText(
+			L"엑스트라",
+			objects[6]->GetRectTransform()->GetRect(),
+			28.0f,
+			Values::Black,
+			L"Pretendard JP",
+			DWRITE_TEXT_ALIGNMENT_CENTER,
+			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+			DWRITE_FONT_WEIGHT_BOLD
+		);
+
+		objects[7]->GetComponent<Texts>("Texts")->RenderText(
+			L"옵션",
+			objects[7]->GetRectTransform()->GetRect(),
+			28.0f,
+			Values::Black,
+			L"Pretendard JP",
+			DWRITE_TEXT_ALIGNMENT_CENTER,
+			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+			DWRITE_FONT_WEIGHT_BOLD
+		);
+
+		objects[8]->GetComponent<Texts>("Texts")->RenderText(
+			L"종료",
+			objects[8]->GetRectTransform()->GetRect(),
+			28.0f,
+			Values::Black,
+			L"Pretendard JP",
+			DWRITE_TEXT_ALIGNMENT_CENTER,
+			DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+			DWRITE_FONT_WEIGHT_BOLD
+		);
+	}
+
+	if (bPressButton) return;
 
 	objects[3]->GetComponent<BlinkingText>("BlinkingText")->RenderText(
 		L"PRESS ANY BUTTON",
@@ -90,10 +144,8 @@ void Scene_03::PostRender()
 		L"Pretendard JP",
 		DWRITE_TEXT_ALIGNMENT_CENTER,
 		DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-		DWRITE_FONT_WEIGHT_MEDIUM
+		DWRITE_FONT_WEIGHT_BOLD
 	);
-
-
 }
 
 // 디버그 UI는 현재 사용하지 않는다.
@@ -154,7 +206,7 @@ void Scene_03::ConfigureLoadSteps()
 			objects.push_back(
 				std::make_shared<GameObject>(
 					"PRESSANYBUTTON",
-					DirectX::SimpleMath::Vector3(0, -150, 0),
+					DirectX::SimpleMath::Vector3(0, -120, 0),
 					Values::ZeroVector3,
 					0.0f,
 					true
@@ -169,16 +221,80 @@ void Scene_03::ConfigureLoadSteps()
 		{
 			objects.push_back(
 				std::make_shared<GameObject>(
-					"PRESSANYBUTTONBackground",
-					DirectX::SimpleMath::Vector3(2, -152, 0),
+					"Countinue",
+					DirectX::SimpleMath::Vector3(0, -40, 0),
 					Values::ZeroVector3,
 					0.0f,
 					true
 				)
 			);
 
-			objects[4]->AddComponent(std::make_shared<BlinkingText>("BlinkingText", 1.5f));
-			objects[4]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(1000, 0));
+			objects[4]->AddComponent(std::make_shared<Texts>());
+			objects[4]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
+		});
+
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<GameObject>(
+					"Start",
+					DirectX::SimpleMath::Vector3(0, -80, 0),
+					Values::ZeroVector3,
+					0.0f,
+					true
+				)
+			);
+
+			objects[5]->AddComponent(std::make_shared<Texts>());
+			objects[5]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
+		});
+
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<GameObject>(
+					"Extra",
+					DirectX::SimpleMath::Vector3(0, -120, 0),
+					Values::ZeroVector3,
+					0.0f,
+					true
+				)
+			);
+
+			objects[6]->AddComponent(std::make_shared<Texts>());
+			objects[6]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
+		});
+
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<GameObject>(
+					"Option",
+					DirectX::SimpleMath::Vector3(0, -160, 0),
+					Values::ZeroVector3,
+					0.0f,
+					true
+				)
+			);
+
+			objects[7]->AddComponent(std::make_shared<Texts>());
+			objects[7]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
+		});
+
+	AddLoadStep([this]()
+		{
+			objects.push_back(
+				std::make_shared<GameObject>(
+					"Quit",
+					DirectX::SimpleMath::Vector3(0, -200, 0),
+					Values::ZeroVector3,
+					0.0f,
+					true
+				)
+			);
+
+			objects[8]->AddComponent(std::make_shared<Texts>());
+			objects[8]->GetRectTransform()->SetSize(DirectX::SimpleMath::Vector2(300, 0));
 		});
 
 	AddLoadStep([]()

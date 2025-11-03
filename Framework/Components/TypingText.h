@@ -9,7 +9,7 @@ public:
 
     }
 
-    // RenderText: Ÿ ȿ µ ؽƮ  ( Texts::RenderText  ȣ)
+    
     virtual void RenderText
     (
         const std::wstring& text,
@@ -34,18 +34,18 @@ public:
     void GUI() override;
 
 public:
-    // ؽƮ   ϷǾ  ȯ
+    
     bool IsComplete() const { return complete; }
-    // ؽƮ  ŵ
+    
 	void SkipToEnd() { visibleCharacters = fullText.size(); complete = true; }
 
     void SetLoop(bool loop) { bLoop = loop; }
 
 private:
-    float typingSpeed;        //   ¿ ɸ ð ()
-    float elapsedTime;        //  ð
-    size_t visibleCharacters; //  µ  
-    std::wstring fullText;         // ü ؽƮ 
-    bool complete = false;    // ؽƮ  Ϸ 
+    float typingSpeed;       
+    float elapsedTime;       
+    size_t visibleCharacters;  
+    std::wstring fullText;         
+    bool complete = false;    
     bool bLoop = false;
 };

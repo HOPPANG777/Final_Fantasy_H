@@ -42,6 +42,8 @@
 #include <future>
 #include <sstream>
 #include <exception>
+#include <algorithm>
+#include <cmath>
 
 //DirectX D3D11
 #include <d3d11.h>

@@ -21,18 +21,19 @@ void BlinkingText::RenderText(
 )
 {
 	Color newColor = color;
+	Color newOutColor = outlineColor;
 	timer += TimeManager::Get()->GetDeltaTime();
 
 	if (timer >= interval)
-		timer -= interval; // ֱ ݺ
+		timer -= interval;
 
-	// 0~interval  010 ȭ
 	float t = timer / interval;
 	float alpha = t < 0.5f ? t * 2.0f : (1.0f - (t - 0.5f) * 2.0f);
 
 	newColor.A(alpha);
+	newOutColor.A(alpha);
 
-	Texts::RenderText(text, rect, size, newColor, font, textalignment, paragraphalignment, weight, style, stretch, useOutline, outlineColor, outlineThickness);
+	Texts::RenderText(text, rect, size, newColor, font, textalignment, paragraphalignment, weight, style, stretch, useOutline, newOutColor, outlineThickness);
 }
 
 void BlinkingText::Update()
