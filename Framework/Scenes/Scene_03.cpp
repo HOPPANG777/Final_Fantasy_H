@@ -152,7 +152,7 @@ void Scene_03::PostRender()
 	if (bPressButton == true)
 	{
 		const DirectX::SimpleMath::Color disabledColor(0.0f, 0.0f, 0.0f, 0.5f);
-		const DirectX::SimpleMath::Color highlightColor = Values::Green;
+		const DirectX::SimpleMath::Color highlightColor = Values::Cyan;
 
 		for (size_t index = 0; index < menuOptions.size(); ++index)
 		{
