@@ -45,11 +45,11 @@ protected:
 private:
         inline bool AnyMouseDown()
         {
-                return (GetAsyncKeyState(VK_LBUTTON) & 0x8000) ||
-                        (GetAsyncKeyState(VK_RBUTTON) & 0x8000) ||
-			(GetAsyncKeyState(VK_MBUTTON) & 0x8000) ||
-			(GetAsyncKeyState(VK_XBUTTON1) & 0x8000) ||
-			(GetAsyncKeyState(VK_XBUTTON2) & 0x8000);
+                return	(GetAsyncKeyState(VK_LBUTTON) & 0x8000)		||
+                        (GetAsyncKeyState(VK_RBUTTON) & 0x8000)		||
+						(GetAsyncKeyState(VK_MBUTTON) & 0x8000)		||
+						(GetAsyncKeyState(VK_XBUTTON1) & 0x8000)	||
+						(GetAsyncKeyState(VK_XBUTTON2) & 0x8000);
 	}
 
 	inline bool AnyKeyboardDown()
@@ -76,7 +76,7 @@ private:
 
         std::vector<MenuOption> menuOptions;
         size_t currentMenuIndex = 0;
-        DirectX::SimpleMath::Vector3 menuCursorOffset = DirectX::SimpleMath::Vector3(-140.0f, 0.0f, 0.0f);
+        DirectX::SimpleMath::Vector3 menuCursorOffset = DirectX::SimpleMath::Vector3(-100.0f, 0.0f, 0.0f);
         std::weak_ptr<GameObject> menuCursorObject;
 
         std::weak_ptr<SpriteText> pressAnySpriteText;
