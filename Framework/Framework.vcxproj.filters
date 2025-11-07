@@ -224,6 +224,9 @@
     <ClInclude Include="Components\SpriteText.h">
       <Filter>Components\SpriteText</Filter>
     </ClInclude>
+    <ClInclude Include="Scenes\Scene_04.h">
+      <Filter>Scenes\Scene_04%28StartGameScene%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -391,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="Components\SpriteText.cpp">
       <Filter>Components\SpriteText</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Scene_04.cpp">
+      <Filter>Scenes\Scene_04%28StartGameScene%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -570,6 +576,9 @@
     </Filter>
     <Filter Include="Components\SpriteText">
       <UniqueIdentifier>{ad320368-8999-4343-8d73-fb7a20c3b936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Scene_04%28StartGameScene%29">
+      <UniqueIdentifier>{1b2e8fc4-dd34-4ac6-b372-eeed59e91791}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
